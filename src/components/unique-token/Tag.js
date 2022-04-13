@@ -82,6 +82,7 @@ const Tag = ({
   maxValue,
   originalValue,
   lowercase,
+  hideOpenSeaAction,
   ...props
 }) => {
   const { colors } = useTheme();
@@ -108,10 +109,14 @@ const Tag = ({
   );
 
   const onPressAndroid = useCallback(() => {
-    const androidContractActions = ['View All With Property'];
+    const androidContractActions = [];
+
+    if (!hideOpenSeaAction) {
+      androidContractActions.push(viewTraitOnOpenseaAction.actionTitle);
+    }
 
     if (isURL) {
-      androidContractActions.push('Open In Web Browser');
+      androidContractActions.push(openTraitURLInBrowserAction.actionTitle);
     }
 
     showActionSheetWithOptions(
@@ -121,7 +126,9 @@ const Tag = ({
         title: '',
       },
       idx => {
-        if (idx === 0) {
+        if (
+          androidContractActions[idx] === viewTraitOnOpenseaAction.actionTitle
+        ) {
           Linking.openURL(
             'https://opensea.io/collection/' +
               slug +
@@ -130,15 +137,22 @@ const Tag = ({
               '&search[stringTraits][0][values][0]=' +
               originalValue
           );
-        } else if (idx === 1) {
+        } else if (
+          androidContractActions[idx] ===
+          openTraitURLInBrowserAction.actionTitle
+        ) {
           Linking.openURL(originalValue);
         }
       }
     );
-  }, [slug, originalValue, title]);
+  }, [hideOpenSeaAction, slug, originalValue, title]);
 
   const menuConfig = useMemo(() => {
-    const menuItems = [viewTraitOnOpenseaAction];
+    const menuItems = [];
+
+    if (!hideOpenSeaAction) {
+      menuItems.push(viewTraitOnOpenseaAction);
+    }
 
     if (isURL) {
       menuItems.push(openTraitURLInBrowserAction);
@@ -148,7 +162,7 @@ const Tag = ({
       menuItems,
       menuTitle: '',
     };
-  }, [originalValue]);
+  }, [hideOpenSeaAction, originalValue]);
 
   const textWithUpdatedCase = lowercase ? text : upperFirst(text);
 
@@ -199,4 +213,12 @@ Tag.propTypes = {
   title: PropTypes.string.isRequired,
 };
 
-export default magicMemo(Tag, ['color', 'slug', 'text', 'title', 'maxValue']);
+export default magicMemo(Tag, [
+  'color',
+  'slug',
+  'text',
+  'title',
+  'maxValue',
+  'originalValue',
+  'hideOpenSeaAction',
+]);
