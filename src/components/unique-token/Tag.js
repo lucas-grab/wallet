@@ -7,6 +7,7 @@ import { ButtonPressAnimation } from '../animations';
 import { Centered, Column } from '../layout';
 import { Text as TextElement } from '../text';
 import { Inline } from '@rainbow-me/design-system';
+import { useUntrustedUrlOpener } from '@rainbow-me/navigation';
 import styled from '@rainbow-me/styled-components';
 import { padding } from '@rainbow-me/styles';
 import { magicMemo, showActionSheetWithOptions } from '@rainbow-me/utils';
@@ -86,6 +87,7 @@ const Tag = ({
   ...props
 }) => {
   const { colors } = useTheme();
+  const openUntrustedUrl = useUntrustedUrlOpener();
   const isURL =
     typeof originalValue === 'string' &&
     originalValue.toLowerCase().startsWith('https://');
@@ -102,10 +104,10 @@ const Tag = ({
             originalValue
         );
       } else if (actionKey === PropertyActionsEnum.openURL) {
-        Linking.openURL(originalValue);
+        openUntrustedUrl(originalValue);
       }
     },
-    [slug, originalValue, title]
+    [slug, originalValue, title, openUntrustedUrl]
   );
 
   const onPressAndroid = useCallback(() => {
@@ -141,11 +143,11 @@ const Tag = ({
           androidContractActions[idx] ===
           openTraitURLInBrowserAction.actionTitle
         ) {
-          Linking.openURL(originalValue);
+          openUntrustedUrl(originalValue);
         }
       }
     );
-  }, [hideOpenSeaAction, slug, originalValue, title]);
+  }, [hideOpenSeaAction, slug, originalValue, title, openUntrustedUrl]);
 
   const menuConfig = useMemo(() => {
     const menuItems = [];
