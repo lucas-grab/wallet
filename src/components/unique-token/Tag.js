@@ -167,7 +167,7 @@ const Tag = ({
   const textWithUpdatedCase = lowercase ? text : upperFirst(text);
 
   const ButtonWrapper = ({ children }) =>
-    disableMenu ? (
+    disableMenu || menuConfig.menuItems.length === 0 ? (
       children
     ) : (
       <ContextMenuButton
