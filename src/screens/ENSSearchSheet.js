@@ -81,6 +81,10 @@ export default function ENSSearchSheet() {
   }, [navigate, searchQuery, startRegistration]);
 
   useEffect(() => {
+    setSearchQuery('');
+  }, []);
+
+  useEffect(() => {
     if (prevIsAvailable !== isAvailable) {
       params?.onNameAvailable?.(isAvailable);
     }
