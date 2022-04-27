@@ -196,10 +196,6 @@ export default function WalletScreen() {
         <HeaderOpacityToggler isVisible={isCoinListEdited}>
           <Header justify="space-between">
             <ProfileHeaderButton />
-            <RowWithMargins margin={10}>
-              <DiscoverHeaderButton />
-              <ScanHeaderButton />
-            </RowWithMargins>
           </Header>
         </HeaderOpacityToggler>
         <AssetList
