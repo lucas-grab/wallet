@@ -289,6 +289,7 @@ const fetchAssetBalances = async (tokens, address, network) => {
   }
 };
 
+//L Method to fetch balances
 export const fetchOnchainBalances = ({
   keepPolling = true,
   withPrices = true,
