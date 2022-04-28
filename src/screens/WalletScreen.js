@@ -196,6 +196,11 @@ export default function WalletScreen() {
         <HeaderOpacityToggler isVisible={isCoinListEdited}>
           <Header justify="space-between">
             <ProfileHeaderButton />
+            {/* //L Commented to remove Discover and Scan buttons from header */}
+            {/* <RowWithMargins margin={10}>
+              <DiscoverHeaderButton />
+              <ScanHeaderButton />
+            </RowWithMargins> */}
           </Header>
         </HeaderOpacityToggler>
         <AssetList
