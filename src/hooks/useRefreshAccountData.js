@@ -31,6 +31,7 @@ export default function useRefreshAccountData() {
     }
 
     try {
+      //L Action on refresh
       const getWalletNames = dispatch(fetchWalletNames());
       const getUniqueTokens = dispatch(uniqueTokensRefreshState());
       const balances = dispatch(

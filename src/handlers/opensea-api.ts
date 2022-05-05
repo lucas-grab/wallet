@@ -54,7 +54,7 @@ export const apiGetAccountUniqueTokens = async (
       ? parseAccountUniqueTokensPolygon(data)
       : parseAccountUniqueTokens(data);
   } catch (error) {
-    logger.sentry('Error getting unique tokens', error);
+    logger.sentry('(NFT) Error getting unique tokens', error);
     captureException(new Error('Opensea: Error getting unique tokens'));
     throw error;
   }

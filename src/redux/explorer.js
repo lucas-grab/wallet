@@ -440,6 +440,7 @@ const listenOnAssetMessages = socket => dispatch => {
   });
 };
 
+//L Polygon
 export const explorerInitL2 = (network = null) => (dispatch, getState) => {
   if (getState().settings.network === NetworkTypes.mainnet) {
     switch (network) {
@@ -460,12 +461,14 @@ export const explorerInitL2 = (network = null) => (dispatch, getState) => {
   }
 };
 
+//L Polygon fetch
 const fetchAssetsFromRefraction = () => (_dispatch, getState) => {
   const { accountAddress, nativeCurrency } = getState().settings;
   const { addressSocket } = getState().explorer;
   addressSocket.emit(...addressAssetsRequest(accountAddress, nativeCurrency));
 };
 
+//L Polygon
 const l2AddressAssetsReceived = (message, network) => (dispatch, getState) => {
   const { genericAssets } = getState().data;
 
@@ -552,6 +555,7 @@ const listenOnAddressMessages = socket => dispatch => {
     dispatch(l2AddressAssetsReceived(message, NetworkTypes.arbitrum));
   });
 
+  //L Polygon
   socket.on(messages.ADDRESS_ASSETS.RECEIVED_POLYGON, message => {
     dispatch(l2AddressAssetsReceived(message, NetworkTypes.polygon));
   });
