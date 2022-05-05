@@ -111,6 +111,7 @@ const buildBriefWalletSections = (
 ) => {
   const sections = [
     balanceSection,
+    //L Remove savings section
     //savings,
     uniswapSection,
     uniqueTokenFamiliesSection,
