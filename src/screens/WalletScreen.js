@@ -183,7 +183,8 @@ export default function WalletScreen() {
         <HeaderOpacityToggler isVisible={isCoinListEdited}>
           <Header justify="space-between">
             <ProfileHeaderButton />
-            <DiscoverHeaderButton />
+            {/* //L Remove Discover section
+            <DiscoverHeaderButton /> */}
           </Header>
         </HeaderOpacityToggler>
         <AssetList
