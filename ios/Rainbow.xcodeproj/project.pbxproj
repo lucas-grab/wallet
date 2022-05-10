@@ -17,7 +17,6 @@
 		153D1AAE24777214007E4723 /* TransactionListLoadingViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 153D1AAD24777214007E4723 /* TransactionListLoadingViewCell.xib */; };
 		15E531D5242B28EF00797B89 /* UIImageViewWithPersistentAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E531D4242B28EF00797B89 /* UIImageViewWithPersistentAnimations.swift */; };
 		15E531DA242DAB7100797B89 /* NotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E531D9242DAB7100797B89 /* NotificationManager.m */; };
-		24979E8920F84250007EB0DA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 24979E7720F84004007EB0DA /* GoogleService-Info.plist */; };
 		3CBE29CD2381E43900BE05AC /* Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBE29CC2381E43900BE05AC /* Dummy.swift */; };
 		6630540924A38A1900E5B030 /* RainbowText.m in Sources */ = {isa = PBXBuildFile; fileRef = 6630540824A38A1900E5B030 /* RainbowText.m */; };
 		6635730624939991006ACFA6 /* SafeStoreReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 6635730524939991006ACFA6 /* SafeStoreReview.m */; };
@@ -32,6 +31,7 @@
 		66FEC91623EDA14000A0F367 /* RoundedCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FEC91523EDA13F00A0F367 /* RoundedCornerView.swift */; };
 		697D8AB036C9350D44625878 /* libPods-Rainbow.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CCEA30365974E670FD9214FE /* libPods-Rainbow.a */; };
 		7287CE1EC33B4913AEE1F4B6 /* SFMono-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 668A9E253DAF444A90ECB997 /* SFMono-Medium.otf */; };
+		A08E4CB8282AB467002A083B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A08E4CB7282AB467002A083B /* GoogleService-Info.plist */; };
 		A4277D9F23CBD1910042BAF4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4277D9E23CBD1910042BAF4 /* Extensions.swift */; };
 		A4277DA323CFE85F0042BAF4 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4277DA223CFE85F0042BAF4 /* Theme.swift */; };
 		A44A4EEE23EC928900B543F1 /* CoinIconWithProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44A4EED23EC928900B543F1 /* CoinIconWithProgressBar.swift */; };
@@ -108,7 +108,6 @@
 		24979E7420F84004007EB0DA /* FirebaseAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAnalytics.framework; path = Frameworks/FirebaseAnalytics.framework; sourceTree = "<group>"; };
 		24979E7520F84004007EB0DA /* FirebaseCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCore.framework; path = Frameworks/FirebaseCore.framework; sourceTree = "<group>"; };
 		24979E7620F84004007EB0DA /* FirebaseMessaging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseMessaging.framework; path = Frameworks/FirebaseMessaging.framework; sourceTree = "<group>"; };
-		24979E7720F84004007EB0DA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Frameworks/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		24979E7820F84004007EB0DA /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleToolboxForMac.framework; path = Frameworks/GoogleToolboxForMac.framework; sourceTree = "<group>"; };
 		24979E7920F84004007EB0DA /* Firebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Firebase.h; path = Frameworks/Firebase.h; sourceTree = "<group>"; };
 		24979E7A20F84004007EB0DA /* FirebaseNanoPB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseNanoPB.framework; path = Frameworks/FirebaseNanoPB.framework; sourceTree = "<group>"; };
@@ -140,6 +139,7 @@
 		95F2888C850F40C8A26E083B /* SFMono-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFMono-Regular.otf"; path = "../src/assets/fonts/SFMono-Regular.otf"; sourceTree = "<group>"; };
 		98AED33BAB4247CEBEF8464D /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		9DEADFA4826D4D0BAA950D21 /* libRNFIRMessaging.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFIRMessaging.a; sourceTree = "<group>"; };
+		A08E4CB7282AB467002A083B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A4277D9E23CBD1910042BAF4 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		A4277DA223CFE85F0042BAF4 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		A44A4EED23EC928900B543F1 /* CoinIconWithProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinIconWithProgressBar.swift; sourceTree = "<group>"; };
@@ -293,6 +293,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A08E4CB7282AB467002A083B /* GoogleService-Info.plist */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				24979E7920F84004007EB0DA /* Firebase.h */,
@@ -302,7 +303,6 @@
 				24979E7B20F84004007EB0DA /* FirebaseInstanceID.framework */,
 				24979E7620F84004007EB0DA /* FirebaseMessaging.framework */,
 				24979E7A20F84004007EB0DA /* FirebaseNanoPB.framework */,
-				24979E7720F84004007EB0DA /* GoogleService-Info.plist */,
 				24979E7820F84004007EB0DA /* GoogleToolboxForMac.framework */,
 				24979E7D20F84005007EB0DA /* module.modulemap */,
 				24979E7E20F84005007EB0DA /* nanopb.framework */,
@@ -545,7 +545,6 @@
 				153D1AAE24777214007E4723 /* TransactionListLoadingViewCell.xib in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				24979E8920F84250007EB0DA /* GoogleService-Info.plist in Resources */,
 				A4AF3CCE23DA37F700F230F3 /* TransactionListRequestViewCell.xib in Resources */,
 				A485E61623C8F4A400E5C3D4 /* TransactionListViewHeader.xib in Resources */,
 				A4704B4D23C546DA00E50E4B /* TransactionListViewCell.xib in Resources */,
@@ -554,6 +553,7 @@
 				B7A3E82A4C4449F4A18EB5C2 /* SFMono-Regular.otf in Resources */,
 				C04D10F025AFC8C1003BEF7A /* Extras.json in Resources */,
 				AA6228EF24272F510078BDAA /* SF-Pro-Rounded-Bold.otf in Resources */,
+				A08E4CB8282AB467002A083B /* GoogleService-Info.plist in Resources */,
 				AA6228F024272F510078BDAA /* SF-Pro-Rounded-Heavy.otf in Resources */,
 				AA6228F124272F510078BDAA /* SF-Pro-Rounded-Medium.otf in Resources */,
 				AA6228F224272F510078BDAA /* SF-Pro-Rounded-Regular.otf in Resources */,
