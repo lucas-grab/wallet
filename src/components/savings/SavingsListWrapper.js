@@ -17,6 +17,7 @@ export default function SavingsListWrapper({ assets, totalValue = '0' }) {
     useFrameDelayedValue(isSavingsOpen) && isSavingsOpen;
   return (
     <Fragment>
+      {/* //L Remove Savings
       <SavingsListHeader
         isOpen={isSavingsOpen}
         onPress={toggleOpenSavings}
@@ -28,7 +29,7 @@ export default function SavingsListWrapper({ assets, totalValue = '0' }) {
         pointerEvents={isSavingsOpen ? 'auto' : 'none'}
       >
         {map(assets, renderSavingsListRow)}
-      </OpacityToggler>
+      </OpacityToggler> */}
     </Fragment>
   );
 }
