@@ -93,3 +93,4 @@ patches/react-native-webview+11.2.3.patch
 
 .eslintcache
 .next
+ios/Frameworks/GoogleService-Info.plist
