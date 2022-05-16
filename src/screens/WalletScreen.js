@@ -1,9 +1,9 @@
 import { useRoute } from '@react-navigation/core';
 import { compact, find, get, isEmpty, keys, map, toLower } from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
-import { StatusBar } from 'react-native';
+import ReactNative, { StatusBar, View, Text, Button } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { useValue } from 'react-native-redash/src/v1';
+import { green, useValue } from 'react-native-redash/src/v1';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { OpacityToggler } from '../components/animations';
@@ -14,7 +14,7 @@ import {
   Header,
   ProfileHeaderButton,
 } from '../components/header';
-import { Page } from '../components/layout';
+import { Centered, Page } from '../components/layout';
 import { useEth } from '../utils/ethereumUtils';
 import networkInfo from '@rainbow-me/helpers/networkInfo';
 import {
@@ -37,6 +37,9 @@ import {
 } from '@rainbow-me/redux/explorer';
 import { updatePositions } from '@rainbow-me/redux/usersPositions';
 import { position } from '@rainbow-me/styles';
+import Keypad from '../components/keypad/Keypad';
+
+
 
 const HeaderOpacityToggler = styled(OpacityToggler).attrs(({ isVisible }) => ({
   endingOpacity: 0.4,
@@ -51,6 +54,9 @@ const WalletPage = styled(Page)`
   ${position.size('100%')};
   flex: 1;
 `;
+
+const { StyleSheet } = ReactNative;
+
 
 export default function WalletScreen() {
   const { params } = useRoute();
@@ -169,6 +175,11 @@ export default function WalletScreen() {
 
   const isLoadingAssets = useSelector(state => state.data.isLoadingAssets);
 
+
+
+
+
+  
   return (
     <WalletPage testID="wallet-screen">
       {ios && <StatusBar barStyle="dark-content" />}
@@ -176,29 +187,49 @@ export default function WalletScreen() {
       reattaching of react subviews */}
       <Animated.View style={{ opacity: isCoinListEditedValue }} />
       <Animated.Code exec={scrollViewTracker} />
-      <FabWrapper
-        disabled={isAccountEmpty || !!params?.emptyWallet}
-        fabs={fabs}
-        isCoinListEdited={isCoinListEdited}
-        isReadOnlyWallet={isReadOnlyWallet}
-      >
+
+      <View style={styles.assets}>
         <HeaderOpacityToggler isVisible={isCoinListEdited}>
-          <Header justify="space-between">
-            <ProfileHeaderButton />
-            {/* //L Remove Discover section
-            <DiscoverHeaderButton /> */}
-          </Header>
-        </HeaderOpacityToggler>
-        <AssetList
-          disableRefreshControl={isLoadingAssets}
-          fetchData={refreshAccountData}
-          isEmpty={isAccountEmpty || !!params?.emptyWallet}
-          isWalletEthZero={isWalletEthZero}
-          network={network}
-          scrollViewTracker={scrollViewTracker}
-          sections={sections}
+            <Header justify="space-between">
+              <ProfileHeaderButton />
+              {/* //L Remove Discover section
+              <DiscoverHeaderButton /> */}
+            </Header>
+          </HeaderOpacityToggler>
+
+          <AssetList
+            disableRefreshControl={isLoadingAssets}
+            fetchData={refreshAccountData}
+            isEmpty={isAccountEmpty || !!params?.emptyWallet}
+            isWalletEthZero={isWalletEthZero}
+            network={network}
+            scrollViewTracker={scrollViewTracker}
+            sections={sections}
         />
-      </FabWrapper>
+      </View>
+
+        
+
+
+      <View style={styles.keypad}>
+        <Keypad />        
+      </View>
+        
+        
+
     </WalletPage>
   );
 }
+
+const styles = StyleSheet.create({
+  assets: {
+      flex: 2
+  },
+  keypad: {
+      flex: 3,
+      borderColor: 'green',
+      borderWidth: 5,
+      paddingTop: 50,
+      paddingHorizontal: 16
+  },
+});
