@@ -75,7 +75,7 @@ if [ -n "$RAINBOW_SCRIPTS_APP_ANDROID_PREBUILD_HOOK" ]; then
 fi
 
 # Ignore any potential tracked changes to mutable development files.
-git update-index --assume-unchanged "ios/Frameworks/GoogleService-Info.plist"
+git update-index --assume-unchanged "ios/Frameworks/GoogleService-Info.plist/"
 git update-index --assume-unchanged "ios/Internals/ios/Internals.h"
 git update-index --assume-unchanged "ios/Internals/ios/Internals.m"
 git update-index --assume-unchanged "ios/Internals/ios/Internals.swift"
