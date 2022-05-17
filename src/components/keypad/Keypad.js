@@ -1,27 +1,24 @@
 import { useState } from 'react';
 import React from 'react';
-import { StyleSheet, Text, View, Button, Pressable, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Button, Pressable, FlatList, TouchableOpacity } from 'react-native';
+import normalizer from './price-string-normalizer'
 
 const styles = StyleSheet.create({
     keypad: {
-        flexDirection: 'row',
         justifyContent: 'space-evenly',
-        paddingTop: 50,
         paddingHorizontal: 50,
-        borderColor: 'red',
-        borderWidth: 2,
+        paddingTop: 10
     },
     keypadNumber: {
         fontSize: 30,
         fontWeight: 'bold',
-        margin: 30
-
+        margin: 35,
+        textAlign: 'center'
     },
     keypadValue: {
-        fontSize: 20,
+        fontSize: 30,
         fontWeight: 'bold',
-        margin: 30,
-        textAlign: 'center'
+        textAlign: 'center',
     },
     pressable: ({pressed}) => ({
         opacity: pressed ? 0.5 : 1,
@@ -31,70 +28,96 @@ const styles = StyleSheet.create({
 });
 
 function Keypad() {
-
-    const [keypadValue, setKeypadValue] = useState("");
-
+    const [keypadValue, setKeypadValue] = useState("0.00");
     const keypad = [
         {
-            number: 1
+            key: 0,
+            value: 1
         },
         {
-            number: 2
+            key: 1,
+            value: 2
         },
         {
-            number: 3
+            key: 2,
+            value: 3
         },
         {
-            number: 4
+            key: 3,
+            value: 4
         },
         {
-            number: 5
+            key: 4,
+            value: 5
         },
         {
-            number: 6
+            key: 5,
+            value: 6
         },
         {
-            number: 7
+            key: 6,
+            value: 7
         },
         {
-            number: 8
+            key: 7,
+            value: 8
         },
         {
-            number: 9
+            key: 8,
+            value: 9
+        },
+        {
+            key: 9,
+            value: " "
+        },
+        {
+            key: 10,
+            value: 0
+        },
+        {
+            key: 11,
+            value: "←"
         },
     ]
 
+    function isInt(value) {
+        if (isNaN(value)) {
+          return false;
+        }
+        var x = parseFloat(value);
+        return (x | 0) === x;
+    }
 
     function keypadHandler(value) {
-        setKeypadValue(currentKeypadValue => currentKeypadValue + value);
+        if(isInt(value)) {
+            setKeypadValue(currentKeypadValue => currentKeypadValue + value);
+        }
+        else if (value === "←") {
+            if(keypadValue.slice(0, -1))  {
+                setKeypadValue(currentKeypadValue => currentKeypadValue.slice(0, -1))
+            }
+            else {
+                setKeypadValue("0.00")
+            }  
+        }
     };
 
     function renderKeypadItem(itemData) {
 
         return (
-            <Pressable style={styles.pressable} onPress={() => {keypadHandler(itemData.item.number)}}>
-                <Text style={styles.keypadNumber}>{itemData.item.number}</Text>
+            <Pressable style={styles.pressable} onPress={() => {keypadHandler(itemData.item.value)}}>
+                <Text style={styles.keypadNumber}>{itemData.item.value}</Text>
             </Pressable>
             )
     }
 
-
     return (
         <View>
-            <Text style={styles.keypadValue}>{keypadValue}</Text>
-            
+            <Text style={styles.keypadValue}>{normalizer(keypadValue)}€</Text>         
             <View style={styles.keypad}>                
-
-                <FlatList data={keypad} keyExtractor={item => item.number} renderItem={renderKeypadItem} numColumns={3}/>
-
-          
-                    
+                <FlatList data={keypad} keyExtractor={item => item.key} renderItem={renderKeypadItem} numColumns={3}/>                  
             </View>
       </View>
-
-   
-
-
     );
    
 } 

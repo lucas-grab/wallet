@@ -227,9 +227,5 @@ const styles = StyleSheet.create({
   },
   keypad: {
       flex: 3,
-      borderColor: 'green',
-      borderWidth: 5,
-      paddingTop: 50,
-      paddingHorizontal: 16
   },
 });
