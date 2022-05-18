@@ -55,7 +55,7 @@ export function formatNative(value, priceSharedValue, nativeSelected) {
       : 2;
 
   let res = `${Number(value).toFixed(decimals).toLocaleString('en-US', {
-    currency: NativeCurrencyKeys.USD,
+    currency: NativeCurrencyKeys.EUR,
   })}`;
   res =
     nativeSelected?.alignment === 'left'

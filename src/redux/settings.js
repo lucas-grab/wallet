@@ -111,7 +111,7 @@ export const INITIAL_STATE = {
   accountAddress: '',
   chainId: 1,
   language: 'en',
-  nativeCurrency: NativeCurrencyKeys.USD,
+  nativeCurrency: NativeCurrencyKeys.EUR,
   network: networkTypes.mainnet,
 };
 

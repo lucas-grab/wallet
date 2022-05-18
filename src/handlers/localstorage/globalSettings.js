@@ -41,7 +41,7 @@ export const getKeyboardHeight = () => getGlobal(KEYBOARD_HEIGHT, null);
 export const setKeyboardHeight = height => saveGlobal(KEYBOARD_HEIGHT, height);
 
 export const getNativeCurrency = () =>
-  getGlobal(NATIVE_CURRENCY, NativeCurrencyKeys.USD);
+  getGlobal(NATIVE_CURRENCY, NativeCurrencyKeys.EUR);
 
 export const saveNativeCurrency = nativeCurrency =>
   saveGlobal(NATIVE_CURRENCY, nativeCurrency);
