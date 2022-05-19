@@ -188,6 +188,13 @@ export default function WalletScreen() {
       <Animated.View style={{ opacity: isCoinListEditedValue }} />
       <Animated.Code exec={scrollViewTracker} />
 
+      <FabWrapper
+        disabled={isAccountEmpty || !!params?.emptyWallet}
+        fabs={fabs}
+        isCoinListEdited={isCoinListEdited}
+        isReadOnlyWallet={isReadOnlyWallet}
+      >
+
       <View style={styles.assets}>
         <HeaderOpacityToggler isVisible={isCoinListEdited}>
             <Header justify="space-between">
@@ -208,14 +215,11 @@ export default function WalletScreen() {
         />
       </View>
 
-        
-
-
       <View style={styles.keypad}>
         <Keypad />        
       </View>
         
-        
+      </FabWrapper>
 
     </WalletPage>
   );

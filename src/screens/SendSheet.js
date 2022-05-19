@@ -1,9 +1,13 @@
+
+
+
+
 import { useRoute } from '@react-navigation/native';
 import analytics from '@segment/analytics-react-native';
 import { captureEvent, captureException } from '@sentry/react-native';
 import { isEmpty, isEqual, isString, toLower } from 'lodash';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Alert, InteractionManager, Keyboard, StatusBar } from 'react-native';
+import { Alert, InteractionManager, Keyboard, StatusBar, Text } from 'react-native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { KeyboardArea } from 'react-native-keyboard-area';
 import { useDispatch } from 'react-redux';
@@ -92,6 +96,15 @@ const KeyboardSizeView = styled(KeyboardArea)`
     showAssetForm ? colors.lighterGrey : colors.white};
 `;
 
+
+
+
+
+
+
+
+
+
 export default function SendSheet(props) {
   const dispatch = useDispatch();
   const { deviceWidth, isTinyPhone } = useDimensions();
@@ -135,11 +148,14 @@ export default function SendSheet(props) {
   const [currentInput, setCurrentInput] = useState('');
 
   const { params } = useRoute();
-  const assetOverride = params?.asset;
+  let assetOverride = params?.asset;
   const prevAssetOverride = usePrevious(assetOverride);
 
+  const paramsttext = params?.ttext;
+
+
   const recipientOverride = params?.address;
-  const nativeAmountOverride = params?.nativeAmount;
+  let nativeAmountOverride = params?.nativeAmount;
   const [recipient, setRecipient] = useState('');
   const [selected, setSelected] = useState({});
   const { maxInputBalance, updateMaxInputBalance } = useMaxInputBalance();
@@ -245,12 +261,38 @@ export default function SendSheet(props) {
     [selected, sendUpdateAssetAmount, updateMaxInputBalance]
   );
 
+
+
+//L 
+//use this all assets too get usdc and then put usdc in pre selected thing
+
+
+  useEffect(() =>
+  {
+    nativeAmountOverride ='0.4';
+  }, [recipient])
+
+    //L thiss
   // Update all fields passed via params if needed
   useEffect(() => {
+    const usdc = allAssets.find(element => element.address == "0x2791bca1f2de4661ed88a30c99a7a9449aa84174")
+    assetOverride = usdc
+    //nativeAmountOverride = '0.5'
+    
+
+
     if (recipientOverride && !recipient) {
       setIsValidAddress(true);
       setRecipient(recipientOverride);
     }
+
+    if(params) {
+      //console.log("params exist")
+      //console.log(params)
+      //console.log(JSON.stringify(nativeAmountOverride))
+
+    }
+
 
     if (assetOverride && assetOverride !== prevAssetOverride) {
       sendUpdateSelected(assetOverride);
@@ -258,6 +300,7 @@ export default function SendSheet(props) {
     }
 
     if (nativeAmountOverride && !amountDetails.assetAmount && maxInputBalance) {
+      console.log("native amount override", nativeAmountOverride)
       sendUpdateAssetAmount(nativeAmountOverride);
     }
   }, [
@@ -644,6 +687,12 @@ export default function SendSheet(props) {
       disabled = true;
       label = `Insufficient ${nativeToken}`;
     } else if (!isZeroAssetAmount && !amountDetails.isSufficientBalance) {
+
+
+      console.log("funds problem: ", isZeroAssetAmount)
+      console.log("funds problem2: ", amountDetails)
+
+
       disabled = true;
       label = 'Insufficient Funds';
     } else if (!isZeroAssetAmount) {
@@ -686,6 +735,8 @@ export default function SendSheet(props) {
       return;
     }
 
+
+    //L define values for state here from keypad
     navigate(Routes.SEND_CONFIRMATION_SHEET, {
       amountDetails: amountDetails,
       asset: selected,
@@ -767,6 +818,11 @@ export default function SendSheet(props) {
   useEffect(() => {
     checkAddress(recipient);
   }, [checkAddress, recipient]);
+
+
+
+
+
 
   useEffect(() => {
     if (!currentProvider?._network?.chainId) return;
@@ -865,7 +921,7 @@ export default function SendSheet(props) {
         {showAssetForm && (
           <SendAssetForm
             {...props}
-            assetAmount={amountDetails.assetAmount}
+            assetAmount={'amountDetails.assetAmount'}
             buttonRenderer={
               <SheetActionButton
                 androidWidth={deviceWidth - 60}
@@ -903,7 +959,9 @@ export default function SendSheet(props) {
                 type="transaction"
               />
             }
+            
           />
+          
         )}
         {android && showAssetForm ? (
           <KeyboardSizeView showAssetForm={showAssetForm} />
@@ -912,3 +970,5 @@ export default function SendSheet(props) {
     </Container>
   );
 }
+
+
