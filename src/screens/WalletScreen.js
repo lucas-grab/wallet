@@ -216,7 +216,7 @@ export default function WalletScreen() {
       </View>
 
       <View style={styles.keypad}>
-        <Keypad />        
+        {!(isAccountEmpty || !!params?.emptyWallet) && <Keypad /> } 
       </View>
         
       </FabWrapper>

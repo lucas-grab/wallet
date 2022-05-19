@@ -98,15 +98,6 @@ const KeyboardSizeView = styled(KeyboardArea)`
     showAssetForm ? colors.lighterGrey : colors.white};
 `;
 
-
-
-
-
-
-
-
-
-
 export default function SendSheet(props) {
   const dispatch = useDispatch();
   const { deviceWidth, isTinyPhone } = useDimensions();
@@ -930,7 +921,6 @@ export default function SendSheet(props) {
                 type="transaction"
               />
             }
-            
           />
           
         )}
