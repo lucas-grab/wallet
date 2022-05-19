@@ -6,7 +6,7 @@ import { useRoute } from '@react-navigation/native';
 import analytics from '@segment/analytics-react-native';
 import { captureEvent, captureException } from '@sentry/react-native';
 import { isEmpty, isEqual, isString, toLower } from 'lodash';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState, useContext } from 'react';
 import { Alert, InteractionManager, Keyboard, StatusBar, Text } from 'react-native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { KeyboardArea } from 'react-native-keyboard-area';
@@ -69,6 +69,8 @@ import {
 } from '@rainbow-me/utilities';
 import { deviceUtils, ethereumUtils } from '@rainbow-me/utils';
 import logger from 'logger';
+import { KeypadContext } from '../context/keypad-context';
+import normalizer from '../components/keypad/price-string-normalizer'
 
 const sheetHeight = deviceUtils.dimensions.height - (android ? 30 : 10);
 const statusBarHeight = getStatusBarHeight(true);
@@ -151,7 +153,6 @@ export default function SendSheet(props) {
   let assetOverride = params?.asset;
   const prevAssetOverride = usePrevious(assetOverride);
 
-  const paramsttext = params?.ttext;
 
 
   const recipientOverride = params?.address;
@@ -167,6 +168,8 @@ export default function SendSheet(props) {
   const showEmptyState = !isValidAddress;
   const showAssetList = isValidAddress && isEmpty(selected);
   const showAssetForm = isValidAddress && !isEmpty(selected);
+
+  const keypadContext = useContext(KeypadContext);
 
   const isNft = selected?.type === AssetTypes.nft;
   let color = useColorForAsset({
@@ -261,23 +264,11 @@ export default function SendSheet(props) {
     [selected, sendUpdateAssetAmount, updateMaxInputBalance]
   );
 
-
-
-//L 
-//use this all assets too get usdc and then put usdc in pre selected thing
-
-
-  useEffect(() =>
-  {
-    nativeAmountOverride ='0.4';
-  }, [recipient])
-
-    //L thiss
   // Update all fields passed via params if needed
   useEffect(() => {
     const usdc = allAssets.find(element => element.address == "0x2791bca1f2de4661ed88a30c99a7a9449aa84174")
     assetOverride = usdc
-    //nativeAmountOverride = '0.5'
+    nativeAmountOverride = normalizer(keypadContext.keypadValue)
     
 
 
@@ -286,21 +277,12 @@ export default function SendSheet(props) {
       setRecipient(recipientOverride);
     }
 
-    if(params) {
-      //console.log("params exist")
-      //console.log(params)
-      //console.log(JSON.stringify(nativeAmountOverride))
-
-    }
-
-
     if (assetOverride && assetOverride !== prevAssetOverride) {
       sendUpdateSelected(assetOverride);
       updateMaxInputBalance(assetOverride);
     }
 
     if (nativeAmountOverride && !amountDetails.assetAmount && maxInputBalance) {
-      console.log("native amount override", nativeAmountOverride)
       sendUpdateAssetAmount(nativeAmountOverride);
     }
   }, [
@@ -687,12 +669,6 @@ export default function SendSheet(props) {
       disabled = true;
       label = `Insufficient ${nativeToken}`;
     } else if (!isZeroAssetAmount && !amountDetails.isSufficientBalance) {
-
-
-      console.log("funds problem: ", isZeroAssetAmount)
-      console.log("funds problem2: ", amountDetails)
-
-
       disabled = true;
       label = 'Insufficient Funds';
     } else if (!isZeroAssetAmount) {
@@ -921,7 +897,7 @@ export default function SendSheet(props) {
         {showAssetForm && (
           <SendAssetForm
             {...props}
-            assetAmount={'amountDetails.assetAmount'}
+            assetAmount={amountDetails.assetAmount}
             buttonRenderer={
               <SheetActionButton
                 androidWidth={deviceWidth - 60}

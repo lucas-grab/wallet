@@ -62,6 +62,7 @@ import { ethereumUtils } from './utils';
 import Routes from '@rainbow-me/routes';
 import logger from 'logger';
 import { Portal } from 'react-native-cool-modals/Portal';
+import KeypadContextProvider from './context/keypad-context';
 
 const WALLETCONNECT_SYNC_DELAY = 500;
 
@@ -281,17 +282,19 @@ class App extends Component {
           <Portal>
             <SafeAreaProvider>
               <Provider store={store}>
-                <FlexItem>
-                  {this.state.initialRoute && (
-                    <InitialRouteContext.Provider
-                      value={this.state.initialRoute}
-                    >
-                      <RoutesComponent ref={this.handleNavigatorRef} />
-                      <PortalConsumer />
-                    </InitialRouteContext.Provider>
-                  )}
-                  <OfflineToast />
-                </FlexItem>
+                <KeypadContextProvider>
+                  <FlexItem>
+                    {this.state.initialRoute && (
+                      <InitialRouteContext.Provider
+                        value={this.state.initialRoute}
+                      >
+                        <RoutesComponent ref={this.handleNavigatorRef} />
+                        <PortalConsumer />
+                      </InitialRouteContext.Provider>
+                    )}
+                    <OfflineToast />
+                  </FlexItem>
+                </KeypadContextProvider>
               </Provider>
             </SafeAreaProvider>
           </Portal>

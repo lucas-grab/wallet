@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import React from 'react';
-import { StyleSheet, Text, View, Button, Pressable, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Pressable, FlatList } from 'react-native';
 import normalizer from './price-string-normalizer'
+import { KeypadContext } from '../../context/keypad-context';
 
 const styles = StyleSheet.create({
     keypad: {
@@ -80,6 +81,8 @@ function Keypad() {
         },
     ]
 
+    const keypadContext = useContext(KeypadContext);
+
     function isInt(value) {
         if (isNaN(value)) {
           return false;
@@ -90,15 +93,10 @@ function Keypad() {
 
     function keypadHandler(value) {
         if(isInt(value)) {
-            setKeypadValue(currentKeypadValue => currentKeypadValue + value);
+            keypadContext.addKeypadValue(value)
         }
         else if (value === "←") {
-            if(keypadValue.slice(0, -1))  {
-                setKeypadValue(currentKeypadValue => currentKeypadValue.slice(0, -1))
-            }
-            else {
-                setKeypadValue("0.00")
-            }  
+            keypadContext.removeKeypadValue(value)
         }
     };
 
@@ -113,7 +111,7 @@ function Keypad() {
 
     return (
         <View>
-            <Text style={styles.keypadValue}>{normalizer(keypadValue)}€</Text>         
+            <Text style={styles.keypadValue}>{normalizer(keypadContext.keypadValue)} €</Text>         
             <View style={styles.keypad}>                
                 <FlatList data={keypad} keyExtractor={item => item.key} renderItem={renderKeypadItem} numColumns={3}/>                  
             </View>
