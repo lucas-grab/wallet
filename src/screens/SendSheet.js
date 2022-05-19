@@ -152,9 +152,6 @@ export default function SendSheet(props) {
   const { params } = useRoute();
   let assetOverride = params?.asset;
   const prevAssetOverride = usePrevious(assetOverride);
-
-
-
   const recipientOverride = params?.address;
   let nativeAmountOverride = params?.nativeAmount;
   const [recipient, setRecipient] = useState('');
@@ -168,9 +165,7 @@ export default function SendSheet(props) {
   const showEmptyState = !isValidAddress;
   const showAssetList = isValidAddress && isEmpty(selected);
   const showAssetForm = isValidAddress && !isEmpty(selected);
-
   const keypadContext = useContext(KeypadContext);
-
   const isNft = selected?.type === AssetTypes.nft;
   let color = useColorForAsset({
     address: selected?.mainnet_address || selected.address,
@@ -283,7 +278,7 @@ export default function SendSheet(props) {
     }
 
     if (nativeAmountOverride && !amountDetails.assetAmount && maxInputBalance) {
-      sendUpdateAssetAmount(nativeAmountOverride);
+      onChangeNativeAmount(nativeAmountOverride);
     }
   }, [
     amountDetails,
@@ -946,5 +941,3 @@ export default function SendSheet(props) {
     </Container>
   );
 }
-
-

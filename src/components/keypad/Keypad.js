@@ -7,14 +7,17 @@ import { KeypadContext } from '../../context/keypad-context';
 const styles = StyleSheet.create({
     keypad: {
         justifyContent: 'space-evenly',
-        paddingHorizontal: 50,
-        paddingTop: 10
+        marginHorizontal: 45,
+        paddingTop: 10,
+        textAlign: 'center'
     },
     keypadNumber: {
         fontSize: 30,
         fontWeight: 'bold',
-        margin: 35,
-        textAlign: 'center'
+        margin: 28,
+        textAlign: 'center',
+        width: 40,
+        alignSelf: 'center'
     },
     keypadValue: {
         fontSize: 30,
@@ -23,7 +26,8 @@ const styles = StyleSheet.create({
     },
     pressable: ({pressed}) => ({
         opacity: pressed ? 0.5 : 1,
-        marginRight: 10
+        marginRight: 10,
+        
     }),
 
 });
