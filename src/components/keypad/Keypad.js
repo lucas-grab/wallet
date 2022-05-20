@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import React from 'react';
 import { StyleSheet, Text, View, Pressable, FlatList } from 'react-native';
 import normalizer from './price-string-normalizer'
@@ -20,9 +20,10 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     keypadValue: {
-        fontSize: 30,
+        fontSize: 60,
         fontWeight: 'bold',
         textAlign: 'center',
+        paddingBottom: 30,
     },
     pressable: ({pressed}) => ({
         opacity: pressed ? 0.5 : 1,
@@ -33,7 +34,6 @@ const styles = StyleSheet.create({
 });
 
 function Keypad() {
-    const [keypadValue, setKeypadValue] = useState("0.00");
     const keypad = [
         {
             key: 0,

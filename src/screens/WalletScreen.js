@@ -230,6 +230,6 @@ const styles = StyleSheet.create({
       flex: 2
   },
   keypad: {
-      flex: 3,
+      flex: 4,
   },
 });

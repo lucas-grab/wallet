@@ -9,7 +9,7 @@ import { Label } from '../text';
 import { useClipboard, useDimensions } from '@rainbow-me/hooks';
 import { abbreviations, addressUtils } from '@rainbow-me/utils';
 
-const AddressInput = styled(Input).attrs({
+const NoteInput = styled(Input).attrs({
   autoCapitalize: 'none',
   autoCorrect: false,
   keyboardType: android ? 'visible-password' : 'default',
@@ -41,63 +41,50 @@ const PlaceholderText = styled(Label).attrs({
   opacity: 1;
 `;
 
-const formatValue = value =>
-  isHexString(value) && value.length === addressUtils.maxLength
-    ? abbreviations.address(value, 4, 4)
-    : value;
-
 const NoteField = (
-  { address, autoFocus, name, onChange, onFocus, testID, ...props },
+  { autoFocus, onFocus, testID, ...props },
   ref
 ) => {
   const { isTinyPhone } = useDimensions();
   const { colors } = useTheme();
-  const { clipboard, setClipboard } = useClipboard();
-  const [inputValue, setInputValue] = useState('');
-  const [isValid, setIsValid] = useState(false);
+  const [note, setNote] = useState("")
 
-  const expandAbbreviatedClipboard = useCallback(() => {
-    if (clipboard === abbreviations.formatAddressForDisplay(address)) {
-      setClipboard(address);
-    }
-  }, [address, clipboard, setClipboard]);
+  // const { clipboard, setClipboard } = useClipboard();
 
-  const validateAddress = useCallback(async address => {
-    const newIsValid = await checkIsValidAddressOrDomain(address);
-    return setIsValid(newIsValid);
-  }, []);
+  // const expandAbbreviatedClipboard = useCallback(() => {
+  //   if (clipboard === abbreviations.formatAddressForDisplay(address)) {
+  //     setClipboard(address);
+  //   }
+  // }, [address, clipboard, setClipboard]);
 
-  const handleChange = useCallback(
-    ({ nativeEvent: { text } }) => {
-      onChange(text);
-      validateAddress(text);
-      expandAbbreviatedClipboard();
-    },
-    [expandAbbreviatedClipboard, onChange, validateAddress]
-  );
+  // const validateAddress = useCallback(async address => {
+  //   const newIsValid = await checkIsValidAddressOrDomain(address);
+  //   return setIsValid(newIsValid);
+  // }, []);
 
-  useEffect(() => {
-    if (address !== inputValue || name !== inputValue) {
-      setInputValue(name || address);
-      validateAddress(address);
-    }
-  }, [address, inputValue, name, validateAddress]);
+  // const handleChange = useCallback(
+  //   ({ nativeEvent: { text } }) => {
+  //     onChange(text);
+  //     validateAddress(text);
+  //     expandAbbreviatedClipboard();
+  //   },
+  //   [expandAbbreviatedClipboard, onChange, validateAddress]
+  // );
 
   return (
     <Row flex={1}>
-      <AddressInput
+      <NoteInput
         {...props}
         autoFocus={autoFocus}
-        color={isValid ? colors.appleBlue : colors.dark}
-        onBlur={expandAbbreviatedClipboard}
-        onChange={handleChange}
-        onChangeText={setInputValue}
+        color={colors.dark}
+        //onBlur={expandAbbreviatedClipboard}
+        onChangeText={setNote}
         onFocus={onFocus}
         ref={ref}
         testID={testID}
-        value={formatValue(inputValue)}
+        value={note}
       />
-      {!inputValue && (
+      {!note && (
         <Placeholder>
           <TouchableWithoutFeedback onPress={ref?.current?.focus}>
             <PlaceholderText>

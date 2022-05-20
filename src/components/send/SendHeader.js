@@ -245,43 +245,11 @@ export default function SendHeader({
       >
         <AddressFieldLabel>Note:</AddressFieldLabel>
         <NoteField
-          address={recipient}
-          autoFocus={!showAssetList}
-          name={name}
-          onChange={onChangeAddressInput}
-          onFocus={onFocus}
+          autoFocus={false}
           ref={recipientFieldRef}
           testID="send-asset-form-field"
         />
-        {isValidAddress &&
-          !userWallet &&
-          (hexAddress || !isEmpty(contact?.address)) && (
-            <ButtonPressAnimation
-              onPress={
-                isPreExistingContact
-                  ? handleOpenContactActionSheet
-                  : handleNavigateToContact
-              }
-            >
-              <Text
-                align="right"
-                color="appleBlue"
-                size="large"
-                style={{ paddingLeft: 4 }}
-                testID={
-                  isPreExistingContact
-                    ? 'edit-contact-button'
-                    : 'add-contact-button'
-                }
-                weight="heavy"
-              >
-                {isPreExistingContact ? '􀍡' : ' 􀉯 Save'}
-              </Text>
-            </ButtonPressAnimation>
-          )}
-        {isValidAddress && !hexAddress && isEmpty(contact?.address) && (
-          <LoadingSpinner />
-        )}
+        
       </AddressInputContainer>
 
 
