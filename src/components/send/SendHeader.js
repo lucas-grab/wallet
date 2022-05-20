@@ -1,7 +1,7 @@
 import { isHexString } from '@ethersproject/bytes';
 import { get, isEmpty, toLower } from 'lodash';
 import React, { Fragment, useCallback, useMemo } from 'react';
-import { ActivityIndicator, Keyboard } from 'react-native';
+import { ActivityIndicator, Keyboard, View } from 'react-native';
 import styled from 'styled-components';
 import { useTheme } from '../../context/ThemeContext';
 import { useNavigation } from '../../navigation/Navigation';
@@ -10,6 +10,7 @@ import Spinner from '../Spinner';
 import { ButtonPressAnimation } from '../animations';
 import { PasteAddressButton } from '../buttons';
 import { AddressField } from '../fields';
+import { NoteField } from '../fields/';
 import { Row } from '../layout';
 import { SheetHandleFixedToTop, SheetTitle } from '../sheet';
 import { Label, Text } from '../text';
@@ -236,6 +237,55 @@ export default function SendHeader({
         )}
         {!isValidAddress && <PasteAddressButton onPress={onPressPaste} />}
       </AddressInputContainer>
+
+      {/* //L */}
+      <AddressInputContainer
+        isSmallPhone={isSmallPhone}
+        isTinyPhone={isTinyPhone}
+      >
+        <AddressFieldLabel>Note:</AddressFieldLabel>
+        <NoteField
+          address={recipient}
+          autoFocus={!showAssetList}
+          name={name}
+          onChange={onChangeAddressInput}
+          onFocus={onFocus}
+          ref={recipientFieldRef}
+          testID="send-asset-form-field"
+        />
+        {isValidAddress &&
+          !userWallet &&
+          (hexAddress || !isEmpty(contact?.address)) && (
+            <ButtonPressAnimation
+              onPress={
+                isPreExistingContact
+                  ? handleOpenContactActionSheet
+                  : handleNavigateToContact
+              }
+            >
+              <Text
+                align="right"
+                color="appleBlue"
+                size="large"
+                style={{ paddingLeft: 4 }}
+                testID={
+                  isPreExistingContact
+                    ? 'edit-contact-button'
+                    : 'add-contact-button'
+                }
+                weight="heavy"
+              >
+                {isPreExistingContact ? '􀍡' : ' 􀉯 Save'}
+              </Text>
+            </ButtonPressAnimation>
+          )}
+        {isValidAddress && !hexAddress && isEmpty(contact?.address) && (
+          <LoadingSpinner />
+        )}
+      </AddressInputContainer>
+
+
+
       {hideDivider && !isTinyPhone ? null : (
         <Divider color={colors.rowDividerExtraLight} flex={0} inset={[0, 19]} />
       )}
