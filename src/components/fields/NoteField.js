@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import styled from 'styled-components';
 import { isHexString } from '../../handlers/web3';
@@ -8,6 +9,8 @@ import { Row } from '../layout';
 import { Label } from '../text';
 import { useClipboard, useDimensions } from '@rainbow-me/hooks';
 import { abbreviations, addressUtils } from '@rainbow-me/utils';
+import { firebaseA, firebaseTest } from '../../model/firebase';
+import { setTransactionNote } from '../../redux/data';
 
 const NoteInput = styled(Input).attrs({
   autoCapitalize: 'none',
@@ -41,13 +44,11 @@ const PlaceholderText = styled(Label).attrs({
   opacity: 1;
 `;
 
-const NoteField = (
-  { autoFocus, onFocus, testID, ...props },
-  ref
-) => {
+const NoteField = ({ autoFocus, onFocus, testID, ...props }, ref) => {
   const { isTinyPhone } = useDimensions();
   const { colors } = useTheme();
-  const [note, setNote] = useState("")
+  const [note, setNote] = useState('');
+  const dispatch = useDispatch();
 
   // const { clipboard, setClipboard } = useClipboard();
 
@@ -79,6 +80,7 @@ const NoteField = (
         color={colors.dark}
         //onBlur={expandAbbreviatedClipboard}
         onChangeText={setNote}
+        onEndEditing={() => dispatch(setTransactionNote(note))}
         onFocus={onFocus}
         ref={ref}
         testID={testID}

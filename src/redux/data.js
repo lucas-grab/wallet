@@ -84,6 +84,7 @@ import {
   TokensListenedCache,
 } from '@rainbow-me/utils';
 import logger from 'logger';
+import { saveTransactionNote } from '../model/firebase';
 
 const BACKUP_SHEET_DELAY_MS = 3000;
 
@@ -127,6 +128,8 @@ const DATA_ADD_NEW_TRANSACTION_SUCCESS =
 
 const DATA_ADD_NEW_SUBSCRIBER = 'data/DATA_ADD_NEW_SUBSCRIBER';
 const DATA_UPDATE_REFETCH_SAVINGS = 'data/DATA_UPDATE_REFETCH_SAVINGS';
+
+const DATA_SET_TRANSACTION_NOTE = 'data/DATA_SET_TRANSACTOPM_NOTE';
 
 const DATA_CLEAR_STATE = 'data/DATA_CLEAR_STATE';
 
@@ -869,6 +872,13 @@ export const dataWatchPendingTransactions = (
             // When speeding up a non "normal tx" we need to resubscribe
             // because zerion "append" event isn't reliable
             logger.log('TX CONFIRMED!', txObj);
+
+            // Sending transaction note to firebase
+            const address = txObj.from;
+            const transactionHash = txObj.hash;
+            const transactionNote = getState().data.transactionNote;
+            saveTransactionNote(address, transactionHash, transactionNote);
+
             if (!nonceAlreadyIncluded) {
               appEvents.emit('transactionConfirmed', txObj);
             }
@@ -1024,6 +1034,13 @@ export const addNewSubscriber = (subscriber, type) => (dispatch, getState) => {
   });
 };
 
+export const setTransactionNote = note => dispatch => {
+  dispatch({
+    payload: note,
+    type: DATA_SET_TRANSACTION_NOTE,
+  });
+};
+
 export const updateRefetchSavings = fetch => dispatch =>
   dispatch({
     payload: fetch,
@@ -1048,6 +1065,7 @@ const INITIAL_STATE = {
   transactions: [],
   uniswapPricesQuery: null,
   uniswapPricesSubscription: null,
+  transactionNote: 'default Note',
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -1133,6 +1151,11 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         subscribers: action.payload,
+      };
+    case DATA_SET_TRANSACTION_NOTE:
+      return {
+        ...state,
+        transactionNote: action.payload,
       };
     case DATA_CLEAR_STATE:
       return {

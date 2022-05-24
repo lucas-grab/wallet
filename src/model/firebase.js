@@ -5,6 +5,22 @@ import { requestNotifications } from 'react-native-permissions';
 import { Alert } from '../components/alerts';
 import { getLocal, saveLocal } from '../handlers/localstorage/common';
 import logger from 'logger';
+import firestore from '@react-native-firebase/firestore';
+
+const addressesCollection = firestore().collection('Addresses');
+
+export function saveTransactionNote(address, transactionHash, note) {
+  addressesCollection
+    .doc(address)
+    .collection('transactions')
+    .doc(transactionHash)
+    .set({
+      note: note,
+    })
+    .then(() => {
+      console.log('New transaction note was added to firebase');
+    });
+}
 
 export const getFCMToken = async () => {
   const fcmTokenLocal = await getLocal('rainbowFcmToken');
