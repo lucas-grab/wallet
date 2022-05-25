@@ -1146,6 +1146,8 @@ PODS:
     - React
   - ReactNativePayments (1.1.5):
     - React
+  - ReactNativeUiLib (3.0.7):
+    - React
   - rn-fetch-blob (0.12.0):
     - React-Core
   - RNAnalytics (1.4.3):
@@ -1342,6 +1344,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeDarkMode (from `../node_modules/react-native-dark-mode`)
   - "ReactNativePayments (from `../node_modules/@rainbow-me/react-native-payments/lib/ios`)"
+  - ReactNativeUiLib (from `../node_modules/react-native-ui-lib/lib`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - "RNAnalytics (from `../node_modules/@segment/analytics-react-native`)"
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
@@ -1545,6 +1548,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-dark-mode"
   ReactNativePayments:
     :path: "../node_modules/@rainbow-me/react-native-payments/lib/ios"
+  ReactNativeUiLib:
+    :path: "../node_modules/react-native-ui-lib/lib"
   rn-fetch-blob:
     :path: "../node_modules/rn-fetch-blob"
   RNAnalytics:
@@ -1714,6 +1719,7 @@ SPEC CHECKSUMS:
   ReactCommon: 620442811dc6f707b4bf5e3b27d4f19c12d5a821
   ReactNativeDarkMode: 0178ffca3b10f6a7c9f49d6f9810232b328fa949
   ReactNativePayments: 40a266450628c05db440fe219b631210e4358a49
+  ReactNativeUiLib: 48ec63ebe71442bfbe4ee5136d2095f1db3c1b17
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNAnalytics: 43a09152058061b4096eb6cb806093e7b772b1e5
   RNCAsyncStorage: b03032fdbdb725bea0bd9e5ec5a7272865ae7398

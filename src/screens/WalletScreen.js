@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { OpacityToggler } from '../components/animations';
 import { AssetList } from '../components/asset-list';
-import { ExchangeFab, FabWrapper, SendFab } from '../components/fab';
+//import { ExchangeFab, FabWrapper, SendFab } from '../components/fab';
 import {
   DiscoverHeaderButton,
   Header,
@@ -39,8 +39,6 @@ import { updatePositions } from '@rainbow-me/redux/usersPositions';
 import { position } from '@rainbow-me/styles';
 import Keypad from '../components/keypad/Keypad';
 
-
-
 const HeaderOpacityToggler = styled(OpacityToggler).attrs(({ isVisible }) => ({
   endingOpacity: 0.4,
   pointerEvents: isVisible ? 'none' : 'auto',
@@ -56,7 +54,6 @@ const WalletPage = styled(Page)`
 `;
 
 const { StyleSheet } = ReactNative;
-
 
 export default function WalletScreen() {
   const { params } = useRoute();
@@ -160,26 +157,21 @@ export default function WalletScreen() {
 
   // Show the exchange fab only for supported networks
   // (mainnet & rinkeby)
-  const fabs = useMemo(
-    () =>
-      [
-        // Remove ExchangeFab from HomeScreen
-        // !!get(networkInfo[network], 'exchange_enabled') && ExchangeFab,
-        // SendFab,
-        !!get(networkInfo[network], 'exchange_enabled') && SendFab,
-      ].filter(e => !!e),
-    [network]
-  );
+  // const fabs = useMemo(
+  //   () =>
+  //     [
+  //       // Remove ExchangeFab from HomeScreen
+  //       // !!get(networkInfo[network], 'exchange_enabled') && ExchangeFab,
+  //       // SendFab,
+  //       !!get(networkInfo[network], 'exchange_enabled') && SendFab,
+  //     ].filter(e => !!e),
+  //   [network]
+  // );
 
   const isCoinListEditedValue = useCoinListEditedValue();
 
   const isLoadingAssets = useSelector(state => state.data.isLoadingAssets);
 
-
-
-
-
-  
   return (
     <WalletPage testID="wallet-screen">
       {ios && <StatusBar barStyle="dark-content" />}
@@ -188,48 +180,38 @@ export default function WalletScreen() {
       <Animated.View style={{ opacity: isCoinListEditedValue }} />
       <Animated.Code exec={scrollViewTracker} />
 
-      <FabWrapper
-        disabled={isAccountEmpty || !!params?.emptyWallet}
-        fabs={fabs}
-        isCoinListEdited={isCoinListEdited}
-        isReadOnlyWallet={isReadOnlyWallet}
-      >
-
       <View style={styles.assets}>
         <HeaderOpacityToggler isVisible={isCoinListEdited}>
-            <Header justify="space-between">
-              <ProfileHeaderButton />
-              {/* //L Remove Discover section
+          <Header justify="space-between">
+            <ProfileHeaderButton />
+            {/* //L Remove Discover section
               <DiscoverHeaderButton /> */}
-            </Header>
-          </HeaderOpacityToggler>
+          </Header>
+        </HeaderOpacityToggler>
 
-          <AssetList
-            disableRefreshControl={isLoadingAssets}
-            fetchData={refreshAccountData}
-            isEmpty={isAccountEmpty || !!params?.emptyWallet}
-            isWalletEthZero={isWalletEthZero}
-            network={network}
-            scrollViewTracker={scrollViewTracker}
-            sections={sections}
+        <AssetList
+          disableRefreshControl={isLoadingAssets}
+          fetchData={refreshAccountData}
+          isEmpty={isAccountEmpty || !!params?.emptyWallet}
+          isWalletEthZero={isWalletEthZero}
+          network={network}
+          scrollViewTracker={scrollViewTracker}
+          sections={sections}
         />
       </View>
 
       <View style={styles.keypad}>
-        {!(isAccountEmpty || !!params?.emptyWallet) && <Keypad /> } 
+        {!(isAccountEmpty || !!params?.emptyWallet) && <Keypad />}
       </View>
-        
-      </FabWrapper>
-
     </WalletPage>
   );
 }
 
 const styles = StyleSheet.create({
   assets: {
-      flex: 2
+    flex: 2,
   },
   keypad: {
-      flex: 4,
+    flex: 4,
   },
 });
