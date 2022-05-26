@@ -11,6 +11,7 @@ import { AssetList } from '../components/asset-list';
 //import { ExchangeFab, FabWrapper, SendFab } from '../components/fab';
 import {
   DiscoverHeaderButton,
+  ScanHeaderButton,
   Header,
   ProfileHeaderButton,
 } from '../components/header';
@@ -186,6 +187,7 @@ export default function WalletScreen() {
             <ProfileHeaderButton />
             {/* //L Remove Discover section
               <DiscoverHeaderButton /> */}
+            <ScanHeaderButton />
           </Header>
         </HeaderOpacityToggler>
 

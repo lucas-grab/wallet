@@ -108,14 +108,14 @@ function Keypad() {
       <View style={styles.keypadButtonContainer}>
         <Button
           label={'Request'}
-          backgroundColor={colors.blueGreyDark60}
+          backgroundColor={colors.blueGreyDarker}
           labelStyle={{ fontWeight: '700' }}
           style={styles.keypadButton}
           onPress={() => navigate(Routes.RECEIVE_MODAL)}
         />
         <Button
           label={'Send'}
-          backgroundColor={colors.blueGreyDark60}
+          backgroundColor={colors.blueGreyDarker}
           labelStyle={{ fontWeight: '700' }}
           style={styles.keypadButton}
           onPress={() => navigate(Routes.SEND_FLOW)}

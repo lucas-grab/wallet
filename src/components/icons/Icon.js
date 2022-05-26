@@ -67,6 +67,7 @@ import WalletConnectIcon from './svg/WalletConnectIcon';
 import WalletSwitcherCaret from './svg/WalletSwitcherCaret';
 import WarningCircledIcon from './svg/WarningCircledIcon';
 import WarningIcon from './svg/WarningIcon';
+import ScanHeaderIcon from './svg/ScanHeaderIcon';
 
 const IconTypes = {
   applePay: ApplePayIcon,
@@ -138,6 +139,7 @@ const IconTypes = {
   walletSwitcherCaret: WalletSwitcherCaret,
   warning: WarningIcon,
   warningCircled: WarningCircledIcon,
+  scan: ScanHeaderIcon,
 };
 
 const Icon = ({ name, testID, ...props }, ref) => {

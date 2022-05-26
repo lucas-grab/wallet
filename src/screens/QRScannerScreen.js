@@ -68,7 +68,8 @@ export default function QRScannerScreen() {
   return (
     <>
       <View pointerEvents="box-none">
-        {ios ? <DiscoverSheet ref={dsRef} /> : null}
+        {/* //L Remove Discover sheet ios
+        {ios ? <DiscoverSheet ref={dsRef} /> : null} */}
         <ScannerContainer>
           <Background />
           <CameraDimmer cameraVisible={cameraVisible}>
@@ -91,25 +92,26 @@ export default function QRScannerScreen() {
               />
             )}
           </CameraDimmer>
+          {/* //L Remove Discover sheet ios
           {android ? (
             <DiscoverSheet ref={dsRef} sheetPosition={androidSheetPosition} />
-          ) : (
-            <ScannerHeader>
-              <BackButton
-                color={colors.whiteLabel}
-                direction="left"
-                onPress={handlePressBackButton}
-                testID="goToBalancesFromScanner"
-              />
-              <EmulatorPasteUriButton />
-            </ScannerHeader>
-          )}
+          ) : ( */}
+          <ScannerHeader>
+            <BackButton
+              color={colors.whiteLabel}
+              direction="left"
+              onPress={handlePressBackButton}
+              testID="goToBalancesFromScanner"
+            />
+            <EmulatorPasteUriButton />
+          </ScannerHeader>
+          {/* )} */}
         </ScannerContainer>
       </View>
-      <FabWrapper
+      {/* <FabWrapper
         fabs={[SearchFab]}
         onPress={() => dsRef.current?.onFabSearch?.current()}
-      />
+      /> */}
     </>
   );
 }

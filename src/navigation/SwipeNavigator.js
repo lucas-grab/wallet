@@ -35,12 +35,12 @@ export function SwipeNavigator() {
       >
         <Swipe.Screen component={ProfileScreen} name={Routes.PROFILE_SCREEN} />
         <Swipe.Screen component={WalletScreen} name={Routes.WALLET_SCREEN} />
-        {/* //L Remove swipe to QRScannerScreen 
+
         <Swipe.Screen
           component={QRScannerScreen}
           initialParams={params}
           name={Routes.QR_SCANNER_SCREEN}
-        /> */}
+        />
       </Swipe.Navigator>
       <TestnetToast network={network} />
     </FlexItem>
