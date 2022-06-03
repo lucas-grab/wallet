@@ -413,6 +413,8 @@ export const transactionsReceived = (message, appended = false) => async (
   getState
 ) =>
   withRunExclusive(async () => {
+    console.log('transactionsreceived ran');
+
     const isValidMeta = dispatch(checkMeta(message));
     if (!isValidMeta) return;
     const transactionData = message?.payload?.transactions ?? [];
@@ -425,6 +427,8 @@ export const transactionsReceived = (message, appended = false) => async (
     const { purchaseTransactions } = getState().addCash;
     const { transactions } = getState().data;
     const { selected } = getState().wallets;
+
+    console.log(accountAddress, '  ------------  ', transactions);
 
     const {
       parsedTransactions,
@@ -499,6 +503,7 @@ export const addressAssetsReceived = (
   removed = false,
   assetsNetwork = null
 ) => (dispatch, getState) => {
+  console.log('assets received in data.js');
   const isValidMeta = dispatch(checkMeta(message));
   if (!isValidMeta) return;
   const { accountAddress, network } = getState().settings;

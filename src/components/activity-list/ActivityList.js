@@ -93,44 +93,19 @@ const ActivityList = ({
     }
     return currentPendingTransactionsCount;
   }, [sections, requests]);
+
+  console.log(network);
+  console.log(JSON.stringify(sections));
+
   return network === networkTypes.mainnet || sections.length ? (
-    recyclerListView ? (
-      <RecyclerActivityList
-        addCashAvailable={addCashAvailable}
-        header={header}
-        isEmpty={isEmpty}
-        isLoading={isLoading}
-        navigation={navigation}
-        sections={sections}
-      />
-    ) : isEmpty ? (
-      <ActivityListEmptyState>{header}</ActivityListEmptyState>
-    ) : (
-      <SectionList
-        ListFooterComponent={() =>
-          remainingItemsLabel && (
-            <ListFooterComponent
-              label={remainingItemsLabel}
-              onPress={nextPage}
-            />
-          )
-        }
-        ListHeaderComponent={header}
-        alwaysBounceVertical={false}
-        contentContainerStyle={{ paddingBottom: !transactionsCount ? 0 : 40 }}
-        extraData={{
-          hasPendingTransaction,
-          nativeCurrency,
-          pendingTransactionsCount,
-        }}
-        getItemLayout={getItemLayout}
-        initialNumToRender={12}
-        keyExtractor={keyExtractor}
-        removeClippedSubviews
-        renderSectionHeader={renderSectionHeader}
-        sections={sections}
-      />
-    )
+    <RecyclerActivityList
+      addCashAvailable={addCashAvailable}
+      header={header}
+      isEmpty={isEmpty}
+      isLoading={isLoading}
+      navigation={navigation}
+      sections={sections}
+    />
   ) : (
     <ActivityListEmptyState
       emoji="👻"

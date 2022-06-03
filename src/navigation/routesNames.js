@@ -52,6 +52,7 @@ const Routes = {
   WALLET_CONNECT_REDIRECT_SHEET: 'WalletConnectRedirectSheet',
   WALLET_DIAGNOSTICS_SHEET: 'WalletDiagnosticsSheet',
   WALLET_SCREEN: 'WalletScreen',
+  SOCIAL_SCREEN: 'SocialScreen',
   WELCOME_SCREEN: 'WelcomeScreen',
   WYRE_WEBVIEW: 'WyreWebview',
   WYRE_WEBVIEW_NAVIGATOR: 'WyreWebviewNavigator',

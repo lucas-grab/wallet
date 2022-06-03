@@ -135,6 +135,7 @@ const getPolygonAssetsFromCovalent = async (
 };
 
 export const polygonExplorerInit = () => async (dispatch, getState) => {
+  console.log('assets received in polygonexplorer.js');
   if (networkInfo[networkTypes.polygon]?.disabled) return;
   const { accountAddress, nativeCurrency } = getState().settings;
   const { assets: allAssets, genericAssets } = getState().data;

@@ -420,6 +420,7 @@ const listenOnAssetMessages = socket => dispatch => {
 
 export const explorerInitL2 = (network = null) => (dispatch, getState) => {
   if (getState().settings.network === NetworkTypes.mainnet) {
+    console.log('assets received in explorer.js');
     switch (network) {
       case NetworkTypes.arbitrum:
         // Start watching arbitrum assets

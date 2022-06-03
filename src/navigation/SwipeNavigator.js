@@ -5,6 +5,7 @@ import { TestnetToast } from '../components/toasts';
 import ProfileScreen from '../screens/ProfileScreen';
 import QRScannerScreen from '../screens/QRScannerScreen';
 import WalletScreen from '../screens/WalletScreen';
+import SocialScreen from '../screens/SocialScreen';
 import { deviceUtils } from '../utils';
 import ScrollPagerWrapper from './ScrollPagerWrapper';
 import Routes from './routesNames';
@@ -28,12 +29,13 @@ export function SwipeNavigator() {
     <FlexItem>
       <Swipe.Navigator
         initialLayout={deviceUtils.dimensions}
-        initialRouteName={Routes.WALLET_SCREEN}
+        initialRouteName={Routes.SOCIAL_SCREEN}
         pager={renderPager}
         swipeEnabled={swipeEnabled && !isCoinListEdited}
         tabBar={renderTabBar}
       >
         <Swipe.Screen component={ProfileScreen} name={Routes.PROFILE_SCREEN} />
+        <Swipe.Screen component={SocialScreen} name={Routes.SOCIAL_SCREEN} />
         <Swipe.Screen component={WalletScreen} name={Routes.WALLET_SCREEN} />
 
         <Swipe.Screen
