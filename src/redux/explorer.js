@@ -64,6 +64,8 @@ const messages = {
     APPENDED: 'appended address transactions',
     CHANGED: 'changed address transactions',
     RECEIVED: 'received address transactions',
+    RECEIVED_ARBITRUM: 'received address arbitrum-transactions',
+    RECEIVED_POLYGON: 'received address polygon-transactions',
     REMOVED: 'removed address transactions',
   },
   ASSET_CHARTS: {
@@ -165,6 +167,22 @@ const assetInfoRequest = (currency, order = 'desc') => [
       search_query: '#Token is:verified',
     },
     scope: ['info'],
+  },
+];
+
+const l2AddressTransactionHistoryRequest = (address, currency) => [
+  'get',
+  {
+    payload: {
+      address,
+      currency: toLower(currency),
+      transactions_limit: TRANSACTIONS_LIMIT,
+    },
+    scope: [
+      `${NetworkTypes.arbitrum}-transactions`,
+      `${NetworkTypes.optimism}-transactions`,
+      `${NetworkTypes.polygon}-transactions`,
+    ],
   },
 ];
 
@@ -399,6 +417,15 @@ export const emitChartsRequest = (
   }
 };
 
+export const emitL2TransactionHistoryRequest = () => (dispatch, getState) => {
+  const { accountAddress, nativeCurrency } = getState().settings;
+  const { addressSocket } = getState().explorer;
+  console.log('emitL2TransactionHistoryRequest');
+  addressSocket.emit(
+    ...l2AddressTransactionHistoryRequest(accountAddress, nativeCurrency)
+  );
+};
+
 const listenOnAssetMessages = socket => dispatch => {
   socket.on(messages.ASSET_INFO.RECEIVED, message => {
     dispatch(updateTopMovers(message));
@@ -436,6 +463,7 @@ export const explorerInitL2 = (network = null) => (dispatch, getState) => {
         break;
       default:
         // Start watching all L2 assets
+        console.log('watches l2');
         dispatch(arbitrumExplorerInit());
         dispatch(optimismExplorerInit());
         dispatch(polygonExplorerInit());
@@ -450,6 +478,14 @@ const listenOnAddressMessages = socket => dispatch => {
 
   socket.on(messages.ADDRESS_TRANSACTIONS.RECEIVED, message => {
     // logger.log('txns received', message?.payload?.transactions);
+    console.log('normal socket');
+    dispatch(emitL2TransactionHistoryRequest());
+    dispatch(transactionsReceived(message));
+  });
+
+  socket.on(messages.ADDRESS_TRANSACTIONS.RECEIVED_POLYGON, message => {
+    // logger.log('polygon txns received', message?.payload?.transactions);
+    console.log('polygon socket');
     dispatch(transactionsReceived(message));
   });
 

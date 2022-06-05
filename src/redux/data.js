@@ -381,7 +381,9 @@ const checkForUpdatedNonce = transactionData => dispatch => {
   );
   const [latestTx] = txSortedByDescendingNonce;
   const { address_from, network, nonce } = latestTx;
-  dispatch(incrementNonce(address_from, nonce, network));
+  if (nonce) {
+    dispatch(incrementNonce(address_from, nonce, network));
+  }
 };
 
 const checkForRemovedNonce = removedTransactions => dispatch => {
@@ -423,12 +425,15 @@ export const transactionsReceived = (message, appended = false) => async (
     }
     await dispatch(checkForUpdatedNonce(transactionData));
 
-    const { accountAddress, nativeCurrency, network } = getState().settings;
+    const { accountAddress, nativeCurrency } = getState().settings;
     const { purchaseTransactions } = getState().addCash;
     const { transactions } = getState().data;
     const { selected } = getState().wallets;
 
-    console.log(accountAddress, '  ------------  ', transactions);
+    let { network } = getState().settings;
+    if (network === Network.mainnet && message?.meta?.chain_id) {
+      network = message?.meta?.chain_id;
+    }
 
     const {
       parsedTransactions,
