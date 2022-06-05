@@ -39,3 +39,34 @@ export const getAssetsFromCovalent = async (
   }
   return null;
 };
+
+export const getTransactionsFromCovalent = async (
+  chainId: Number,
+  accountAddress: EthereumAddress,
+  currency: string
+) => {
+  try {
+    const url = `https://api.covalenthq.com/v1/${chainId}/address/${accountAddress}/transactions_v2/`;
+
+    const params = {
+      'key': ios ? COVALENT_IOS_API_KEY : COVALENT_ANDROID_API_KEY,
+      'nft': 'false',
+      'quote-currency': currency,
+    };
+
+    const response = await rainbowFetch(url, {
+      method: 'get',
+      params,
+      timeout: 10000, // 10 secs
+    });
+
+    if (response?.data?.data && !response?.data.error) {
+      return response.data.data;
+    }
+  } catch (e) {
+    Logger.sentry('error fetching assets from covalent for chainId:', chainId);
+    Logger.sentry('Error:', e);
+    captureException(new Error('Covalent assets exception'));
+  }
+  return null;
+};

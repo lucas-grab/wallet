@@ -21,6 +21,7 @@ import {
 } from '@rainbow-me/hooks';
 import Routes from '@rainbow-me/routes';
 import { position } from '@rainbow-me/styles';
+import { getPolygonTransactionsFromCovalent } from '../redux/polygonExplorer';
 
 const ACTIVITY_LIST_INITIALIZATION_DELAY = 5000;
 
@@ -78,6 +79,17 @@ export default function SocialScreen({ navigation }) {
 
   if (network === NetworkTypes.mainnet && nativeTransactionListAvailable) {
     console.log('transactionlist gezeigt');
+    // const data = await getPolygonTransactionsFromCovalent(
+    //   137,
+    //   '0x775A0bb96034f1d59667d7f305af9E39a7599C1d',
+    //   //type,
+    //   'USD'
+    //   // coingeckoIds,
+    //   // allAssets,
+    //   // genericAssets
+    // );
+
+    //console.log('wichtige daaaten   ', data);
   } else {
     console.log('activitylist gezeigt');
   }
