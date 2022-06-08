@@ -420,7 +420,7 @@ export const emitChartsRequest = (
 export const emitL2TransactionHistoryRequest = () => (dispatch, getState) => {
   const { accountAddress, nativeCurrency } = getState().settings;
   const { addressSocket } = getState().explorer;
-  console.log('emitL2TransactionHistoryRequest');
+
   addressSocket.emit(
     ...l2AddressTransactionHistoryRequest(accountAddress, nativeCurrency)
   );
@@ -447,7 +447,6 @@ const listenOnAssetMessages = socket => dispatch => {
 
 export const explorerInitL2 = (network = null) => (dispatch, getState) => {
   if (getState().settings.network === NetworkTypes.mainnet) {
-    console.log('assets received in explorer.js');
     switch (network) {
       case NetworkTypes.arbitrum:
         // Start watching arbitrum assets
@@ -478,7 +477,7 @@ const listenOnAddressMessages = socket => dispatch => {
 
   socket.on(messages.ADDRESS_TRANSACTIONS.RECEIVED, message => {
     // logger.log('txns received', message?.payload?.transactions);
-    console.log('normal socket');
+
     dispatch(emitL2TransactionHistoryRequest());
     dispatch(transactionsReceived(message));
   });

@@ -94,8 +94,8 @@ const ActivityList = ({
     return currentPendingTransactionsCount;
   }, [sections, requests]);
 
-  console.log(network);
-  console.log(JSON.stringify(sections));
+  // console.log(network);
+  // console.log(JSON.stringify(sections));
 
   return network === networkTypes.mainnet || sections.length ? (
     <RecyclerActivityList

@@ -50,7 +50,6 @@ export const getTransactionsFromCovalent = async (
 
     const params = {
       'key': ios ? COVALENT_IOS_API_KEY : COVALENT_ANDROID_API_KEY,
-      'nft': 'false',
       'quote-currency': currency,
     };
 
@@ -64,9 +63,9 @@ export const getTransactionsFromCovalent = async (
       return response.data.data;
     }
   } catch (e) {
-    Logger.sentry('error fetching assets from covalent for chainId:', chainId);
+    Logger.sentry('Error fetching transactions from covalent for chainId:', chainId);
     Logger.sentry('Error:', e);
-    captureException(new Error('Covalent assets exception'));
+    captureException(new Error('Covalent transactions exception'));
   }
   return null;
 };

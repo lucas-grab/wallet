@@ -508,7 +508,6 @@ export const addressAssetsReceived = (
   removed = false,
   assetsNetwork = null
 ) => (dispatch, getState) => {
-  console.log('assets received in data.js');
   const isValidMeta = dispatch(checkMeta(message));
   if (!isValidMeta) return;
   const { accountAddress, network } = getState().settings;

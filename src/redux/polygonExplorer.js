@@ -6,7 +6,10 @@ import { addressAssetsReceived, fetchAssetPricesWithCoingecko } from './data';
 import { emitAssetRequest, emitChartsRequest } from './explorer';
 import { AssetTypes } from '@rainbow-me/entities';
 //import networkInfo from '@rainbow-me/helpers/networkInfo';
-import { getAssetsFromCovalent } from '@rainbow-me/handlers/covalent';
+import {
+  getAssetsFromCovalent,
+  getTransactionsFromCovalent,
+} from '@rainbow-me/handlers/covalent';
 import networkInfo from '@rainbow-me/helpers/networkInfo';
 import networkTypes from '@rainbow-me/helpers/networkTypes';
 import {
@@ -70,12 +73,10 @@ const fetchAssetsMapping = async () => {
 export const getPolygonTransactionsFromCovalent = async (
   chainId,
   accountAddress,
-  //type,
   currency
-  // coingeckoIds,
-  // allAssets,
-  // genericAssets
 ) => {
+  console.log(accountAddress);
+
   const data = await getTransactionsFromCovalent(
     chainId,
     accountAddress,
@@ -85,62 +86,32 @@ export const getPolygonTransactionsFromCovalent = async (
   if (data) {
     const updatedAt = new Date(data.updated_at).getTime();
 
-    // da muss man
-    const assets = data.items.map(item => {
-      // let mainnetAddress = tokenMapping[toLower(item.contract_address)];
-      // let coingeckoId = coingeckoIds[toLower(mainnetAddress)];
-      // let price = {
-      //   changed_at: updatedAt,
-      //   relative_change_24h: 0,
-      // };
+    const transactions = data.items.map(item => {
+      if (item.to_address === '0x2791bca1f2de4661ed88a30c99a7a9449aa84174') {
+        const tx_hash = item.tx_hash;
+        const from_address = item.from_address;
+        const blockTimestamp = item.block_signed_at;
+        const to_address = item.log_events[1].decoded.params[1].value;
+        const value = item.log_events[1].decoded.params[2].value;
 
-      // // Overrides
-      // if (toLower(mainnetAddress) === toLower(COVALENT_ETH_ADDRESS)) {
-      //   mainnetAddress = WETH_ADDRESS;
-      //   coingeckoId = 'ethereum';
-      // } else if (
-      //   toLower(item.contract_address) === toLower(MATIC_POLYGON_ADDRESS)
-      // ) {
-      //   mainnetAddress = MATIC_MAINNET_ADDRESS;
-      //   coingeckoId = 'matic-network';
-      // }
+        const returnItem = {
+          updatedAt,
+          tx_hash,
+          from_address,
+          to_address,
+          blockTimestamp,
+          value,
+        };
 
-      // const fallbackAsset =
-      //   ethereumUtils.getAsset(allAssets, toLower(mainnetAddress)) ||
-      //   genericAssets[toLower(mainnetAddress)];
-
-      // if (fallbackAsset) {
-      //   price = {
-      //     ...price,
-      //     ...fallbackAsset.price,
-      //   };
-      // }
-
-      return {
-        test: 'teeest',
-        tx_hash: item.tx_hash,
-        sender: item.fromAddress,
-        receiver: item.log_events.decoded,
-        // asset: {
-        //   asset_code: item.contract_address,
-        //   coingecko_id: coingeckoId,
-        //   decimals: item.contract_decimals,
-        //   icon_url: item.logo_url,
-        //   mainnet_address: mainnetAddress,
-        //   name: item.contract_name?.replace(' (PoS)', ''),
-        //   network: networkTypes.polygon,
-        //   price: {
-        //     value: item.quote_rate || 0,
-        //     ...price,
-        //   },
-        //   symbol: item.contract_ticker_symbol,
-        //   type,
-        // },
-        // quantity: Number(item.balance),
-      };
+        return returnItem;
+      } else {
+        console.log('Not a USDC transaction.');
+      }
     });
 
-    return assets;
+    return transactions;
+  } else {
+    console.log('No data from covalent');
   }
   return null;
 };
@@ -213,7 +184,6 @@ const getPolygonAssetsFromCovalent = async (
 };
 
 export const polygonExplorerInit = () => async (dispatch, getState) => {
-  console.log('assets received in polygonexplorer.js');
   if (networkInfo[networkTypes.polygon]?.disabled) return;
   const { accountAddress, nativeCurrency } = getState().settings;
   const { assets: allAssets, genericAssets } = getState().data;

@@ -22,6 +22,11 @@ import {
 import Routes from '@rainbow-me/routes';
 import { position } from '@rainbow-me/styles';
 import { getPolygonTransactionsFromCovalent } from '../redux/polygonExplorer';
+import { hash } from 'react-native-fs';
+import { toArray } from 'lodash';
+import { address } from 'src/utils/abbreviations';
+import { namehash } from 'ethers/lib/utils';
+import { timeStamp } from 'console';
 
 const ACTIVITY_LIST_INITIALIZATION_DELAY = 5000;
 
@@ -77,22 +82,52 @@ export default function SocialScreen({ navigation }) {
   const addCashAvailable =
     IS_TESTING === 'true' ? false : addCashSupportedNetworks;
 
-  if (network === NetworkTypes.mainnet && nativeTransactionListAvailable) {
-    console.log('transactionlist gezeigt');
-    // const data = await getPolygonTransactionsFromCovalent(
-    //   137,
-    //   '0x775A0bb96034f1d59667d7f305af9E39a7599C1d',
-    //   //type,
-    //   'USD'
-    //   // coingeckoIds,
-    //   // allAssets,
-    //   // genericAssets
-    // );
+  async function getTransactions() {
+    const transactions = [];
 
-    //console.log('wichtige daaaten   ', data);
-  } else {
-    console.log('activitylist gezeigt');
+    for await (const [key, value] of Object.entries(contacts)) {
+      try {
+        const transactionData = await getPolygonTransactionsFromCovalent(
+          137,
+          key,
+          'eur'
+        );
+
+        transactionData.map(item => {
+          if (item) {
+            let from_nickname = 'unknown';
+            let to_nickname = 'unknown';
+
+            if (item.from_address === key) {
+              from_nickname = value.nickname;
+            } else if (item.to_address === key) {
+              to_nickname = value.nickname;
+            }
+
+            const returnItem = {
+              tx_hash: item.tx_hash,
+              from_address: item.from_address,
+              to_address: item.to_address,
+              value: item.value,
+              blockTimestamp: item.blockTimestamp,
+              updatedAt: item.updatedAt,
+              from_nickname,
+              to_nickname,
+            };
+
+            transactions.push(returnItem);
+          }
+        });
+      } catch (e) {
+        console.log('Error: ', e);
+      }
+    }
+    return transactions;
   }
+
+  useEffect(() => {
+    getTransactions();
+  }, [contacts]);
 
   return (
     <SocialScreenPage testID="social-screen">
