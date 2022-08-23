@@ -32,6 +32,7 @@ import {
   RequestCoinRow,
   TransactionCoinRow,
 } from '../components/coin-row';
+import SocialList from '../components/coin-row/SocialList';
 
 const ACTIVITY_LIST_INITIALIZATION_DELAY = 5000;
 
@@ -129,70 +130,53 @@ export default function SocialScreen({ navigation }) {
         console.log('Error: ', e);
       }
     }
+
     return transactions;
   }
+
+  const testdata = {
+    address: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
+    balance: { amount: '0.05379', display: '0.0538 USDC' },
+    contact: {
+      address: '0xff9f04827d1d698a9114f9eec6a38bf9d839602e',
+      color: 1,
+      network: 'mainnet',
+      nickname: 'Kontakt12',
+    },
+    data:
+      '0xa9059cbb000000000000000000000000ff9f04827d1d698a9114f9eec6a38bf9d839602e000000000000000000000000000000000000000000000000000000000000d21e',
+    description: 'USD Coin',
+    from: '0x6EAe616f37A3840160C82fb745F39F77207E5B6d',
+    gasLimit: '59151',
+    gasPrice: 53000000000,
+    hash:
+      '0x5b81dc954aa8fd43db69a4b8aaa0ff224b8a085ad15f49367a5f2cee919cd337-0',
+    minedAt: 1654697206,
+    name: 'USD Coin',
+    native: { amount: '', display: '' },
+    network: 'polygon',
+    nonce: 42,
+    pending: false,
+    status: 'sent',
+    symbol: 'USDC',
+    title: 'Sent',
+    to: '0xff9f04827D1D698A9114F9EEC6A38bf9D839602E',
+    txTo: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
+    type: 'send',
+    value: '0x00',
+  };
 
   useEffect(() => {
     (async () => {
       const newTransactions = await getTransactions();
-      setSocialTransactions(arr => [...arr, newTransactions]);
+      //setSocialTransactions(arr => [...arr, newTransactions]);
+      setSocialTransactions(arr => arr.concat(newTransactions));
       console.log('effect2 ran');
     })();
-  }, []);
+  }, [contacts]);
 
   const testarr = ['testarr1', 'qsd'];
   const varr = 'varible test';
-
-  function showTransactions() {
-    const transactions = getTransactions();
-
-    // if (transactions) {
-    //   const trans = transactions[0];
-
-    //   const tData = {
-    //     address: 'random string',
-    //     balance: { amount: trans.value, display: trans.value }, //not working
-    //     contact: {
-    //       address: '0x3304eb0db17cdf9fb876e728084dc959adddcc81',
-    //       color: 12,
-    //       network: 'mainnet',
-    //       nickname: '🐷 Phone L',
-    //     },
-    //     dappName: undefined,
-    //     data:
-    //       '0xa9059cbb0000000000000000000000003304eb0db17cdf9fb876e728084dc959adddcc810000000000000000000000000000000000000000000000000000000000019a9e',
-    //     description: 'USD Coin',
-    //     from: trans.from_address,
-    //     gasLimit: '1',
-    //     gasPrice: 1,
-    //     hash: trans.tx + '-0',
-    //     minedAt: 1,
-    //     name: 'USD Coin',
-    //     native: { amount: '', display: '' },
-    //     network: 'polygon',
-    //     nonce: 43,
-    //     pending: false,
-    //     protocol: undefined,
-    //     sourceAmount: undefined,
-    //     status: 'sent',
-    //     symbol: 'USDC',
-    //     title: 'Sent',
-    //     to: trans.to_address,
-    //     transferId: undefined,
-    //     txTo: '1',
-    //     type: 'send',
-    //     value: '0x00',
-    //   };
-
-    //   console.log('tdata', tData);
-    // }
-    return <Text> test</Text>;
-  }
-  function fprint() {
-    console.log('009');
-    console.log(socialTransactions);
-    return 'test009';
-  }
 
   return (
     <SocialScreenPage testID="social-screen">
@@ -222,37 +206,11 @@ export default function SocialScreen({ navigation }) {
         SOCIAL WALLET
       </Text>
 
-      {/* <View>
-        {testarr.map(t => {
-          <Text>{t} </Text>;
-        })}
+      <ProfileMasthead onChangeWallet={onChangeWallet} />
 
-        {() => {
-          <Text>asdasd</Text>;
-        }}
-      </View>
+      <SocialList socialTransactions={socialTransactions} />
 
-      <Text>
-        {socialTransactions.map(t => {
-          return t.value;
-        })}
-      </Text>
-
-     
-
-      {console.log('sociiial' + socialTransactions.map(t => {return t)})} */}
-
-      <Text>{fprint()}</Text>
-
-      {/* <Text>{JSON.stringify(socialTransactions)}</Text>
-
-      <Text>
-        {socialTransactions.map(t => {
-          return t.tx_hash;
-        })}
-      </Text> */}
-
-      <ActivityList
+      {/* <ActivityList
         addCashAvailable={false}
         header={
           <ProfileMasthead
@@ -267,7 +225,7 @@ export default function SocialScreen({ navigation }) {
         recyclerListView={ios}
         sections={sections}
         {...accountTransactions}
-      />
+      /> */}
     </SocialScreenPage>
   );
 }

@@ -68,6 +68,9 @@ const BottomRow = ({ description, native, status, type }) => {
         weight={isReceived ? 'medium' : null}
       >
         {balanceText}
+        {
+          //L Hier wird der balance text eingefügt
+        }
       </BalanceText>
     </Row>
   );
