@@ -1,7 +1,7 @@
 import { useIsFocused } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 import { IS_TESTING } from 'react-native-dotenv';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import styled from 'styled-components';
 import { ActivityList } from '../components/activity-list';
 import { BackButton, Header, HeaderButton } from '../components/header';
@@ -27,6 +27,11 @@ import { toArray } from 'lodash';
 import { address } from 'src/utils/abbreviations';
 import { namehash } from 'ethers/lib/utils';
 import { timeStamp } from 'console';
+import {
+  ContractInteractionCoinRow,
+  RequestCoinRow,
+  TransactionCoinRow,
+} from '../components/coin-row';
 
 const ACTIVITY_LIST_INITIALIZATION_DELAY = 5000;
 
@@ -57,6 +62,8 @@ export default function SocialScreen({ navigation }) {
   const { network } = useAccountSettings();
 
   const isEmpty = !transactionsCount && !pendingRequestCount;
+
+  const [socialTransactions, setSocialTransactions] = useState([]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -126,8 +133,66 @@ export default function SocialScreen({ navigation }) {
   }
 
   useEffect(() => {
-    getTransactions();
-  }, [contacts]);
+    (async () => {
+      const newTransactions = await getTransactions();
+      setSocialTransactions(arr => [...arr, newTransactions]);
+      console.log('effect2 ran');
+    })();
+  }, []);
+
+  const testarr = ['testarr1', 'qsd'];
+  const varr = 'varible test';
+
+  function showTransactions() {
+    const transactions = getTransactions();
+
+    // if (transactions) {
+    //   const trans = transactions[0];
+
+    //   const tData = {
+    //     address: 'random string',
+    //     balance: { amount: trans.value, display: trans.value }, //not working
+    //     contact: {
+    //       address: '0x3304eb0db17cdf9fb876e728084dc959adddcc81',
+    //       color: 12,
+    //       network: 'mainnet',
+    //       nickname: '🐷 Phone L',
+    //     },
+    //     dappName: undefined,
+    //     data:
+    //       '0xa9059cbb0000000000000000000000003304eb0db17cdf9fb876e728084dc959adddcc810000000000000000000000000000000000000000000000000000000000019a9e',
+    //     description: 'USD Coin',
+    //     from: trans.from_address,
+    //     gasLimit: '1',
+    //     gasPrice: 1,
+    //     hash: trans.tx + '-0',
+    //     minedAt: 1,
+    //     name: 'USD Coin',
+    //     native: { amount: '', display: '' },
+    //     network: 'polygon',
+    //     nonce: 43,
+    //     pending: false,
+    //     protocol: undefined,
+    //     sourceAmount: undefined,
+    //     status: 'sent',
+    //     symbol: 'USDC',
+    //     title: 'Sent',
+    //     to: trans.to_address,
+    //     transferId: undefined,
+    //     txTo: '1',
+    //     type: 'send',
+    //     value: '0x00',
+    //   };
+
+    //   console.log('tdata', tData);
+    // }
+    return <Text> test</Text>;
+  }
+  function fprint() {
+    console.log('009');
+    console.log(socialTransactions);
+    return 'test009';
+  }
 
   return (
     <SocialScreenPage testID="social-screen">
@@ -156,6 +221,36 @@ export default function SocialScreen({ navigation }) {
       <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 20 }}>
         SOCIAL WALLET
       </Text>
+
+      {/* <View>
+        {testarr.map(t => {
+          <Text>{t} </Text>;
+        })}
+
+        {() => {
+          <Text>asdasd</Text>;
+        }}
+      </View>
+
+      <Text>
+        {socialTransactions.map(t => {
+          return t.value;
+        })}
+      </Text>
+
+     
+
+      {console.log('sociiial' + socialTransactions.map(t => {return t)})} */}
+
+      <Text>{fprint()}</Text>
+
+      {/* <Text>{JSON.stringify(socialTransactions)}</Text>
+
+      <Text>
+        {socialTransactions.map(t => {
+          return t.tx_hash;
+        })}
+      </Text> */}
 
       <ActivityList
         addCashAvailable={false}
