@@ -10,6 +10,11 @@ import firestore from '@react-native-firebase/firestore';
 const addressesCollection = firestore().collection('Addresses');
 
 export function saveTransactionNote(address, transactionHash, note) {
+  console.log('FIREBASE FUCTIONS');
+  console.log('firebase: ', address);
+  console.log('firebase: ', transactionHash);
+  console.log('firebase: ', note);
+
   addressesCollection
     .doc(address)
     .collection('transactions')
@@ -20,6 +25,14 @@ export function saveTransactionNote(address, transactionHash, note) {
     .then(() => {
       console.log('New transaction note was added to firebase');
     });
+}
+
+export function getTransactionNote(transactionHash) {
+  // vom transaction hash -> die note. alle meine adressen (außer meine eigene) durchsuchen, ob die transactions da drin auf den tx hash matchen
+  // const querySnapshot = await db.collectionGroup('landmarks').where('type', '==', 'museum').get();
+  // querySnapshot.forEach((doc) => {
+  //   console.log(doc.id, ' => ', doc.data());
+  // });index.js
 }
 
 export const getFCMToken = async () => {

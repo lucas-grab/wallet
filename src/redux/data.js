@@ -883,10 +883,13 @@ export const dataWatchPendingTransactions = (
             logger.log('TX CONFIRMED!', txObj);
 
             // Sending transaction note to firebase
+
             const address = txObj.from;
             const transactionHash = txObj.hash;
             const transactionNote = getState().data.transactionNote;
             saveTransactionNote(address, transactionHash, transactionNote);
+
+            console.log('FIREBASE SHOULD BE TERHER');
 
             if (!nonceAlreadyIncluded) {
               appEvents.emit('transactionConfirmed', txObj);

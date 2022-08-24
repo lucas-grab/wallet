@@ -87,6 +87,7 @@ export const getPolygonTransactionsFromCovalent = async (
     const updatedAt = new Date(data.updated_at).getTime();
 
     const transactions = data.items.map(item => {
+      // Standard usdc contract address
       if (item.to_address === '0x2791bca1f2de4661ed88a30c99a7a9449aa84174') {
         const tx_hash = item.tx_hash;
         const from_address = item.from_address;
@@ -105,7 +106,7 @@ export const getPolygonTransactionsFromCovalent = async (
 
         return returnItem;
       } else {
-        console.log('Not a USDC transaction.');
+        //console.log('Not a USDC transaction.');
       }
     });
 

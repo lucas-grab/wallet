@@ -192,6 +192,7 @@ export default function WalletScreen() {
         </HeaderOpacityToggler>
 
         <AssetList
+          addCashAvailable={false}
           disableRefreshControl={isLoadingAssets}
           fetchData={refreshAccountData}
           isEmpty={isAccountEmpty || !!params?.emptyWallet}

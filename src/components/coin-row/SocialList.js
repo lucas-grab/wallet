@@ -1,30 +1,43 @@
 import { Text, View, FlatList, StyleSheet, Pressable } from 'react-native';
 import React from 'react';
 import { colors } from '@rainbow-me/styles';
+import { formatDistanceToNowStrict } from 'date-fns';
+import store from '@rainbow-me/redux/store';
 
 function renderSocialItem(itemData) {
+  const { accountAddress } = store.getState().settings;
+
+  var from_nickname = itemData.item.from_nickname;
+  var to_nickname = itemData.item.to_nickname;
+
+  if (itemData.item.from_address === accountAddress.toLowerCase()) {
+    from_nickname = 'Me';
+  } else if (itemData.item.to_address === accountAddress.toLowerCase()) {
+    to_nickname = 'Me';
+  }
+
   return (
     <Pressable>
       <View style={styles.item}>
         <View>
           <Text style={[styles.textBase, styles.description]}>
-            {itemData.item.from_nickname} ➠ {itemData.item.to_nickname}
+            {from_nickname} ➠ {to_nickname}
           </Text>
           <Text style={styles.textBase}>
-            WHEN: {itemData.item.blockTimestamp}
+            {formatDistanceToNowStrict(new Date(itemData.item.blockTimestamp))}{' '}
+            ago
           </Text>
         </View>
 
-        <View style={styles.amountContainer}>
+        {/* <View style={styles.amountContainer}>
           <Text style={styles.amount}>AMOUNT: {itemData.item.value}</Text>
-        </View>
+        </View> */}
       </View>
     </Pressable>
   );
 }
 
 function SocialList({ socialTransactions }) {
-  console.log(socialTransactions[0]);
   return (
     <View style={styles.container}>
       <FlatList
