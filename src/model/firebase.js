@@ -7,33 +7,39 @@ import { getLocal, saveLocal } from '../handlers/localstorage/common';
 import logger from 'logger';
 import firestore from '@react-native-firebase/firestore';
 
-const addressesCollection = firestore().collection('Addresses');
+const db = firestore();
+const addressesCollection = db.collection('Addresses');
 
 export function saveTransactionNote(address, transactionHash, note) {
-  console.log('FIREBASE FUCTIONS');
-  console.log('firebase: ', address);
-  console.log('firebase: ', transactionHash);
-  console.log('firebase: ', note);
-
   addressesCollection
     .doc(address)
     .collection('transactions')
     .doc(transactionHash)
     .set({
       note: note,
+      timestamp: firestore.FieldValue.serverTimestamp(),
     })
     .then(() => {
       console.log('New transaction note was added to firebase');
     });
 }
 
-export function getTransactionNote(transactionHash) {
-  // vom transaction hash -> die note. alle meine adressen (außer meine eigene) durchsuchen, ob die transactions da drin auf den tx hash matchen
-  // const querySnapshot = await db.collectionGroup('landmarks').where('type', '==', 'museum').get();
-  // querySnapshot.forEach((doc) => {
-  //   console.log(doc.id, ' => ', doc.data());
-  // });index.js
-}
+export const getTransactionNotes = async () => {
+  const querySnapshot = await db
+    .collectionGroup('transactions')
+    //.orderBy('timestamp', 'desc')
+    .get();
+  const notes = [];
+  querySnapshot.forEach(doc => {
+    notes.push({
+      tx_hash: doc.id,
+      note: doc.data().note,
+      timestamp: doc.data().timestamp,
+    });
+  });
+
+  return notes;
+};
 
 export const getFCMToken = async () => {
   const fcmTokenLocal = await getLocal('rainbowFcmToken');
