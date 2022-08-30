@@ -27,6 +27,9 @@ function renderSocialItem(itemData) {
             {formatDistanceToNowStrict(new Date(itemData.item.blockTimestamp))}{' '}
             ago
           </Text>
+          <Text style={(styles.textBase, styles.description)}>
+            {itemData.item.note}
+          </Text>
         </View>
 
         {/* <View style={styles.amountContainer}>
@@ -38,6 +41,9 @@ function renderSocialItem(itemData) {
 }
 
 function SocialList({ socialTransactions }) {
+  // console.log('social ts ----------------------  ');
+  // console.log(socialTransactions);
+
   return (
     <View style={styles.container}>
       <FlatList

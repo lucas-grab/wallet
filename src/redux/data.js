@@ -889,8 +889,6 @@ export const dataWatchPendingTransactions = (
             const transactionNote = getState().data.transactionNote;
             saveTransactionNote(address, transactionHash, transactionNote);
 
-            console.log('FIREBASE SHOULD BE TERHER');
-
             if (!nonceAlreadyIncluded) {
               appEvents.emit('transactionConfirmed', txObj);
             }
