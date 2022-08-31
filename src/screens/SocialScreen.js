@@ -108,8 +108,8 @@ export default function SocialScreen({ navigation }) {
         if (transactionData) {
           transactionData.map(item => {
             if (item) {
-              let from_nickname = 'unknown';
-              let to_nickname = 'unknown';
+              let from_nickname = 'Unknown';
+              let to_nickname = 'Unknown';
 
               const returnItem = {
                 tx_hash: item.tx_hash,
@@ -118,8 +118,8 @@ export default function SocialScreen({ navigation }) {
                 value: item.value,
                 blockTimestamp: item.blockTimestamp,
                 updatedAt: item.updatedAt,
-                from_nickname,
-                to_nickname,
+                from_nickname: from_nickname,
+                to_nickname: to_nickname,
               };
 
               if (!uniqueIds.includes(returnItem.tx_hash)) {
@@ -135,12 +135,6 @@ export default function SocialScreen({ navigation }) {
     }
 
     transactions.map(t => {
-      if (t.from_address === accountAddress.toLowerCase()) {
-        t.from_nickname = 'Me';
-      } else if (t.to_address === accountAddress.toLowerCase()) {
-        t.to_nickname = 'Me';
-      }
-
       for (const [key, value] of Object.entries(contacts)) {
         if (t.from_address === key) {
           t.from_nickname = value.nickname;
@@ -192,6 +186,12 @@ export default function SocialScreen({ navigation }) {
       const transactionNotes = await getTransactionNotes();
 
       newTransactions.forEach(t => {
+        if (t.from_address === accountAddress.toLowerCase()) {
+          t.from_nickname = 'Me';
+        } else if (t.to_address === accountAddress.toLowerCase()) {
+          t.to_nickname = 'Me';
+        }
+
         transactionNotes.forEach(n => {
           if (t.tx_hash === n.tx_hash) {
             t.note = n.note;
