@@ -10,13 +10,6 @@ function renderSocialItem(itemData) {
   var from_nickname = itemData.item.from_nickname;
   var to_nickname = itemData.item.to_nickname;
 
-  // todo: dass dort hin wo auch andere names gesetzt werden
-  // if (itemData.item.from_address === accountAddress.toLowerCase()) {
-  //   from_nickname = 'Me';
-  // } else if (itemData.item.to_address === accountAddress.toLowerCase()) {
-  //   to_nickname = 'Me';
-  // }
-
   return (
     <Pressable>
       <View style={styles.item}>

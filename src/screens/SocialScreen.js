@@ -35,6 +35,7 @@ import {
 import SocialList from '../components/coin-row/SocialList';
 import { getTransactionNotes } from '../model/firebase';
 import { func } from 'prop-types';
+import store from '@rainbow-me/redux/store';
 
 const ACTIVITY_LIST_INITIALIZATION_DELAY = 5000;
 
@@ -63,7 +64,7 @@ export default function SocialScreen({ navigation }) {
   const { contacts } = useContacts();
   const { pendingRequestCount, requests } = useRequests();
   const { network } = useAccountSettings();
-
+  const { accountAddress } = store.getState().settings;
   const isEmpty = !transactionsCount && !pendingRequestCount;
 
   const [socialTransactions, setSocialTransactions] = useState([]);
@@ -92,7 +93,6 @@ export default function SocialScreen({ navigation }) {
   const addCashAvailable =
     IS_TESTING === 'true' ? false : addCashSupportedNetworks;
 
-  // fix: passt
   async function getTransactions() {
     const transactions = [];
     const uniqueIds = [];
@@ -135,6 +135,12 @@ export default function SocialScreen({ navigation }) {
     }
 
     transactions.map(t => {
+      if (t.from_address === accountAddress.toLowerCase()) {
+        t.from_nickname = 'Me';
+      } else if (t.to_address === accountAddress.toLowerCase()) {
+        t.to_nickname = 'Me';
+      }
+
       for (const [key, value] of Object.entries(contacts)) {
         if (t.from_address === key) {
           t.from_nickname = value.nickname;
@@ -144,9 +150,6 @@ export default function SocialScreen({ navigation }) {
         }
       }
     });
-
-    console.log('og ts----------------');
-    console.log(transactions);
 
     return transactions;
   }
@@ -208,7 +211,7 @@ export default function SocialScreen({ navigation }) {
 
       setSocialTransactions(newTransactions);
     })();
-  });
+  }, [contacts, accountAddress]);
 
   return (
     <SocialScreenPage testID="social-screen">
