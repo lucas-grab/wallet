@@ -10,11 +10,12 @@ function renderSocialItem(itemData) {
   var from_nickname = itemData.item.from_nickname;
   var to_nickname = itemData.item.to_nickname;
 
-  if (itemData.item.from_address === accountAddress.toLowerCase()) {
-    from_nickname = 'Me';
-  } else if (itemData.item.to_address === accountAddress.toLowerCase()) {
-    to_nickname = 'Me';
-  }
+  // todo: dass dort hin wo auch andere names gesetzt werden
+  // if (itemData.item.from_address === accountAddress.toLowerCase()) {
+  //   from_nickname = 'Me';
+  // } else if (itemData.item.to_address === accountAddress.toLowerCase()) {
+  //   to_nickname = 'Me';
+  // }
 
   return (
     <Pressable>
@@ -43,6 +44,8 @@ function renderSocialItem(itemData) {
 function SocialList({ socialTransactions }) {
   // console.log('social ts ----------------------  ');
   // console.log(socialTransactions);
+
+  //console('ts', { socialTransactions });
 
   return (
     <View style={styles.container}>

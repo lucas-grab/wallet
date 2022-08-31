@@ -25,20 +25,24 @@ export function saveTransactionNote(address, transactionHash, note) {
 }
 
 export const getTransactionNotes = async () => {
-  const querySnapshot = await db
-    .collectionGroup('transactions')
-    //.orderBy('timestamp', 'desc')
-    .get();
-  const notes = [];
-  querySnapshot.forEach(doc => {
-    notes.push({
-      tx_hash: doc.id,
-      note: doc.data().note,
-      timestamp: doc.data().timestamp,
+  try {
+    const querySnapshot = await db
+      .collectionGroup('transactions')
+      // .orderBy('timestamp', 'desc')
+      .get();
+    const notes = [];
+    querySnapshot.forEach(doc => {
+      notes.push({
+        tx_hash: doc.id,
+        note: doc.data().note,
+        timestamp: doc.data().timestamp,
+      });
     });
-  });
 
-  return notes;
+    return notes;
+  } catch (error) {
+    logger.log('error while getting transaction notes', error);
+  }
 };
 
 export const getFCMToken = async () => {

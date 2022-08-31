@@ -33,6 +33,8 @@ import {
   TransactionCoinRow,
 } from '../components/coin-row';
 import SocialList from '../components/coin-row/SocialList';
+import { getTransactionNotes } from '../model/firebase';
+import { func } from 'prop-types';
 
 const ACTIVITY_LIST_INITIALIZATION_DELAY = 5000;
 
@@ -90,8 +92,10 @@ export default function SocialScreen({ navigation }) {
   const addCashAvailable =
     IS_TESTING === 'true' ? false : addCashSupportedNetworks;
 
+  // fix: passt
   async function getTransactions() {
     const transactions = [];
+    const uniqueIds = [];
 
     for await (const [key, value] of Object.entries(contacts)) {
       try {
@@ -101,82 +105,110 @@ export default function SocialScreen({ navigation }) {
           'eur'
         );
 
-        transactionData.map(item => {
-          if (item) {
-            let from_nickname = 'unknown';
-            let to_nickname = 'unknown';
+        if (transactionData) {
+          transactionData.map(item => {
+            if (item) {
+              let from_nickname = 'unknown';
+              let to_nickname = 'unknown';
 
-            if (item.from_address === key) {
-              from_nickname = value.nickname;
-            } else if (item.to_address === key) {
-              to_nickname = value.nickname;
+              const returnItem = {
+                tx_hash: item.tx_hash,
+                from_address: item.from_address,
+                to_address: item.to_address,
+                value: item.value,
+                blockTimestamp: item.blockTimestamp,
+                updatedAt: item.updatedAt,
+                from_nickname,
+                to_nickname,
+              };
+
+              if (!uniqueIds.includes(returnItem.tx_hash)) {
+                transactions.push(returnItem);
+                uniqueIds.push(returnItem.tx_hash);
+              }
             }
-
-            const returnItem = {
-              tx_hash: item.tx_hash,
-              from_address: item.from_address,
-              to_address: item.to_address,
-              value: item.value,
-              blockTimestamp: item.blockTimestamp,
-              updatedAt: item.updatedAt,
-              from_nickname,
-              to_nickname,
-            };
-
-            transactions.push(returnItem);
-          }
-        });
+          });
+        }
       } catch (e) {
         console.log('Error: ', e);
       }
     }
 
+    transactions.map(t => {
+      for (const [key, value] of Object.entries(contacts)) {
+        if (t.from_address === key) {
+          t.from_nickname = value.nickname;
+        }
+        if (t.to_address === key) {
+          t.to_nickname = value.nickname;
+        }
+      }
+    });
+
+    console.log('og ts----------------');
+    console.log(transactions);
+
     return transactions;
   }
 
-  const testdata = {
-    address: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
-    balance: { amount: '0.05379', display: '0.0538 USDC' },
-    contact: {
-      address: '0xff9f04827d1d698a9114f9eec6a38bf9d839602e',
-      color: 1,
-      network: 'mainnet',
-      nickname: 'Kontakt12',
-    },
-    data:
-      '0xa9059cbb000000000000000000000000ff9f04827d1d698a9114f9eec6a38bf9d839602e000000000000000000000000000000000000000000000000000000000000d21e',
-    description: 'USD Coin',
-    from: '0x6EAe616f37A3840160C82fb745F39F77207E5B6d',
-    gasLimit: '59151',
-    gasPrice: 53000000000,
-    hash:
-      '0x5b81dc954aa8fd43db69a4b8aaa0ff224b8a085ad15f49367a5f2cee919cd337-0',
-    minedAt: 1654697206,
-    name: 'USD Coin',
-    native: { amount: '', display: '' },
-    network: 'polygon',
-    nonce: 42,
-    pending: false,
-    status: 'sent',
-    symbol: 'USDC',
-    title: 'Sent',
-    to: '0xff9f04827D1D698A9114F9EEC6A38bf9D839602E',
-    txTo: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
-    type: 'send',
-    value: '0x00',
-  };
+  // const testdata = {
+  //   address: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
+  //   balance: { amount: '0.05379', display: '0.0538 USDC' },
+  //   contact: {
+  //     address: '0xff9f04827d1d698a9114f9eec6a38bf9d839602e',
+  //     color: 1,
+  //     network: 'mainnet',
+  //     nickname: 'Kontakt12',
+  //   },
+  //   data:
+  //     '0xa9059cbb000000000000000000000000ff9f04827d1d698a9114f9eec6a38bf9d839602e000000000000000000000000000000000000000000000000000000000000d21e',
+  //   description: 'USD Coin',
+  //   from: '0x6EAe616f37A3840160C82fb745F39F77207E5B6d',
+  //   gasLimit: '59151',
+  //   gasPrice: 53000000000,
+  //   hash:
+  //     '0x5b81dc954aa8fd43db69a4b8aaa0ff224b8a085ad15f49367a5f2cee919cd337-0',
+  //   minedAt: 1654697206,
+  //   name: 'USD Coin',
+  //   native: { amount: '', display: '' },
+  //   network: 'polygon',
+  //   nonce: 42,
+  //   pending: false,
+  //   status: 'sent',
+  //   symbol: 'USDC',
+  //   title: 'Sent',
+  //   to: '0xff9f04827D1D698A9114F9EEC6A38bf9D839602E',
+  //   txTo: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
+  //   type: 'send',
+  //   value: '0x00',
+  // };
 
   useEffect(() => {
     (async () => {
       const newTransactions = await getTransactions();
-      //setSocialTransactions(arr => [...arr, newTransactions]);
-      setSocialTransactions(arr => arr.concat(newTransactions));
-      console.log('effect2 ran');
-    })();
-  }, [contacts]);
+      const transactionNotes = await getTransactionNotes();
 
-  const testarr = ['testarr1', 'qsd'];
-  const varr = 'varible test';
+      newTransactions.forEach(t => {
+        transactionNotes.forEach(n => {
+          if (t.tx_hash === n.tx_hash) {
+            t.note = n.note;
+          }
+        });
+      });
+
+      console.log('new transactions ts----------------');
+      console.log(newTransactions);
+
+      // const sortedTransactions = newTransactions.sort(function (a, b) {
+      //   console.log('sooooorting ', b.blockTimestamp);
+      //   return b.blockTimestamp - a.blockTimestamp;
+      // });
+
+      // console.log('sorted', sortedTransactions);
+
+      setSocialTransactions(newTransactions);
+    })();
+  });
 
   return (
     <SocialScreenPage testID="social-screen">
