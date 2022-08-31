@@ -10,18 +10,24 @@ function renderSocialItem(itemData) {
   var from_nickname = itemData.item.from_nickname;
   var to_nickname = itemData.item.to_nickname;
 
+  if (itemData.item.from_address === accountAddress.toLowerCase()) {
+    from_nickname = '💰 Me';
+  } else if (itemData.item.to_address === accountAddress.toLowerCase()) {
+    to_nickname = '💰 Me';
+  }
+
   return (
     <Pressable>
       <View style={styles.item}>
         <View>
-          <Text style={[styles.textBase, styles.description]}>
+          <Text style={[styles.people]}>
             {from_nickname} ➠ {to_nickname}
           </Text>
-          <Text style={styles.textBase}>
+          <Text style={styles.textTimestamp}>
             {formatDistanceToNowStrict(new Date(itemData.item.blockTimestamp))}{' '}
             ago
           </Text>
-          <Text style={(styles.textBase, styles.description)}>
+          <Text style={(styles.textBase, styles.note)}>
             {itemData.item.note}
           </Text>
         </View>
@@ -35,11 +41,6 @@ function renderSocialItem(itemData) {
 }
 
 function SocialList({ socialTransactions }) {
-  // console.log('social ts ----------------------  ');
-  // console.log(socialTransactions);
-
-  //console('ts', { socialTransactions });
-
   return (
     <View style={styles.container}>
       <FlatList
@@ -62,18 +63,27 @@ const styles = StyleSheet.create({
   item: {
     padding: 12,
     marginVertical: 8,
-    backgroundColor: colors.alpha,
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderRadius: 6,
   },
-  textBase: {
-    color: colors.appleBlue,
-  },
-  description: {
+  people: {
     fontSize: 16,
     marginBottom: 4,
-    fontWeight: 'bold',
+    marginTop: 4,
+    fontWeight: '600',
+    color: colors.appleBlue,
+  },
+  textTimestamp: {
+    color: colors.blueGreyDark60,
+    fontSize: 14,
+    marginLeft: 4,
+  },
+  note: {
+    fontSize: 16,
+    marginBottom: 4,
+    marginTop: 4,
+    marginLeft: 4,
   },
   amountContainer: {
     paddingHorizontal: 12,

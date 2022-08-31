@@ -18,6 +18,7 @@ import {
   useAccountTransactions,
   useContacts,
   useRequests,
+  useDimensions,
 } from '@rainbow-me/hooks';
 import Routes from '@rainbow-me/routes';
 import { position } from '@rainbow-me/styles';
@@ -36,6 +37,9 @@ import SocialList from '../components/coin-row/SocialList';
 import { getTransactionNotes } from '../model/firebase';
 import { func } from 'prop-types';
 import store from '@rainbow-me/redux/store';
+import { TruncatedText } from '../components/text';
+import Divider from '../components/Divider';
+import { abbreviations } from '@rainbow-me/utils';
 
 const ACTIVITY_LIST_INITIALIZATION_DELAY = 5000;
 
@@ -50,6 +54,7 @@ export default function SocialScreen({ navigation }) {
   const isFocused = useIsFocused();
   const { navigate } = useNavigation();
   const nativeTransactionListAvailable = useNativeTransactionListAvailable();
+  const { width: deviceWidth } = useDimensions();
 
   const accountTransactions = useAccountTransactions(
     activityListInitialized,
@@ -186,12 +191,6 @@ export default function SocialScreen({ navigation }) {
       const transactionNotes = await getTransactionNotes();
 
       newTransactions.forEach(t => {
-        if (t.from_address === accountAddress.toLowerCase()) {
-          t.from_nickname = 'Me';
-        } else if (t.to_address === accountAddress.toLowerCase()) {
-          t.to_nickname = 'Me';
-        }
-
         transactionNotes.forEach(n => {
           if (t.tx_hash === n.tx_hash) {
             t.note = n.note;
@@ -200,7 +199,6 @@ export default function SocialScreen({ navigation }) {
       });
 
       const sortedTransactions = newTransactions.sort(function (a, b) {
-        console.log('sooooorting ', b.blockTimestamp);
         return new Date(b.blockTimestamp) - new Date(a.blockTimestamp);
       });
 
@@ -209,6 +207,8 @@ export default function SocialScreen({ navigation }) {
       setSocialTransactions(sortedTransactions);
     })();
   }, [contacts, accountAddress]);
+
+  const headerText = 'Social Wallet';
 
   return (
     <SocialScreenPage testID="social-screen">
@@ -234,11 +234,11 @@ export default function SocialScreen({ navigation }) {
           onPress={onPressBackButton}
         />
       </Header>
-      <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 20 }}>
-        SOCIAL WALLET
-      </Text>
-
-      <ProfileMasthead onChangeWallet={onChangeWallet} />
+      <View style={{ alignItems: 'center', justifyContent: 'space-between' }}>
+        <AccountName deviceWidth={deviceWidth}>{headerText} </AccountName>
+        <Text> </Text>
+        <ProfileMastheadDivider />
+      </View>
 
       <SocialList socialTransactions={socialTransactions} />
 
@@ -261,3 +261,27 @@ export default function SocialScreen({ navigation }) {
     </SocialScreenPage>
   );
 }
+
+const AccountName = styled(TruncatedText).attrs({
+  align: 'left',
+  firstSectionLength: abbreviations.defaultNumCharsPerSection,
+  letterSpacing: 'roundedMedium',
+  size: 'bigger',
+  truncationLength: 4,
+  weight: 'bold',
+})`
+  height: ${android ? '38' : '33'};
+  margin-top: ${android ? '-10' : '-1'};
+  margin-bottom: ${android ? '10' : '1'};
+  max-width: ${({ deviceWidth }) => deviceWidth - 60};
+  padding-right: 6;
+`;
+
+const ProfileMastheadDivider = styled(Divider).attrs(
+  ({ theme: { colors } }) => ({
+    color: colors.rowDividerLight,
+  })
+)`
+  bottom: 0;
+  position: absolute;
+`;
