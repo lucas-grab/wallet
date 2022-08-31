@@ -199,17 +199,14 @@ export default function SocialScreen({ navigation }) {
         });
       });
 
-      console.log('new transactions ts----------------');
-      console.log(newTransactions);
+      const sortedTransactions = newTransactions.sort(function (a, b) {
+        console.log('sooooorting ', b.blockTimestamp);
+        return new Date(b.blockTimestamp) - new Date(a.blockTimestamp);
+      });
 
-      // const sortedTransactions = newTransactions.sort(function (a, b) {
-      //   console.log('sooooorting ', b.blockTimestamp);
-      //   return b.blockTimestamp - a.blockTimestamp;
-      // });
+      console.log('new transactions ts----------------', sortedTransactions);
 
-      // console.log('sorted', sortedTransactions);
-
-      setSocialTransactions(newTransactions);
+      setSocialTransactions(sortedTransactions);
     })();
   }, [contacts, accountAddress]);
 
