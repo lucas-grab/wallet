@@ -60,7 +60,7 @@ const WalletSelectButton = ({
         >
           {truncatedAccountName}
         </AccountName>
-        {truncatedAccountName ? (
+        {/* {truncatedAccountName ? (
           <DropdownArrow>
             {IS_TESTING !== 'true' && (
               <LinearGradient
@@ -74,7 +74,7 @@ const WalletSelectButton = ({
             )}
             <Icon name="walletSwitcherCaret" />
           </DropdownArrow>
-        ) : null}
+        ) : null} */}
       </Row>
     </ButtonPressAnimation>
   );

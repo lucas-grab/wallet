@@ -320,7 +320,7 @@ export default function TransactionList({
         accountColor={colors.avatarBackgrounds[accountColor]}
         accountImage={safeAccountImage}
         accountName={accountSymbol}
-        addCashAvailable={addCashAvailable}
+        addCashAvailable={false}
         as={NativeTransactionListView}
         avatarOptions={avatarOptions}
         darkMode={isDarkMode}

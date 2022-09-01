@@ -99,9 +99,9 @@ export default function ProfileScreen({ navigation }) {
           onPress={onPressBackButton}
         />
       </Header>
-      {network === NetworkTypes.mainnet && nativeTransactionListAvailable ? (
+      {network === NetworkTypes.mainnet && false ? (
         <TransactionList
-          addCashAvailable={addCashAvailable}
+          addCashAvailable={false}
           contacts={contacts}
           initialized={activityListInitialized}
           isLoading={isLoading}
@@ -111,7 +111,7 @@ export default function ProfileScreen({ navigation }) {
         />
       ) : (
         <ActivityList
-          addCashAvailable={addCashAvailable}
+          addCashAvailable={false}
           header={
             <ProfileMasthead
               addCashAvailable={addCashAvailable}
