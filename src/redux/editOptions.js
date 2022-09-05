@@ -150,9 +150,13 @@ export const addCoinsToHiddenList = additionalCoinsToHide => (
     recentlyPinnedCount,
   } = getState().editOptions;
   const updatedPinnedCoins = pinnedCoins;
-  const updatedHiddenCoins = uniq(
-    concat(hiddenCoins, without(additionalCoinsToHide, ...pinnedCoins))
-  );
+
+  // Removed without pinned coins to remove 0 balance eth
+  // const updatedHiddenCoins = uniq(
+  //   concat(hiddenCoins, without(additionalCoinsToHide, ...pinnedCoins))
+  // );
+  const updatedHiddenCoins = uniq(concat(hiddenCoins, additionalCoinsToHide));
+
   // Nothing to update
   if (hiddenCoins.length === updatedHiddenCoins.length) {
     return;

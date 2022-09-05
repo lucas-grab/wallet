@@ -16,6 +16,7 @@ import {
   RefreshControl,
   ScrollViewProps,
   StyleSheet,
+  TextPropTypes,
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -256,6 +257,8 @@ export type RecyclerAssetListProps = {
   readonly openSmallBalances: boolean;
 };
 
+
+// wichtig
 function RecyclerAssetList({
   isCoinListEdited,
   fetchData,
@@ -377,6 +380,9 @@ function RecyclerAssetList({
     },
     [stickyCoinDividerRef, coinDividerIndex, isCoinListEdited]
   );
+
+
+  // nutzbar für refresh
   const handleRefresh = useCallback(async () => {
     if (isRefreshing || !fetchData) {
       return;
@@ -409,7 +415,6 @@ function RecyclerAssetList({
   );
 
   const stickyRowRenderer = React.useCallback(
-    // TODO: What does the data look like?
     (_type: string | number | undefined, data: any) => {
       return <AssetListHeader {...data} isSticky />;
     },
@@ -426,10 +431,21 @@ function RecyclerAssetList({
   const rowRenderer = React.useCallback(
     (type: any, data: any, index: number): JSX.Element | null => {
       // Checks if value is *nullish*.
-      if (data == null || index == null) {
+      if (data == null || index == null ) {
         return null;
+
+
+        
       }
 
+      // if (type.index === (ViewTypes.COIN_ROW.index || ViewTypes.COIN_SMALL_BALANCES.index)) {
+      //   if (!(data.item.address === "0x2791bca1f2de4661ed88a30c99a7a9449aa84174")) {
+      //     return null
+      //   } 
+      // }
+
+  
+      // hier remove coins
       if (type.index === ViewTypes.HEADER.index) {
         return (showcase
           ? ViewTypes.SHOWCASE_HEADER
@@ -443,28 +459,33 @@ function RecyclerAssetList({
           data,
           type,
         });
-      } else if (type.index === ViewTypes.COIN_DIVIDER.index) {
-        return ViewTypes.COIN_DIVIDER.renderComponent({
-          data,
-        });
-      } else if (type.index === ViewTypes.COIN_SMALL_BALANCES.index) {
-        return ViewTypes.COIN_SMALL_BALANCES.renderComponent({
-          data,
-        });
-      } else if (type.index === ViewTypes.COIN_SAVINGS.index) {
-        return ViewTypes.COIN_SAVINGS.renderComponent({
-          data,
-        });
-      } else if (type.index === ViewTypes.POOLS.index) {
-        return ViewTypes.POOLS.renderComponent({ data, isCoinListEdited });
-      } else if (type.index === ViewTypes.UNIQUE_TOKEN_ROW.index) {
-        return ViewTypes.UNIQUE_TOKEN_ROW.renderComponent({
-          data,
-          index,
-          sections,
-          type,
-        });
       }
+      // else if (type.index === ViewTypes.COIN_DIVIDER.index) {
+      //   return ViewTypes.COIN_DIVIDER.renderComponent({
+      //     data,
+      //   });
+      // }
+      // else if (type.index === ViewTypes.COIN_SMALL_BALANCES.index) {
+      //   return ViewTypes.COIN_SMALL_BALANCES.renderComponent({
+      //     data,
+      //   });
+      // }
+      // else if (type.index === ViewTypes.COIN_SAVINGS.index) {
+      //   return ViewTypes.COIN_SAVINGS.renderComponent({
+      //     data,
+      //   });
+      // }
+      // else if (type.index === ViewTypes.POOLS.index) {
+      //   return ViewTypes.POOLS.renderComponent({ data, isCoinListEdited });
+      // }
+      // else if (type.index === ViewTypes.UNIQUE_TOKEN_ROW.index) {
+      //   return ViewTypes.UNIQUE_TOKEN_ROW.renderComponent({
+      //     data,
+      //     index,
+      //     sections,
+      //     type,
+      //   });
+      // }
       return null;
     },
     [isCoinListEdited, sections, showcase]
