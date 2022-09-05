@@ -79,7 +79,7 @@ export const ViewTypes = {
   },
 
   COIN_DIVIDER: {
-    calculateHeight: () => CoinDividerHeight,
+    calculateHeight: () => 0,
     index: 2,
     renderComponent: ({ data }) => {
       const { item = {} } = data;
@@ -119,17 +119,7 @@ export const ViewTypes = {
   },
 
   COIN_SAVINGS: {
-    calculateHeight: ({ isOpen, isLast, amountOfRows }) =>
-      isOpen
-        ? TokenFamilyHeaderHeight +
-          (isLast
-            ? ListFooter.height + savingsLastOpenAdditionalHeight
-            : savingsOpenAdditionalHeight) +
-          SavingsCoinRowHeight * amountOfRows
-        : TokenFamilyHeaderHeight +
-          (isLast
-            ? ListFooter.height + savingsLastClosedAdditionalHeight
-            : savingsClosedAdditionalHeight),
+    calculateHeight: () => 0,
     index: 4,
     renderComponent: ({ data }) => {
       const { item = {} } = data;
@@ -141,17 +131,7 @@ export const ViewTypes = {
   },
 
   POOLS: {
-    calculateHeight: ({ isOpen, isLast, amountOfRows }) =>
-      isOpen
-        ? TokenFamilyHeaderHeight +
-          (isLast
-            ? ListFooter.height + poolsLastOpenAdditionalHeight
-            : poolsOpenAdditionalHeight) +
-          CoinRowHeight * amountOfRows
-        : TokenFamilyHeaderHeight +
-          (isLast
-            ? ListFooter.height + poolsLastClosedAdditionalHeight
-            : poolsClosedAdditionalHeight),
+    calculateHeight: () => 0,
     index: 5,
     renderComponent: ({ data, isCoinListEdited }) => {
       return <PoolsListWrapper {...data} isCoinListEdited={isCoinListEdited} />;
@@ -160,19 +140,7 @@ export const ViewTypes = {
   },
 
   UNIQUE_TOKEN_ROW: {
-    calculateHeight: ({ amountOfRows, isFirst, isHeader, isOpen }) => {
-      const SectionHeaderHeight = isHeader ? TokenFamilyHeaderHeight : 0;
-      const firstRowExtraTopPadding = isFirst ? firstUniqueTokenMarginTop : 0;
-      const heightOfRows = amountOfRows * UniqueTokenRow.cardSize;
-      const heightOfRowMargins = UniqueTokenRow.cardMargin * (amountOfRows - 1);
-      const height =
-        SectionHeaderHeight +
-        firstRowExtraTopPadding +
-        (isOpen
-          ? heightOfRows + heightOfRowMargins + extraSpaceForDropShadow
-          : 0);
-      return height;
-    },
+    calculateHeight: () => 0,
     index: 6,
     renderComponent: ({ type, data, index, sections }) => {
       const { item = {}, renderItem } = data;
@@ -195,8 +163,7 @@ export const ViewTypes = {
   },
 
   FOOTER: {
-    calculateHeight: ({ paddingBottom }) =>
-      paddingBottom - FloatingActionButtonSize / 2,
+    calculateHeight: () => 0,
     index: 7,
     visibleDuringCoinEdit: false,
   },
