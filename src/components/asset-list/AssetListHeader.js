@@ -51,16 +51,15 @@ const WalletSelectButton = ({
 }) => {
   const { colors } = useTheme();
   return (
-    <ButtonPressAnimation onPress={onChangeWallet} scaleTo={0.9}>
-      <Row>
-        <AccountName
-          deviceWidth={deviceWidth}
-          textWidth={textWidth}
-          totalValueLength={totalValue?.length}
-        >
-          {truncatedAccountName}
-        </AccountName>
-        {/* {truncatedAccountName ? (
+    <Row>
+      <AccountName
+        deviceWidth={deviceWidth}
+        textWidth={textWidth}
+        totalValueLength={totalValue?.length}
+      >
+        {truncatedAccountName}
+      </AccountName>
+      {/* {truncatedAccountName ? (
           <DropdownArrow>
             {IS_TESTING !== 'true' && (
               <LinearGradient
@@ -75,8 +74,7 @@ const WalletSelectButton = ({
             <Icon name="walletSwitcherCaret" />
           </DropdownArrow>
         ) : null} */}
-      </Row>
-    </ButtonPressAnimation>
+    </Row>
   );
 };
 
@@ -92,9 +90,7 @@ const AssetListHeader = ({
   const { accountName } = useAccountProfile();
   const { navigate } = useNavigation();
 
-  const onChangeWallet = useCallback(() => {
-    navigate(Routes.CHANGE_WALLET_SHEET);
-  }, [navigate]);
+  const onChangeWallet = useCallback(() => {}, [navigate]);
 
   const [textWidth, setTextWidth] = useState(deviceWidth);
 
