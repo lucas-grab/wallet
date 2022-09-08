@@ -1,4 +1,5 @@
 import React, { createElement } from 'react';
+import { Image } from 'react-native';
 import styled from 'styled-components';
 import { CoinIcon, CoinIconGroup, CoinIconSize } from '../coin-icon';
 import { Column, Row } from '../layout';
@@ -53,16 +54,9 @@ export default function CoinRow({
       {isPool ? (
         <CoinIconGroup tokens={tokens} />
       ) : (
-        createElement(coinIconRender, {
-          address,
-          badgeXPosition,
-          badgeYPosition,
-          isFirstCoinRow,
-          isHidden,
-          isPinned,
-          symbol,
-          ...props,
-        })
+        <Image
+          source={require('../../../node_modules/cryptocurrency-icons/32@2x/color/usdc.png')}
+        />
       )}
       <Content isHidden={isHidden} justify="center" style={contentStyles}>
         <Row align="center" testID={`${testID}-${symbol || ''}`}>
