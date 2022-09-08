@@ -255,7 +255,7 @@ export default function TransactionList({
   );
 
   const onAccountNamePress = useCallback(() => {
-    navigate(Routes.CHANGE_WALLET_SHEET);
+    return null;
   }, [navigate]);
 
   const loading = useMemo(() => (!initialized && !isFocused()) || isLoading, [

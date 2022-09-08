@@ -114,7 +114,7 @@ export default function ProfileScreen({ navigation }) {
           addCashAvailable={false}
           header={
             <ProfileMasthead
-              addCashAvailable={addCashAvailable}
+              addCashAvailable={false}
               onChangeWallet={onChangeWallet}
             />
           }

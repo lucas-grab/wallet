@@ -202,13 +202,11 @@ export default function SocialScreen({ navigation }) {
         return new Date(b.blockTimestamp) - new Date(a.blockTimestamp);
       });
 
-      console.log('new transactions ts----------------', sortedTransactions);
-
       setSocialTransactions(sortedTransactions);
     })();
   }, [contacts, accountAddress]);
 
-  const headerText = 'Social Wallet';
+  const headerText = 'Friends';
 
   return (
     <SocialScreenPage testID="social-screen">
@@ -241,23 +239,6 @@ export default function SocialScreen({ navigation }) {
       </View>
 
       <SocialList socialTransactions={socialTransactions} />
-
-      {/* <ActivityList
-        addCashAvailable={false}
-        header={
-          <ProfileMasthead
-            addCashAvailable={addCashAvailable}
-            onChangeWallet={onChangeWallet}
-          />
-        }
-        isEmpty={isEmpty}
-        isLoading={isLoading}
-        navigation={navigation}
-        network={network}
-        recyclerListView={ios}
-        sections={sections}
-        {...accountTransactions}
-      /> */}
     </SocialScreenPage>
   );
 }

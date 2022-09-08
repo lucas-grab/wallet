@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 4,
     marginTop: 4,
-    fontWeight: '600',
+    fontWeight: '800',
     color: colors.appleBlue,
   },
   textTimestamp: {
