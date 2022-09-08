@@ -63,10 +63,6 @@ import Routes from '@rainbow-me/routes';
 import logger from 'logger';
 import { Portal } from 'react-native-cool-modals/Portal';
 import KeypadContextProvider from './context/keypad-context';
-import { MoralisProvider } from 'react-moralis';
-import Moralis from 'moralis/react-native.js';
-
-const getMoralis = () => Moralis;
 
 const WALLETCONNECT_SYNC_DELAY = 500;
 
@@ -286,26 +282,19 @@ class App extends Component {
           <Portal>
             <SafeAreaProvider>
               <Provider store={store}>
-                <MoralisProvider
-                  appId={'9cQawhPdZW8Z8jILT1jp8WqA9htaKZowMmysNerK'}
-                  serverUrl={'https://dekaiksmnvyt.usemoralis.com:2053/server'}
-                  environment="native"
-                  getMoralis={getMoralis}
-                >
-                  <KeypadContextProvider>
-                    <FlexItem>
-                      {this.state.initialRoute && (
-                        <InitialRouteContext.Provider
-                          value={this.state.initialRoute}
-                        >
-                          <RoutesComponent ref={this.handleNavigatorRef} />
-                          <PortalConsumer />
-                        </InitialRouteContext.Provider>
-                      )}
-                      <OfflineToast />
-                    </FlexItem>
-                  </KeypadContextProvider>
-                </MoralisProvider>
+                <KeypadContextProvider>
+                  <FlexItem>
+                    {this.state.initialRoute && (
+                      <InitialRouteContext.Provider
+                        value={this.state.initialRoute}
+                      >
+                        <RoutesComponent ref={this.handleNavigatorRef} />
+                        <PortalConsumer />
+                      </InitialRouteContext.Provider>
+                    )}
+                    <OfflineToast />
+                  </FlexItem>
+                </KeypadContextProvider>
               </Provider>
             </SafeAreaProvider>
           </Portal>
