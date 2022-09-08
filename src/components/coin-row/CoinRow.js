@@ -28,6 +28,7 @@ const Content = styled(Column).attrs({ justify: 'space-between' })`
 `;
 
 export default function CoinRow({
+  isTransaction,
   address,
   badgeXPosition,
   badgeYPosition,
@@ -49,15 +50,31 @@ export default function CoinRow({
 }) {
   const { nativeCurrency, nativeCurrencySymbol } = useAccountSettings();
 
+  var coinRowRender;
+  if (isPool) {
+    coinRowRender = <CoinIconGroup tokens={tokens} />;
+  } else if (isTransaction) {
+    coinRowRender = (
+      <Image
+        source={require('../../../node_modules/cryptocurrency-icons/32@2x/color/usdc.png')}
+      />
+    );
+  } else {
+    coinRowRender = createElement(coinIconRender, {
+      address,
+      badgeXPosition,
+      badgeYPosition,
+      isFirstCoinRow,
+      isHidden,
+      isPinned,
+      symbol,
+      ...props,
+    });
+  }
+
   return (
     <Container css={containerStyles}>
-      {isPool ? (
-        <CoinIconGroup tokens={tokens} />
-      ) : (
-        <Image
-          source={require('../../../node_modules/cryptocurrency-icons/32@2x/color/usdc.png')}
-        />
-      )}
+      {coinRowRender}
       <Content isHidden={isHidden} justify="center" style={contentStyles}>
         <Row align="center" testID={`${testID}-${symbol || ''}`}>
           {topRowRender({

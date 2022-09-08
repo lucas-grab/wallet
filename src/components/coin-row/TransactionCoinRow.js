@@ -192,6 +192,7 @@ export default function TransactionCoinRow({ item, ...props }) {
   return (
     <ButtonPressAnimation onPress={onPressTransaction} scaleTo={0.96}>
       <CoinRow
+        isTransaction={true}
         {...item}
         {...props}
         bottomRowRender={BottomRow}
