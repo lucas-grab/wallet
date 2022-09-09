@@ -37,7 +37,6 @@ export default function AvatarCircle({
   showcaseAccountSymbol,
   showcaseAccountColor,
 }) {
-  console.log('im ava', showcaseAccountSymbol);
   const { colors, isDarkMode } = useTheme();
   const {
     accountColor: profileAccountColor,

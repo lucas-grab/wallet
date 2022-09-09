@@ -60,6 +60,8 @@ export default function SocialScreen({ navigation }) {
   const { navigate } = useNavigation();
   const nativeTransactionListAvailable = useNativeTransactionListAvailable();
   const { width: deviceWidth } = useDimensions();
+  const headerText = 'Center feed';
+  var showFeed = false;
 
   const accountTransactions = useAccountTransactions(
     activityListInitialized,
@@ -187,7 +189,13 @@ export default function SocialScreen({ navigation }) {
     })();
   }, [contacts, accountAddress]);
 
-  const headerText = 'Centerling feed';
+  useEffect(() => {
+    if (socialTransactions.length === 0) {
+      showFeed = false;
+    } else {
+      showFeed = true;
+    }
+  }, [socialTransactions]);
 
   const handlePressAvatar = useCallback(() => {
     return null;
@@ -230,7 +238,7 @@ export default function SocialScreen({ navigation }) {
           accountColor={accountColor}
           accountSymbol={accountSymbol}
           showcaseAccountSymbol={customAccountSymbol}
-          showcaseAccountColor={colors.appleBlue}
+          showcaseAccountColor={colors.walletconnect}
           image={accountImage}
           isAvatarPickerAvailable={false}
           onPress={handlePressAvatar}
@@ -260,8 +268,11 @@ export default function SocialScreen({ navigation }) {
         <ProfileMastheadDivider />
       </Column>
 
-      {socialTransactions.length === 0 ? (
-        <ActivityListEmptyState label="Add other Centerlings to your contacts to follow their transactions!"></ActivityListEmptyState>
+      {showFeed ? (
+        <ActivityListEmptyState
+          emoji="🧐"
+          label="Add contacts to follow their transactions"
+        ></ActivityListEmptyState>
       ) : (
         <SocialList socialTransactions={socialTransactions} />
       )}
