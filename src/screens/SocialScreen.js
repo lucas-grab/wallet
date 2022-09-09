@@ -6,8 +6,8 @@ import styled from 'styled-components';
 import { ActivityList } from '../components/activity-list';
 import { BackButton, Header, HeaderButton } from '../components/header';
 import { Icon } from '../components/icons';
-import { Page } from '../components/layout';
-import { ProfileMasthead } from '../components/profile';
+import { Page, Column, Row, RowWithMargins } from '../components/layout';
+import { ProfileMasthead, AvatarCircle } from '../components/profile';
 import TransactionList from '../components/transaction-list/TransactionList';
 import { useTheme } from '../context/ThemeContext';
 import useNativeTransactionListAvailable from '../helpers/isNativeTransactionListAvailable';
@@ -19,6 +19,8 @@ import {
   useContacts,
   useRequests,
   useDimensions,
+  useAccountProfile,
+  useOnAvatarPress,
 } from '@rainbow-me/hooks';
 import Routes from '@rainbow-me/routes';
 import { position } from '@rainbow-me/styles';
@@ -40,6 +42,9 @@ import store from '@rainbow-me/redux/store';
 import { TruncatedText } from '../components/text';
 import Divider from '../components/Divider';
 import { abbreviations } from '@rainbow-me/utils';
+import ActivityListEmptyState from '../components/activity-list/ActivityListEmptyState';
+import ProfileAction from '../components/profile/ProfileAction';
+import { color } from 'react-native-reanimated';
 
 const ACTIVITY_LIST_INITIALIZATION_DELAY = 5000;
 
@@ -70,7 +75,15 @@ export default function SocialScreen({ navigation }) {
   const { pendingRequestCount, requests } = useRequests();
   const { network } = useAccountSettings();
   const { accountAddress } = store.getState().settings;
+
   const isEmpty = !transactionsCount && !pendingRequestCount;
+
+  const {
+    accountColor,
+    accountSymbol,
+    accountName,
+    accountImage,
+  } = useAccountProfile();
 
   const [socialTransactions, setSocialTransactions] = useState([]);
 
@@ -153,38 +166,6 @@ export default function SocialScreen({ navigation }) {
     return transactions;
   }
 
-  // const testdata = {
-  //   address: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
-  //   balance: { amount: '0.05379', display: '0.0538 USDC' },
-  //   contact: {
-  //     address: '0xff9f04827d1d698a9114f9eec6a38bf9d839602e',
-  //     color: 1,
-  //     network: 'mainnet',
-  //     nickname: 'Kontakt12',
-  //   },
-  //   data:
-  //     '0xa9059cbb000000000000000000000000ff9f04827d1d698a9114f9eec6a38bf9d839602e000000000000000000000000000000000000000000000000000000000000d21e',
-  //   description: 'USD Coin',
-  //   from: '0x6EAe616f37A3840160C82fb745F39F77207E5B6d',
-  //   gasLimit: '59151',
-  //   gasPrice: 53000000000,
-  //   hash:
-  //     '0x5b81dc954aa8fd43db69a4b8aaa0ff224b8a085ad15f49367a5f2cee919cd337-0',
-  //   minedAt: 1654697206,
-  //   name: 'USD Coin',
-  //   native: { amount: '', display: '' },
-  //   network: 'polygon',
-  //   nonce: 42,
-  //   pending: false,
-  //   status: 'sent',
-  //   symbol: 'USDC',
-  //   title: 'Sent',
-  //   to: '0xff9f04827D1D698A9114F9EEC6A38bf9D839602E',
-  //   txTo: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
-  //   type: 'send',
-  //   value: '0x00',
-  // };
-
   useEffect(() => {
     (async () => {
       const newTransactions = await getTransactions();
@@ -206,7 +187,17 @@ export default function SocialScreen({ navigation }) {
     })();
   }, [contacts, accountAddress]);
 
-  const headerText = 'Friends';
+  const headerText = 'Centerling feed';
+
+  const handlePressAvatar = useCallback(() => {
+    return null;
+  });
+
+  const handlePressCopyAddress = useCallback(() => {
+    return null;
+  });
+
+  const customAccountSymbol = '💸';
 
   return (
     <SocialScreenPage testID="social-screen">
@@ -226,19 +217,54 @@ export default function SocialScreen({ navigation }) {
         >
           <Icon color={colors.black} name="gear" />
         </HeaderButton> */}
+
         <BackButton
           color={colors.black}
           direction="right"
           onPress={onPressBackButton}
         />
       </Header>
-      <View style={{ alignItems: 'center', justifyContent: 'space-between' }}>
-        <AccountName deviceWidth={deviceWidth}>{headerText} </AccountName>
-        <Text> </Text>
-        <ProfileMastheadDivider />
-      </View>
 
-      <SocialList socialTransactions={socialTransactions} />
+      <Column align="center" height={185} marginBottom={24} marginTop={0}>
+        <AvatarCircle
+          accountColor={accountColor}
+          accountSymbol={accountSymbol}
+          showcaseAccountSymbol={customAccountSymbol}
+          showcaseAccountColor={colors.appleBlue}
+          image={accountImage}
+          isAvatarPickerAvailable={false}
+          onPress={handlePressAvatar}
+        />
+
+        <Row>
+          <AccountName deviceWidth={deviceWidth}>{headerText}</AccountName>
+        </Row>
+
+        <RowWithMargins align="center" margin={19}>
+          <ProfileAction
+            icon="copy"
+            onPress={handlePressCopyAddress}
+            radiusWrapperStyle={{ marginRight: 10, width: 150 }}
+            scaleTo={0.88}
+            text="Add contact"
+            width={127}
+            wrapperProps={{
+              containerStyle: {
+                alignItems: 'flex-start',
+                justifyContent: 'flex-start',
+                paddingLeft: 10,
+              },
+            }}
+          />
+        </RowWithMargins>
+        <ProfileMastheadDivider />
+      </Column>
+
+      {socialTransactions.length === 0 ? (
+        <ActivityListEmptyState label="Add other Centerlings to your contacts to follow their transactions!"></ActivityListEmptyState>
+      ) : (
+        <SocialList socialTransactions={socialTransactions} />
+      )}
     </SocialScreenPage>
   );
 }

@@ -150,8 +150,6 @@ export default function WalletScreen() {
     if (initialized && assetsSocket && !fetchedCharts) {
       const balancesSection = find(sections, ({ name }) => name === 'balances');
 
-      console.log('new sections', sections);
-
       const assetCodes = compact(map(balancesSection?.data, 'address'));
       if (!isEmpty(assetCodes)) {
         dispatch(emitChartsRequest(assetCodes));
@@ -176,11 +174,9 @@ export default function WalletScreen() {
   const isCoinListEditedValue = useCoinListEditedValue();
 
   const isLoadingAssets = useSelector(state => state.data.isLoadingAssets);
-  // console.log('seeeections', sections);
-  // sections[0].balances = false;
 
   useEffect(() => {
-    //Hide eth and matic which are not used in the cdtm study, but appear by default
+    //Hide eth and eth-based matic which are not used in the cdtm study, but appear by default
     dispatch(addCoinsToHiddenList('eth'));
     dispatch(
       addCoinsToHiddenList('0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0')
