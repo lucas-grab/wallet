@@ -81,7 +81,6 @@ export default function QRScannerScreen() {
                   onPress={handlePressBackButton}
                   testID="goToBalancesFromScanner"
                 />
-                <EmulatorPasteUriButton />
               </ScannerHeader>
             )}
             {initializeCamera && !isEmulator && (
@@ -103,7 +102,6 @@ export default function QRScannerScreen() {
               onPress={handlePressBackButton}
               testID="goToBalancesFromScanner"
             />
-            <EmulatorPasteUriButton />
           </ScannerHeader>
           {/* )} */}
         </ScannerContainer>

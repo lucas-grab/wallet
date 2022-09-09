@@ -381,8 +381,6 @@ function RecyclerAssetList({
     [stickyCoinDividerRef, coinDividerIndex, isCoinListEdited]
   );
 
-
-  // nutzbar für refresh
   const handleRefresh = useCallback(async () => {
     if (isRefreshing || !fetchData) {
       return;
