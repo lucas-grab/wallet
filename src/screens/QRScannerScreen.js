@@ -44,7 +44,7 @@ export default function QRScannerScreen() {
   const isFocused = useIsFocused();
   const [initializeCamera, setInitializeCamera] = useState(ios ? true : false);
   const { navigate } = useNavigation();
-  const [cameraVisible, setCameraVisible] = useState();
+  const [cameraVisible, setCameraVisible] = useState(true);
 
   const dsRef = useRef();
   useEffect(
@@ -65,13 +65,15 @@ export default function QRScannerScreen() {
   const { result: isEmulator } = useIsEmulator();
   const androidSheetPosition = useSharedValue(0);
 
+  console.log(initializeCamera);
+  console.log('ds', dsRef);
+
   return (
     <>
       <View pointerEvents="box-none">
-        {/* //L Remove Discover sheet ios
-        {ios ? <DiscoverSheet ref={dsRef} /> : null} */}
         <ScannerContainer>
           <Background />
+
           <CameraDimmer cameraVisible={cameraVisible}>
             {android && (
               <ScannerHeader>
@@ -81,6 +83,7 @@ export default function QRScannerScreen() {
                   onPress={handlePressBackButton}
                   testID="goToBalancesFromScanner"
                 />
+                <EmulatorPasteUriButton />
               </ScannerHeader>
             )}
             {initializeCamera && !isEmulator && (
@@ -91,25 +94,20 @@ export default function QRScannerScreen() {
               />
             )}
           </CameraDimmer>
-          {/* //L Remove Discover sheet ios
-          {android ? (
-            <DiscoverSheet ref={dsRef} sheetPosition={androidSheetPosition} />
-          ) : ( */}
-          <ScannerHeader>
-            <BackButton
-              color={colors.whiteLabel}
-              direction="left"
-              onPress={handlePressBackButton}
-              testID="goToBalancesFromScanner"
-            />
-          </ScannerHeader>
-          {/* )} */}
+
+          {!android && (
+            <ScannerHeader>
+              <BackButton
+                color={colors.whiteLabel}
+                direction="left"
+                onPress={handlePressBackButton}
+                testID="goToBalancesFromScanner"
+              />
+              <EmulatorPasteUriButton />
+            </ScannerHeader>
+          )}
         </ScannerContainer>
       </View>
-      {/* <FabWrapper
-        fabs={[SearchFab]}
-        onPress={() => dsRef.current?.onFabSearch?.current()}
-      /> */}
     </>
   );
 }

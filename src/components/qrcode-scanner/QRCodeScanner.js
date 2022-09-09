@@ -55,9 +55,7 @@ export default function QRCodeScanner({
   dsRef,
   enableCamera: isEnabledByFocus,
 }) {
-  const [cameraEnabledByBottomSheetPosition, setCameraEnabled] = useState(
-    false
-  );
+  const [cameraEnabledByBottomSheetPosition, setCameraEnabled] = useState(true);
   const cameraEnabled = isEnabledByFocus && cameraEnabledByBottomSheetPosition;
   const [error, showError] = useBooleanState();
   const [isInitialized, setInitialized] = useBooleanState();
