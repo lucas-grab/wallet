@@ -168,25 +168,27 @@ export default function SocialScreen({ navigation }) {
     return transactions;
   }
 
+  async function onRefresh() {
+    const newTransactions = await getTransactions();
+    const transactionNotes = await getTransactionNotes();
+
+    newTransactions.forEach(t => {
+      transactionNotes.forEach(n => {
+        if (t.tx_hash === n.tx_hash) {
+          t.note = n.note;
+        }
+      });
+    });
+
+    const sortedTransactions = newTransactions.sort(function (a, b) {
+      return new Date(b.blockTimestamp) - new Date(a.blockTimestamp);
+    });
+
+    setSocialTransactions(sortedTransactions);
+  }
+
   useEffect(() => {
-    (async () => {
-      const newTransactions = await getTransactions();
-      const transactionNotes = await getTransactionNotes();
-
-      newTransactions.forEach(t => {
-        transactionNotes.forEach(n => {
-          if (t.tx_hash === n.tx_hash) {
-            t.note = n.note;
-          }
-        });
-      });
-
-      const sortedTransactions = newTransactions.sort(function (a, b) {
-        return new Date(b.blockTimestamp) - new Date(a.blockTimestamp);
-      });
-
-      setSocialTransactions(sortedTransactions);
-    })();
+    onRefresh();
   }, [contacts, accountAddress]);
 
   useEffect(() => {
@@ -270,7 +272,10 @@ export default function SocialScreen({ navigation }) {
           label="Add contacts to follow their transactions"
         ></ActivityListEmptyState>
       ) : (
-        <SocialList socialTransactions={socialTransactions} />
+        <SocialList
+          socialTransactions={socialTransactions}
+          onRefresh={onRefresh}
+        />
       )}
     </SocialScreenPage>
   );

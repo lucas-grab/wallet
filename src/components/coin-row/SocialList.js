@@ -1,8 +1,34 @@
 import { Text, View, FlatList, StyleSheet, Pressable } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { colors } from '@rainbow-me/styles';
 import { formatDistanceToNowStrict } from 'date-fns';
 import store from '@rainbow-me/redux/store';
+import delay from 'delay';
+
+function SocialList({ socialTransactions, onRefresh }) {
+  const [isRefreshing, setRefreshing] = useState(false);
+
+  return (
+    <View style={styles.container}>
+      <FlatList
+        data={socialTransactions}
+        renderItem={renderSocialItem}
+        keyExtractor={item => item.tx_hash}
+        onRefresh={onRefresh}
+        refreshing={isRefreshing}
+      />
+    </View>
+  );
+}
+
+// function loggg() {
+//   console.log('refresh test');
+// }
+
+// function onRefresh() {
+//   console.log('refresh test');
+//   //return Promise.all([delay(1250), loggg]);
+// }
 
 function renderSocialItem(itemData) {
   const { accountAddress } = store.getState().settings;
@@ -37,18 +63,6 @@ function renderSocialItem(itemData) {
         </View> */}
       </View>
     </Pressable>
-  );
-}
-
-function SocialList({ socialTransactions }) {
-  return (
-    <View style={styles.container}>
-      <FlatList
-        data={socialTransactions}
-        renderItem={renderSocialItem}
-        keyExtractor={item => item.tx_hash}
-      />
-    </View>
   );
 }
 
