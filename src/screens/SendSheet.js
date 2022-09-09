@@ -1,13 +1,21 @@
-
-
-
-
 import { useRoute } from '@react-navigation/native';
 import analytics from '@segment/analytics-react-native';
 import { captureEvent, captureException } from '@sentry/react-native';
 import { isEmpty, isEqual, isString, toLower } from 'lodash';
-import React, { useCallback, useEffect, useRef, useState, useContext } from 'react';
-import { Alert, InteractionManager, Keyboard, StatusBar, Text } from 'react-native';
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useContext,
+} from 'react';
+import {
+  Alert,
+  InteractionManager,
+  Keyboard,
+  StatusBar,
+  Text,
+} from 'react-native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { KeyboardArea } from 'react-native-keyboard-area';
 import { useDispatch } from 'react-redux';
@@ -70,7 +78,7 @@ import {
 import { deviceUtils, ethereumUtils } from '@rainbow-me/utils';
 import logger from 'logger';
 import { KeypadContext } from '../context/keypad-context';
-import normalizer from '../components/keypad/price-string-normalizer'
+import normalizer from '../components/keypad/price-string-normalizer';
 
 const sheetHeight = deviceUtils.dimensions.height - (android ? 30 : 10);
 const statusBarHeight = getStatusBarHeight(true);
@@ -252,11 +260,11 @@ export default function SendSheet(props) {
 
   // Update all fields passed via params if needed
   useEffect(() => {
-    const usdc = allAssets.find(element => element.address == "0x2791bca1f2de4661ed88a30c99a7a9449aa84174")
-    assetOverride = usdc
-    nativeAmountOverride = normalizer(keypadContext.keypadValue)
-    
-
+    const usdc = allAssets.find(
+      element => element.address == '0x2791bca1f2de4661ed88a30c99a7a9449aa84174'
+    );
+    assetOverride = usdc;
+    nativeAmountOverride = normalizer(keypadContext.keypadValue);
 
     if (recipientOverride && !recipient) {
       setIsValidAddress(true);
@@ -697,7 +705,6 @@ export default function SendSheet(props) {
       return;
     }
 
-
     //L define values for state here from keypad
     navigate(Routes.SEND_CONFIRMATION_SHEET, {
       amountDetails: amountDetails,
@@ -780,11 +787,6 @@ export default function SendSheet(props) {
   useEffect(() => {
     checkAddress(recipient);
   }, [checkAddress, recipient]);
-
-
-
-
-
 
   useEffect(() => {
     if (!currentProvider?._network?.chainId) return;
@@ -922,7 +924,6 @@ export default function SendSheet(props) {
               />
             }
           />
-          
         )}
         {android && showAssetForm ? (
           <KeyboardSizeView showAssetForm={showAssetForm} />

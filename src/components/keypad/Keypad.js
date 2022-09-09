@@ -93,6 +93,11 @@ function Keypad() {
     );
   }
 
+  const onSend = useCallback(() => navigate(Routes.SEND_FLOW), [navigate]);
+  const onReceive = useCallback(() => navigate(Routes.RECEIVE_MODAL), [
+    navigate,
+  ]);
+
   return (
     <View>
       <Text style={styles.keypadValue}>
@@ -111,14 +116,14 @@ function Keypad() {
           backgroundColor={colors.blueGreyDarker}
           labelStyle={{ fontWeight: '700' }}
           style={styles.keypadButton}
-          onPress={() => navigate(Routes.RECEIVE_MODAL)}
+          onPress={onReceive}
         />
         <Button
           label={'Send'}
           backgroundColor={colors.blueGreyDarker}
           labelStyle={{ fontWeight: '700' }}
           style={styles.keypadButton}
-          onPress={() => navigate(Routes.SEND_FLOW)}
+          onPress={onSend}
         />
       </View>
     </View>

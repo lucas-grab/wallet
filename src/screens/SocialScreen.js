@@ -99,13 +99,13 @@ export default function SocialScreen({ navigation }) {
     navigate,
   ]);
 
-  const onPressSettings = useCallback(() => navigate(Routes.SETTINGS_MODAL), [
-    navigate,
-  ]);
-
   const onChangeWallet = useCallback(() => {
     navigate(Routes.CHANGE_WALLET_SHEET);
   }, [navigate]);
+
+  const onAddContact = useCallback(() => navigate(Routes.SEND_FLOW), [
+    navigate,
+  ]);
 
   const addCashSupportedNetworks =
     (IS_DEV && network === NetworkTypes.kovan) ||
@@ -201,10 +201,6 @@ export default function SocialScreen({ navigation }) {
     return null;
   });
 
-  const handlePressCopyAddress = useCallback(() => {
-    return null;
-  });
-
   const customAccountSymbol = '💸';
 
   return (
@@ -251,7 +247,7 @@ export default function SocialScreen({ navigation }) {
         <RowWithMargins align="center" margin={19}>
           <ProfileAction
             icon="copy"
-            onPress={handlePressCopyAddress}
+            onPress={onAddContact}
             radiusWrapperStyle={{ marginRight: 10, width: 150 }}
             scaleTo={0.88}
             text="Add contact"
