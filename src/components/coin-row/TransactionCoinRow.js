@@ -26,6 +26,10 @@ import {
   ethereumUtils,
   showActionSheetWithOptions,
 } from '@rainbow-me/utils';
+import { Amplitude } from '@amplitude/react-native';
+
+const ampInstance = Amplitude.getInstance();
+ampInstance.init('5bc11d2d4853f16ac0b4cceb33ede8b2');
 
 const containerStyles = css`
   padding-left: 19;
@@ -157,6 +161,7 @@ export default function TransactionCoinRow({ item, ...props }) {
           switch (action) {
             case TransactionActions.viewContact:
             case TransactionActions.addToContacts:
+              ampInstance.logEvent('TRANSACTIONLIST_ADD-CONTACT');
               navigate(Routes.MODAL_SCREEN, {
                 address: contactAddress,
                 asset: item,
@@ -166,12 +171,14 @@ export default function TransactionCoinRow({ item, ...props }) {
               });
               break;
             case TransactionActions.speedUp:
+              ampInstance.logEvent('TRANSACTIONLIST_SPEEDUP-TRANSACTION');
               navigate(Routes.SPEED_UP_AND_CANCEL_SHEET, {
                 tx: item,
                 type: 'speed_up',
               });
               break;
             case TransactionActions.cancel:
+              ampInstance.logEvent('TRANSACTIONLIST_CANCEL-TRANSACTION');
               navigate(Routes.SPEED_UP_AND_CANCEL_SHEET, {
                 tx: item,
                 type: 'cancel',

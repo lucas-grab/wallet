@@ -27,6 +27,10 @@ import { useNavigation } from '@rainbow-me/navigation';
 import Routes from '@rainbow-me/routes';
 import { margin, padding } from '@rainbow-me/styles';
 import logger from 'logger';
+import { Amplitude } from '@amplitude/react-native';
+
+const ampInstance = Amplitude.getInstance();
+ampInstance.init('5bc11d2d4853f16ac0b4cceb33ede8b2');
 
 const DescriptionText = styled(Text).attrs(({ theme: { colors } }) => ({
   align: 'center',
@@ -153,6 +157,7 @@ export default function BackupConfirmPasswordStep() {
 
   const onSubmit = useCallback(async () => {
     if (!validPassword) return;
+    ampInstance.logEvent('BACKUP_RESTORE-FROM-CLOUD');
     analytics.track('Tapped "Restore from cloud"');
     await walletCloudBackup({
       onError,

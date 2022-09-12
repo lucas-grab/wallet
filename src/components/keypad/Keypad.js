@@ -7,6 +7,7 @@ import Button from 'react-native-ui-lib/button';
 import { useTheme } from '../../context/ThemeContext';
 import Routes from '@rainbow-me/routes';
 import { useNavigation } from '../../navigation/Navigation';
+import { Amplitude } from '@amplitude/react-native';
 
 function Keypad() {
   const keypad = [
@@ -63,6 +64,8 @@ function Keypad() {
   const keypadContext = useContext(KeypadContext);
   const { colors } = useTheme();
   const { navigate } = useNavigation();
+  const ampInstance = Amplitude.getInstance();
+  ampInstance.init('5bc11d2d4853f16ac0b4cceb33ede8b2');
 
   function isInt(value) {
     if (isNaN(value)) {
@@ -93,10 +96,14 @@ function Keypad() {
     );
   }
 
-  const onSend = useCallback(() => navigate(Routes.SEND_FLOW), [navigate]);
-  const onReceive = useCallback(() => navigate(Routes.RECEIVE_MODAL), [
-    navigate,
-  ]);
+  const onSend = useCallback(() => {
+    ampInstance.logEvent('SENDFLOW_KEYPAD-SEND');
+    navigate(Routes.SEND_FLOW);
+  }, [navigate]);
+  const onReceive = useCallback(() => {
+    ampInstance.logEvent('REQUESTFLOW_KEYPAD-REQUEST');
+    navigate(Routes.RECEIVE_MODAL);
+  }, [navigate]);
 
   return (
     <View>

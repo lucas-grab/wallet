@@ -20,6 +20,10 @@ import {
 } from '@rainbow-me/hooks';
 import Routes from '@rainbow-me/routes';
 import { position } from '@rainbow-me/styles';
+import { Amplitude } from '@amplitude/react-native';
+
+const ampInstance = Amplitude.getInstance();
+ampInstance.init('5bc11d2d4853f16ac0b4cceb33ede8b2');
 
 const ACTIVITY_LIST_INITIALIZATION_DELAY = 5000;
 
@@ -57,13 +61,15 @@ export default function ProfileScreen({ navigation }) {
     }, ACTIVITY_LIST_INITIALIZATION_DELAY);
   }, []);
 
-  const onPressBackButton = useCallback(() => navigate(Routes.WALLET_SCREEN), [
-    navigate,
-  ]);
+  const onPressBackButton = useCallback(() => {
+    ampInstance.logEvent('NAVIGATE_PROFILE-WALLET');
+    navigate(Routes.WALLET_SCREEN);
+  }, [navigate]);
 
-  const onPressSettings = useCallback(() => navigate(Routes.SETTINGS_MODAL), [
-    navigate,
-  ]);
+  const onPressSettings = useCallback(() => {
+    ampInstance.logEvent('NAVIGATE_PROFILE-SETTINGS');
+    navigate(Routes.SETTINGS_MODAL);
+  }, [navigate]);
 
   const onChangeWallet = useCallback(() => {
     navigate(Routes.CHANGE_WALLET_SHEET);

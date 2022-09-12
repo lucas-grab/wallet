@@ -19,6 +19,10 @@ import {
 import { isValidDomainFormat } from '@rainbow-me/helpers/validators';
 import { useAccountSettings, useContacts } from '@rainbow-me/hooks';
 import { margin, padding } from '@rainbow-me/styles';
+import { Amplitude } from '@amplitude/react-native';
+
+const ampInstance = Amplitude.getInstance();
+ampInstance.init('5bc11d2d4853f16ac0b4cceb33ede8b2');
 
 const AddressAbbreviation = styled(TruncatedAddress).attrs(
   ({ theme: { colors } }) => ({
@@ -88,6 +92,7 @@ const ContactProfileState = ({ address, color: colorProp, contact }) => {
   const { network } = useAccountSettings();
 
   const handleAddContact = useCallback(() => {
+    ampInstance.logEvent('REQUESTFLOW_ADD-CONTACT');
     const nickname = (emoji ? `${emoji} ${value}` : value).trim();
     if (value.length > 0 || color !== colorProp) {
       onAddOrUpdateContacts(address, nickname, color, network);

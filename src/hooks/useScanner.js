@@ -17,6 +17,10 @@ import { RAINBOW_PROFILES_BASE_URL } from '@rainbow-me/references';
 import Routes from '@rainbow-me/routes';
 import { addressUtils, ethereumUtils, haptics } from '@rainbow-me/utils';
 import logger from 'logger';
+import { Amplitude } from '@amplitude/react-native';
+
+const ampInstance = Amplitude.getInstance();
+ampInstance.init('5bc11d2d4853f16ac0b4cceb33ede8b2');
 
 function useScannerState(enabled) {
   const [isCameraAuthorized, setIsCameraAuthorized] = useState(true);
@@ -91,6 +95,7 @@ export default function useScanner(enabled) {
     address => {
       haptics.notificationSuccess();
       analytics.track('Scanned address QR code');
+      ampInstance.logEvent('REQUESFLOW_QR-SCAN');
 
       // First navigate to wallet screen
       navigate(Routes.WALLET_SCREEN);

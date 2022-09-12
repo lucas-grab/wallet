@@ -82,6 +82,10 @@ import { KeypadContext } from '../context/keypad-context';
 import normalizer from '../components/keypad/price-string-normalizer';
 import store from '@rainbow-me/redux/store';
 import { storeTransactionNote } from '../redux/data';
+import { Amplitude } from '@amplitude/react-native';
+
+const ampInstance = Amplitude.getInstance();
+ampInstance.init('5bc11d2d4853f16ac0b4cceb33ede8b2');
 
 const sheetHeight = deviceUtils.dimensions.height - (android ? 30 : 10);
 const statusBarHeight = getStatusBarHeight(true);
@@ -558,6 +562,7 @@ export default function SendSheet(props) {
         });
         const { hash, nonce } = txResult;
         const { data, value } = signableTransaction;
+        ampInstance.logEvent('SENDFLOW_TRANSACTION-SUBMITTED');
         if (!isEmpty(hash)) {
           submitSuccess = true;
           txDetails.hash = hash;
@@ -710,8 +715,7 @@ export default function SendSheet(props) {
       });
       return;
     }
-
-    //L define values for state here from keypad
+    ampInstance.logEvent('SENDFLOW_CONFIRMATION-SHEET');
     navigate(Routes.SEND_CONFIRMATION_SHEET, {
       amountDetails: amountDetails,
       asset: selected,

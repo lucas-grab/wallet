@@ -10,6 +10,10 @@ import useWallets from './useWallets';
 import { walletsSetSelected, walletsUpdate } from '@rainbow-me/redux/wallets';
 import Routes from '@rainbow-me/routes';
 import { buildRainbowUrl, showActionSheetWithOptions } from '@rainbow-me/utils';
+import { Amplitude } from '@amplitude/react-native';
+
+const ampInstance = Amplitude.getInstance();
+ampInstance.init('5bc11d2d4853f16ac0b4cceb33ede8b2');
 
 export default () => {
   const { wallets, selectedWallet } = useWallets();
@@ -66,6 +70,7 @@ export default () => {
   );
 
   const onAvatarPickEmoji = useCallback(() => {
+    ampInstance.logEvent('PROFILE_CHANGE-EMOJI');
     navigate(Routes.AVATAR_BUILDER, {
       initialAccountColor: accountColor,
       initialAccountName: accountName,

@@ -9,6 +9,10 @@ import HeaderButton from './HeaderButton';
 import Routes from '@rainbow-me/routes';
 import { position } from '@rainbow-me/styles';
 import ShadowStack from 'react-native-shadow-stack';
+import { Amplitude } from '@amplitude/react-native';
+
+const ampInstance = Amplitude.getInstance();
+ampInstance.init('5bc11d2d4853f16ac0b4cceb33ede8b2');
 
 const ScanButtonShadowsFactory = colors => [
   [0, 7, 21, colors.shadow, 0.06],
@@ -48,6 +52,7 @@ export default function ScanHeaderButton() {
 
   const onPress = useCallback(() => {
     //jumpToShort();
+    ampInstance.logEvent('REQUESTFLOW_QRSCAN-CAMERA');
     navigate(Routes.QR_SCANNER_SCREEN);
   }, [navigate]);
 

@@ -30,6 +30,10 @@ import { useNavigation } from '@rainbow-me/navigation';
 import Routes from '@rainbow-me/routes';
 import { padding } from '@rainbow-me/styles';
 import logger from 'logger';
+import { Amplitude } from '@amplitude/react-native';
+
+const ampInstance = Amplitude.getInstance();
+ampInstance.init('5bc11d2d4853f16ac0b4cceb33ede8b2');
 
 const DescriptionText = styled(Text).attrs(
   ({ isTinyPhone, theme: { colors } }) => ({
@@ -125,6 +129,7 @@ export default function BackupCloudStep() {
     setTimeout(() => {
       passwordRef.current?.focus();
     }, 1);
+    ampInstance.logEvent('BACKUP_CHOOSE-PASSWORD');
     analytics.track('Choose Password Step', {
       category: 'backup',
       label: cloudPlatform,
@@ -245,6 +250,7 @@ export default function BackupCloudStep() {
     }
     // This means the user set a new password
     // and it was the first wallet backed up
+    ampInstance.logEvent('BACKUP_COMPLETE');
     analytics.track('Backup Complete', {
       category: 'backup',
       label: cloudPlatform,
@@ -253,6 +259,7 @@ export default function BackupCloudStep() {
   }, [goBack, isSettingsRoute, password]);
 
   const onConfirmBackup = useCallback(async () => {
+    ampInstance.logEvent('BACKUP_TAP-CONFIRM');
     analytics.track('Tapped "Confirm Backup"');
     await walletCloudBackup({
       onError,

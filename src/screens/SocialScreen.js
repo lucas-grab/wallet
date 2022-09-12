@@ -45,6 +45,10 @@ import { abbreviations } from '@rainbow-me/utils';
 import ActivityListEmptyState from '../components/activity-list/ActivityListEmptyState';
 import ProfileAction from '../components/profile/ProfileAction';
 import { color } from 'react-native-reanimated';
+import { Amplitude } from '@amplitude/react-native';
+
+const ampInstance = Amplitude.getInstance();
+ampInstance.init('5bc11d2d4853f16ac0b4cceb33ede8b2');
 
 const ACTIVITY_LIST_INITIALIZATION_DELAY = 5000;
 
@@ -95,17 +99,19 @@ export default function SocialScreen({ navigation }) {
     }, ACTIVITY_LIST_INITIALIZATION_DELAY);
   }, []);
 
-  const onPressBackButton = useCallback(() => navigate(Routes.WALLET_SCREEN), [
-    navigate,
-  ]);
+  const onPressBackButton = useCallback(() => {
+    ampInstance.logEvent('NAVIGATE_SOCIAL-WALLET');
+    navigate(Routes.WALLET_SCREEN);
+  }, [navigate]);
 
   const onChangeWallet = useCallback(() => {
     navigate(Routes.CHANGE_WALLET_SHEET);
   }, [navigate]);
 
-  const onAddContact = useCallback(() => navigate(Routes.SEND_FLOW), [
-    navigate,
-  ]);
+  const onAddContact = useCallback(() => {
+    ampInstance.logEvent('SOCIALFEED_ADD-CONTACT');
+    navigate(Routes.SEND_FLOW);
+  }, [navigate]);
 
   const addCashSupportedNetworks =
     (IS_DEV && network === NetworkTypes.kovan) ||

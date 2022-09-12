@@ -106,6 +106,10 @@ import {
   SIGN_TYPED_DATA,
 } from '@rainbow-me/utils/signingMethods';
 import logger from 'logger';
+import { Amplitude } from '@amplitude/react-native';
+
+const ampInstance = Amplitude.getInstance();
+ampInstance.init('5bc11d2d4853f16ac0b4cceb33ede8b2');
 
 const springConfig = {
   damping: 500,
@@ -307,6 +311,7 @@ export default function TransactionConfirmationScreen() {
   }, [dappUrl]);
 
   const handleL2DisclaimerPress = useCallback(() => {
+    ampInstance.logEvent('SENDFLOW_CONFIRMATION-L2-EXPLANATION');
     navigate(Routes.EXPLAIN_SHEET, {
       type: network,
     });

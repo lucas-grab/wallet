@@ -51,6 +51,7 @@
     ]
   },
   "dependencies": {
+    "@amplitude/react-native": "^2.15.0",
     "@apollo/client": "3.2.4",
     "@bankify/react-native-animate-number": "0.2.1",
     "@capsizecss/core": "3.0.0",

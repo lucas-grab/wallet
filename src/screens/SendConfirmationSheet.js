@@ -44,6 +44,10 @@ import { useNavigation } from '@rainbow-me/navigation';
 import Routes from '@rainbow-me/routes';
 import { position } from '@rainbow-me/styles';
 import logger from 'logger';
+import { Amplitude } from '@amplitude/react-native';
+
+const ampInstance = Amplitude.getInstance();
+ampInstance.init('5bc11d2d4853f16ac0b4cceb33ede8b2');
 
 const Container = styled(Centered).attrs({
   direction: 'column',
@@ -247,6 +251,7 @@ export default function SendConfirmationSheet() {
   );
 
   const handleL2DisclaimerPress = useCallback(() => {
+    ampInstance.logEvent('SENDFLOW_CONFIRMATION-L2-EXPLANATION');
     navigate(Routes.EXPLAIN_SHEET, {
       type: asset.type,
     });

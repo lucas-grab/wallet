@@ -12,6 +12,10 @@ import BackupIconDark from '@rainbow-me/assets/backupIconDark.png';
 import { ImgixImage } from '@rainbow-me/images';
 import { padding } from '@rainbow-me/styles';
 import { deviceUtils } from '@rainbow-me/utils';
+import { Amplitude } from '@amplitude/react-native';
+
+const ampInstance = Amplitude.getInstance();
+ampInstance.init('5bc11d2d4853f16ac0b4cceb33ede8b2');
 
 const Footer = styled(ColumnWithMargins).attrs({
   margin: 19,
@@ -58,6 +62,7 @@ export default function BackupSheetSection({
 }) {
   const { colors, isDarkMode } = useTheme();
   useEffect(() => {
+    ampInstance.logEvent('BACKUP_MODAL-SHOWN');
     analytics.track('BackupSheet shown', {
       category: 'backup',
       label: type,

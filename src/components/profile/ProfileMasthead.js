@@ -24,6 +24,10 @@ import {
 import { useNavigation } from '@rainbow-me/navigation';
 import Routes from '@rainbow-me/routes';
 import { abbreviations } from '@rainbow-me/utils';
+import { Amplitude } from '@amplitude/react-native';
+
+const ampInstance = Amplitude.getInstance();
+ampInstance.init('5bc11d2d4853f16ac0b4cceb33ede8b2');
 
 const dropdownArrowWidth = 21;
 
@@ -117,6 +121,7 @@ export default function ProfileMasthead({
       showWalletErrorAlert();
       return;
     }
+    ampInstance.logEvent('PROFILE_RECEIVE');
     navigate(Routes.RECEIVE_MODAL);
   }, [navigate, isDamaged]);
 
@@ -147,6 +152,7 @@ export default function ProfileMasthead({
   }, [navigate]);
 
   const handlePressCopyAddress = useCallback(() => {
+    ampInstance.logEvent('PROFILE_COPY-ADDRESS');
     if (isDamaged) {
       showWalletErrorAlert();
     }

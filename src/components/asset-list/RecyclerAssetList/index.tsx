@@ -257,8 +257,6 @@ export type RecyclerAssetListProps = {
   readonly openSmallBalances: boolean;
 };
 
-
-// wichtig
 function RecyclerAssetList({
   isCoinListEdited,
   fetchData,

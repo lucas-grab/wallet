@@ -596,7 +596,13 @@ PODS:
     - abseil/base/base_internal
     - abseil/base/config
     - abseil/meta/type_traits
+  - Amplitude (8.13.0):
+    - AnalyticsConnector (~> 1.0.0)
+  - amplitude-react-native (2.15.0):
+    - Amplitude (= 8.13.0)
+    - React-Core
   - Analytics (4.1.6)
+  - AnalyticsConnector (1.0.0)
   - boost (1.76.0)
   - BoringSSL-GRPC (0.0.24):
     - BoringSSL-GRPC/Implementation (= 0.0.24)
@@ -1275,6 +1281,7 @@ PODS:
   - Yoga (1.14.0)
 
 DEPENDENCIES:
+  - "amplitude-react-native (from `../node_modules/@amplitude/react-native`)"
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
@@ -1384,7 +1391,9 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - abseil
+    - Amplitude
     - Analytics
+    - AnalyticsConnector
     - BoringSSL-GRPC
     - Branch
     - CocoaAsyncSocket
@@ -1421,6 +1430,8 @@ SPEC REPOS:
     - TOCropViewController
 
 EXTERNAL SOURCES:
+  amplitude-react-native:
+    :path: "../node_modules/@amplitude/react-native"
   boost:
     :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
   BVLinearGradient:
@@ -1626,7 +1637,10 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   abseil: ebe5b5529fb05d93a8bdb7951607be08b7fa71bc
+  Amplitude: 0a239d682bc9ec1eb7a7b318af2541130ecd4bd3
+  amplitude-react-native: 810f45fee51acc0d40e11f7248bc7c0e5dc9a673
   Analytics: eefe524436f904b8bb3f8c8c3425280e43b34efc
+  AnalyticsConnector: 4c386d5972ac9da86e22d668564dbbac97558754
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
   Branch: 9a37f707974a128c37829033c49018b79c7e7a2d

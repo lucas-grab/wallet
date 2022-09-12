@@ -16,6 +16,10 @@ import {
 } from '@rainbow-me/hooks';
 import { useNavigation } from '@rainbow-me/navigation';
 import { padding } from '@rainbow-me/styles';
+import { Amplitude } from '@amplitude/react-native';
+
+const ampInstance = Amplitude.getInstance();
+ampInstance.init('5bc11d2d4853f16ac0b4cceb33ede8b2');
 
 const Content = styled(Column).attrs({
   align: 'center',
@@ -89,6 +93,7 @@ export default function BackupManualStep() {
       type,
     });
     onManuallyBackupWalletId(walletId);
+    ampInstance.logEvent('BACKUP_MANUAL-BACKUP');
     analytics.track('Backup Complete', {
       category: 'backup',
       label: 'manual',
