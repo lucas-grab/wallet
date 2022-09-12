@@ -1044,7 +1044,7 @@ export const addNewSubscriber = (subscriber, type) => (dispatch, getState) => {
   });
 };
 
-export const setTransactionNote = note => dispatch => {
+export const storeTransactionNote = note => dispatch => {
   dispatch({
     payload: note,
     type: DATA_SET_TRANSACTION_NOTE,

@@ -81,6 +81,7 @@ import logger from 'logger';
 import { KeypadContext } from '../context/keypad-context';
 import normalizer from '../components/keypad/price-string-normalizer';
 import store from '@rainbow-me/redux/store';
+import { storeTransactionNote } from '../redux/data';
 
 const sheetHeight = deviceUtils.dimensions.height - (android ? 30 : 10);
 const statusBarHeight = getStatusBarHeight(true);
@@ -773,11 +774,10 @@ export default function SendSheet(props) {
     setCurrentInput(event);
     setRecipient(event);
   }, []);
-  //here the note input event change
-  const onChangeNoteInput = useCallback(event => {
+
+  const onChangeNoteInput = useCallback(async event => {
     setTransactionNote(event);
-    dispatch(setTransactionNote(event));
-    console.log('tnote event-----', event);
+    await dispatch(storeTransactionNote(event));
   }, []);
 
   useEffect(() => {

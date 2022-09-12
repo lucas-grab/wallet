@@ -57,11 +57,6 @@ const NoteField = ({ autoFocus, onFocus, onChange, testID, ...props }, ref) => {
   //   }
   // }, [address, clipboard, setClipboard]);
 
-  // const validateAddress = useCallback(async address => {
-  //   const newIsValid = await checkIsValidAddressOrDomain(address);
-  //   return setIsValid(newIsValid);
-  // }, []);
-
   const handleChange = useCallback(
     ({ nativeEvent: { text } }) => {
       onChange(text);
