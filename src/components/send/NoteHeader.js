@@ -59,14 +59,7 @@ const SendSheetTitle = styled(SheetTitle).attrs({
   margin-top: ${android ? 10 : 17};
 `;
 
-export default function NoteHeader({
-  hideDivider,
-  onChangeNoteInput,
-  onFocus,
-  onPressPaste,
-  onRefocusInput,
-  showAssetList,
-}) {
+export default function NoteHeader({ hideDivider, onChangeNoteInput }) {
   const { setClipboard } = useClipboard();
   const { isSmallPhone, isTinyPhone } = useDimensions();
   const { navigate } = useNavigation();

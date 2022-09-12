@@ -272,26 +272,6 @@ export default function SendSheet(props) {
     assetOverride = usdc;
     nativeAmountOverride = normalizer(keypadContext.keypadValue);
 
-    //transactionNote = store.getState().data.transactionNote;
-
-    console.log('-----------------------transaction note ', transactionNote);
-
-    console.log(isValidAddress, 'isValidAddress ');
-    console.log(!isEmpty(selected), '!isEmpty(selected) ');
-    console.log(
-      !isEmpty(transactionNote),
-      '!isEmpty(transactionNote) ',
-
-      '   note is: ',
-      transactionNote
-    );
-
-    console.log(showAssetForm, 'showAssetForm ');
-
-    if (isValidAddress && !isEmpty(selected) && !isEmpty(transactionNote)) {
-      console.log('change happening');
-    }
-
     if (recipientOverride && !recipient) {
       setIsValidAddress(true);
       setRecipient(recipientOverride);
