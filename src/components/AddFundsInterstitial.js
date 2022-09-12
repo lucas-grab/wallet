@@ -23,6 +23,7 @@ import {
 import Routes from '@rainbow-me/routes';
 import { padding, position } from '@rainbow-me/styles';
 import ShadowStack from 'react-native-shadow-stack';
+import Clipboard from '@react-native-community/clipboard';
 
 const ContainerWidth = 261;
 
@@ -214,8 +215,8 @@ const AddFundsInterstitial = ({ network }) => {
       showWalletErrorAlert();
       return;
     }
-    navigate(Routes.RECEIVE_MODAL);
-  }, [navigate, isDamaged]);
+    Clipboard.setString(accountAddress);
+  }, [accountAddress, isDamaged]);
 
   return (
     <Container>
