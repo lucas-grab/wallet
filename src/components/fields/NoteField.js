@@ -10,7 +10,6 @@ import { Label } from '../text';
 import { useClipboard, useDimensions } from '@rainbow-me/hooks';
 import { abbreviations, addressUtils } from '@rainbow-me/utils';
 import { firebaseA, firebaseTest } from '../../model/firebase';
-import { setTransactionNote } from '../../redux/data';
 
 const NoteInput = styled(Input).attrs({
   autoCapitalize: 'none',
@@ -44,7 +43,7 @@ const PlaceholderText = styled(Label).attrs({
   opacity: 1;
 `;
 
-const NoteField = ({ autoFocus, onFocus, testID, ...props }, ref) => {
+const NoteField = ({ autoFocus, onFocus, onChange, testID, ...props }, ref) => {
   const { isTinyPhone } = useDimensions();
   const { colors } = useTheme();
   const [note, setNote] = useState('');
@@ -63,14 +62,12 @@ const NoteField = ({ autoFocus, onFocus, testID, ...props }, ref) => {
   //   return setIsValid(newIsValid);
   // }, []);
 
-  // const handleChange = useCallback(
-  //   ({ nativeEvent: { text } }) => {
-  //     onChange(text);
-  //     validateAddress(text);
-  //     expandAbbreviatedClipboard();
-  //   },
-  //   [expandAbbreviatedClipboard, onChange, validateAddress]
-  // );
+  const handleChange = useCallback(
+    ({ nativeEvent: { text } }) => {
+      onChange(text);
+    },
+    [onChange]
+  );
 
   return (
     <Row flex={1}>
@@ -80,7 +77,7 @@ const NoteField = ({ autoFocus, onFocus, testID, ...props }, ref) => {
         color={colors.dark}
         //onBlur={expandAbbreviatedClipboard}
         onChangeText={setNote}
-        onEndEditing={() => dispatch(setTransactionNote(note))}
+        onEndEditing={handleChange}
         onFocus={onFocus}
         ref={ref}
         testID={testID}

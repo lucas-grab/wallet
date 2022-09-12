@@ -28,6 +28,7 @@ import {
   SendAssetList,
   SendContactList,
   SendHeader,
+  NoteHeader,
 } from '../components/send';
 import { SheetActionButton } from '../components/sheet';
 import { AssetTypes } from '@rainbow-me/entities';
@@ -79,6 +80,7 @@ import { deviceUtils, ethereumUtils } from '@rainbow-me/utils';
 import logger from 'logger';
 import { KeypadContext } from '../context/keypad-context';
 import normalizer from '../components/keypad/price-string-normalizer';
+import store from '@rainbow-me/redux/store';
 
 const sheetHeight = deviceUtils.dimensions.height - (android ? 30 : 10);
 const statusBarHeight = getStatusBarHeight(true);
@@ -159,11 +161,14 @@ export default function SendSheet(props) {
 
   const [isValidAddress, setIsValidAddress] = useState(!!recipientOverride);
   const [currentProvider, setCurrentProvider] = useState();
+  const [transactionNote, setTransactionNote] = useState('');
   const { colors, isDarkMode } = useTheme();
 
   const showEmptyState = !isValidAddress;
   const showAssetList = isValidAddress && isEmpty(selected);
-  const showAssetForm = isValidAddress && !isEmpty(selected);
+  let showNoteHeader = isValidAddress && !isEmpty(selected);
+  let showAssetForm =
+    isValidAddress && !isEmpty(selected) && !isEmpty(transactionNote);
   const keypadContext = useContext(KeypadContext);
   const isNft = selected?.type === AssetTypes.nft;
   let color = useColorForAsset({
@@ -265,6 +270,26 @@ export default function SendSheet(props) {
     );
     assetOverride = usdc;
     nativeAmountOverride = normalizer(keypadContext.keypadValue);
+
+    //transactionNote = store.getState().data.transactionNote;
+
+    console.log('-----------------------transaction note ', transactionNote);
+
+    console.log(isValidAddress, 'isValidAddress ');
+    console.log(!isEmpty(selected), '!isEmpty(selected) ');
+    console.log(
+      !isEmpty(transactionNote),
+      '!isEmpty(transactionNote) ',
+
+      '   note is: ',
+      transactionNote
+    );
+
+    console.log(showAssetForm, 'showAssetForm ');
+
+    if (isValidAddress && !isEmpty(selected) && !isEmpty(transactionNote)) {
+      console.log('change happening');
+    }
 
     if (recipientOverride && !recipient) {
       setIsValidAddress(true);
@@ -748,6 +773,12 @@ export default function SendSheet(props) {
     setCurrentInput(event);
     setRecipient(event);
   }, []);
+  //here the note input event change
+  const onChangeNoteInput = useCallback(event => {
+    setTransactionNote(event);
+    dispatch(setTransactionNote(event));
+    console.log('tnote event-----', event);
+  }, []);
 
   useEffect(() => {
     updateDefaultGasLimit(network);
@@ -755,7 +786,7 @@ export default function SendSheet(props) {
 
   useEffect(() => {
     if (
-      (isValidAddress && showAssetList) ||
+      (isValidAddress && showAssetForm) ||
       (isValidAddress && showAssetForm && selected?.type === AssetTypes.nft)
     ) {
       Keyboard.dismiss();
@@ -858,6 +889,7 @@ export default function SendSheet(props) {
           userAccounts={userAccounts}
           watchedAccounts={watchedAccounts}
         />
+
         {showEmptyState && (
           <SendContactList
             contacts={filteredContacts}
@@ -869,18 +901,27 @@ export default function SendSheet(props) {
             watchedAccounts={watchedAccounts}
           />
         )}
-        {showAssetList && (
-          <SendAssetList
-            allAssets={allAssets}
-            fetchData={fetchData}
-            hiddenCoins={hiddenCoins}
-            nativeCurrency={nativeCurrency}
-            network={network}
-            onSelectAsset={sendUpdateSelected}
-            pinnedCoins={pinnedCoins}
-            savings={savings}
-            uniqueTokens={sendableUniqueTokens}
+        {showNoteHeader && (
+          <NoteHeader
+            hideDivider={showAssetForm}
+            onChangeNoteInput={onChangeNoteInput}
+            onPressPaste={setTransactionNote}
+            onRefocusInput={triggerFocus}
+            recipientFieldRef={recipientFieldRef}
+            removeContact={onRemoveContact}
+            showAssetList={showAssetList}
           />
+          // <SendAssetList
+          //   allAssets={allAssets}
+          //   fetchData={fetchData}
+          //   hiddenCoins={hiddenCoins}
+          //   nativeCurrency={nativeCurrency}
+          //   network={network}
+          //   onSelectAsset={sendUpdateSelected}
+          //   pinnedCoins={pinnedCoins}
+          //   savings={savings}
+          //   uniqueTokens={sendableUniqueTokens}
+          // />
         )}
         {showAssetForm && (
           <SendAssetForm

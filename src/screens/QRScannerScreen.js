@@ -65,15 +65,11 @@ export default function QRScannerScreen() {
   const { result: isEmulator } = useIsEmulator();
   const androidSheetPosition = useSharedValue(0);
 
-  console.log(initializeCamera);
-  console.log('ds', dsRef);
-
   return (
     <>
       <View pointerEvents="box-none">
         <ScannerContainer>
           <Background />
-
           <CameraDimmer cameraVisible={cameraVisible}>
             {android && (
               <ScannerHeader>

@@ -89,6 +89,7 @@ export default function SendHeader({
     return get(contacts, `${[toLower(recipient)]}`, defaultContactItem);
   }, [contacts, recipient]);
   const [hexAddress, setHexAddress] = useState(null);
+  const [showNote, setShowNote] = useState(false);
 
   useEffect(() => {
     if (isValidAddress && !contact.address) {
@@ -237,26 +238,6 @@ export default function SendHeader({
         )}
         {!isValidAddress && <PasteAddressButton onPress={onPressPaste} />}
       </AddressInputContainer>
-
-      {/* //L */}
-      <AddressInputContainer
-        isSmallPhone={isSmallPhone}
-        isTinyPhone={isTinyPhone}
-      >
-        <AddressFieldLabel>Note:</AddressFieldLabel>
-        <NoteField
-          autoFocus={false}
-          ref={recipientFieldRef}
-          testID="send-asset-form-field"
-        />
-        
-      </AddressInputContainer>
-
-
-
-      {hideDivider && !isTinyPhone ? null : (
-        <Divider color={colors.rowDividerExtraLight} flex={0} inset={[0, 19]} />
-      )}
     </Fragment>
   );
 }

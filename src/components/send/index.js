@@ -7,3 +7,4 @@ export { default as SendButton } from './SendButton';
 export { default as SendContactList } from './SendContactList';
 export { default as SendEmptyState } from './SendEmptyState';
 export { default as SendHeader } from './SendHeader';
+export { default as NoteHeader } from './NoteHeader';
