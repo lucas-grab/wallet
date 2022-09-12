@@ -221,46 +221,7 @@ const AddFundsInterstitial = ({ network }) => {
     <Container>
       {network === networkTypes.mainnet ? (
         <Fragment>
-          <Title>
-            To get started, buy some ETH{ios ? ` with Apple Pay` : ''}
-          </Title>
-          <Row justify="space-between" marginVertical={30}>
-            <AmountButton
-              amount={100}
-              backgroundColor={colors.swapPurple}
-              color={colors.neonSkyblue}
-              onPress={handlePressAmount}
-            />
-            <AmountButton
-              amount={200}
-              backgroundColor={colors.swapPurple}
-              color={colors.neonSkyblue}
-              onPress={handlePressAmount}
-            />
-            <AmountButton
-              amount={300}
-              backgroundColor={colors.purpleDark}
-              color={colors.pinkLight}
-              onPress={handlePressAmount}
-            />
-          </Row>
-          <InterstitialButtonRow>
-            <InterstitialButton onPress={handlePressAmount} radiusAndroid={23}>
-              <Text
-                align="center"
-                color={colors.alpha(colors.blueGreyDark, 0.6)}
-                lineHeight="loose"
-                size="large"
-                weight="bold"
-              >
-                􀍡 Other amount
-              </Text>
-            </InterstitialButton>
-          </InterstitialButtonRow>
-          {!isSmallPhone && <InterstitialDivider />}
-          <Subtitle isSmallPhone={isSmallPhone}>
-            or send ETH to your wallet
-          </Subtitle>
+          <Title>To get started, send some USDC to your wallet</Title>
 
           <Paragraph>
             Send from Coinbase or another exchange—or ask a friend!
