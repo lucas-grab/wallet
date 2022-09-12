@@ -53,7 +53,7 @@ export default function QRScannerScreen() {
   );
 
   const handlePressBackButton = useCallback(
-    () => navigate(Routes.WALLET_SCREEN),
+    () => navigate(Routes.SOCIAL_SCREEN),
     [navigate]
   );
 

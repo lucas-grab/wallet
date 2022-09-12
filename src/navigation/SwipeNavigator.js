@@ -29,15 +29,14 @@ export function SwipeNavigator() {
     <FlexItem>
       <Swipe.Navigator
         initialLayout={deviceUtils.dimensions}
-        initialRouteName={Routes.SOCIAL_SCREEN}
+        initialRouteName={Routes.WALLET_SCREEN}
         pager={renderPager}
         swipeEnabled={swipeEnabled && !isCoinListEdited}
         tabBar={renderTabBar}
       >
         <Swipe.Screen component={ProfileScreen} name={Routes.PROFILE_SCREEN} />
-        <Swipe.Screen component={SocialScreen} name={Routes.SOCIAL_SCREEN} />
         <Swipe.Screen component={WalletScreen} name={Routes.WALLET_SCREEN} />
-
+        <Swipe.Screen component={SocialScreen} name={Routes.SOCIAL_SCREEN} />
         <Swipe.Screen
           component={QRScannerScreen}
           initialParams={params}

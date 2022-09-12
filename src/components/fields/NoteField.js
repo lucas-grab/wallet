@@ -59,6 +59,9 @@ const NoteField = ({ autoFocus, onFocus, onChange, testID, ...props }, ref) => {
 
   const handleChange = useCallback(
     ({ nativeEvent: { text } }) => {
+      if (text.length === 0) {
+        text = text + ' ';
+      }
       onChange(text);
     },
     [onChange]

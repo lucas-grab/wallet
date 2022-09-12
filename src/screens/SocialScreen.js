@@ -213,7 +213,7 @@ export default function SocialScreen({ navigation }) {
 
   return (
     <SocialScreenPage testID="social-screen">
-      <Header align="center" justify="flex-end">
+      <Header align="center" justify="flex-start">
         {/* <HeaderButton
           onPress={onPressSettings}
           opacityTouchable={false}
@@ -232,7 +232,7 @@ export default function SocialScreen({ navigation }) {
 
         <BackButton
           color={colors.black}
-          direction="right"
+          direction="left"
           onPress={onPressBackButton}
         />
       </Header>

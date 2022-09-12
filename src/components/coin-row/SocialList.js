@@ -21,15 +21,6 @@ function SocialList({ socialTransactions, onRefresh }) {
   );
 }
 
-// function loggg() {
-//   console.log('refresh test');
-// }
-
-// function onRefresh() {
-//   console.log('refresh test');
-//   //return Promise.all([delay(1250), loggg]);
-// }
-
 function renderSocialItem(itemData) {
   const { accountAddress } = store.getState().settings;
 
@@ -57,10 +48,6 @@ function renderSocialItem(itemData) {
             {itemData.item.note}
           </Text>
         </View>
-
-        {/* <View style={styles.amountContainer}>
-          <Text style={styles.amount}>AMOUNT: {itemData.item.value}</Text>
-        </View> */}
       </View>
     </Pressable>
   );
