@@ -65,7 +65,7 @@ export default function SocialScreen({ navigation }) {
   const nativeTransactionListAvailable = useNativeTransactionListAvailable();
   const { width: deviceWidth } = useDimensions();
   const headerText = 'Center feed';
-  var showFeed = false;
+  const [showFeed, setShowFeed] = useState(false);
 
   const accountTransactions = useAccountTransactions(
     activityListInitialized,
@@ -198,12 +198,13 @@ export default function SocialScreen({ navigation }) {
   }, [contacts, accountAddress]);
 
   useEffect(() => {
-    if (socialTransactions.length === 0) {
-      showFeed = false;
+    console.log(socialTransactions, !socialTransactions.length);
+    if (!socialTransactions.length) {
+      setShowFeed(false);
     } else {
-      showFeed = true;
+      setShowFeed(true);
     }
-  }, [socialTransactions]);
+  }, [socialTransactions, showFeed]);
 
   const handlePressAvatar = useCallback(() => {
     return null;
@@ -273,15 +274,15 @@ export default function SocialScreen({ navigation }) {
       </Column>
 
       {showFeed ? (
-        <ActivityListEmptyState
-          emoji="🧐"
-          label="Add contacts to follow their transactions"
-        ></ActivityListEmptyState>
-      ) : (
         <SocialList
           socialTransactions={socialTransactions}
           onRefresh={onRefresh}
         />
+      ) : (
+        <ActivityListEmptyState
+          emoji="🧐"
+          label="Add contacts to follow their transactions"
+        ></ActivityListEmptyState>
       )}
     </SocialScreenPage>
   );
