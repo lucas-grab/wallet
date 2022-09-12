@@ -20,6 +20,10 @@ import { useNavigation } from '@rainbow-me/navigation';
 import Routes from '@rainbow-me/routes';
 import { colors, padding } from '@rainbow-me/styles';
 import { abbreviations, profileUtils } from '@rainbow-me/utils';
+import { Amplitude } from '@amplitude/react-native';
+
+const ampInstance = Amplitude.getInstance();
+ampInstance.init('5bc11d2d4853f16ac0b4cceb33ede8b2');
 
 export const ShowcaseContext = createContext();
 
@@ -141,6 +145,7 @@ export function Header() {
   ]);
 
   const onSend = useCallback(async () => {
+    ampInstance.logEvent('REQUESTFLOW_SEND');
     goBack();
     if (isNativeStackAvailable || android) {
       navigate(Routes.SEND_FLOW, {
