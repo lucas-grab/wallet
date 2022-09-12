@@ -148,7 +148,7 @@ export default function ProfileMasthead({
   }, [accountAddress, navigate, isDamaged]);
 
   const handlePressChangeWallet = useCallback(() => {
-    // navigate(Routes.CHANGE_WALLET_SHEET);
+    navigate(Routes.CHANGE_WALLET_SHEET);
   }, [navigate]);
 
   const handlePressCopyAddress = useCallback(() => {
@@ -178,13 +178,14 @@ export default function ProfileMasthead({
         isAvatarPickerAvailable={isAvatarPickerAvailable}
         onPress={handlePressAvatar}
       />
-
-      <Row>
-        <AccountName deviceWidth={deviceWidth}>{accountName}</AccountName>
-        {/* <DropdownArrow>
+      <ButtonPressAnimation onPress={handlePressChangeWallet}>
+        <Row>
+          <AccountName deviceWidth={deviceWidth}>{accountName}</AccountName>
+          {/* <DropdownArrow>
             <Icon color={colors.dark} direction="down" name="caret" />
           </DropdownArrow> */}
-      </Row>
+        </Row>
+      </ButtonPressAnimation>
 
       <RowWithMargins align="center" margin={19}>
         <ProfileAction

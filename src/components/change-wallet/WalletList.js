@@ -247,22 +247,6 @@ export default function WalletList({
             showDividers={showDividers}
           />
           {showDividers && <WalletListDivider />}
-          {!watchOnly && (
-            <WalletListFooter>
-              <WalletOption
-                editMode={editMode}
-                icon="arrowBack"
-                label="􀁍 Create a new wallet"
-                onPress={onPressAddAccount}
-              />
-              <WalletOption
-                editMode={editMode}
-                icon="arrowBack"
-                label="􀂍 Add an existing wallet"
-                onPress={onPressImportSeedPhrase}
-              />
-            </WalletListFooter>
-          )}
         </Fragment>
       ) : (
         <EmptyWalletList />
