@@ -2,7 +2,7 @@ import { useWindowDimensions } from 'react-native';
 
 const deviceDimensions = {
   iphone6: {
-    height: 667,
+    height: 690,
     width: 375,
   },
   iphoneSE: {

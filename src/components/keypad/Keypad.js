@@ -8,6 +8,7 @@ import { useTheme } from '../../context/ThemeContext';
 import Routes from '@rainbow-me/routes';
 import { useNavigation } from '../../navigation/Navigation';
 import { Amplitude } from '@amplitude/react-native';
+import { useDimensions } from '@rainbow-me/hooks';
 
 function Keypad() {
   const keypad = [
@@ -66,6 +67,7 @@ function Keypad() {
   const { navigate } = useNavigation();
   const ampInstance = Amplitude.getInstance();
   ampInstance.init('5bc11d2d4853f16ac0b4cceb33ede8b2');
+  const { isNarrowPhone, isSmallPhone, isTallPhone } = useDimensions();
 
   function isInt(value) {
     if (isNaN(value)) {
@@ -91,7 +93,11 @@ function Keypad() {
           keypadHandler(itemData.item.value);
         }}
       >
-        <Text style={styles.keypadNumber}>{itemData.item.value}</Text>
+        <Text
+          style={[styles.keypadNumber, { fontSize: isSmallPhone ? 20 : 30 }]}
+        >
+          {itemData.item.value}
+        </Text>
       </Pressable>
     );
   }
@@ -107,7 +113,15 @@ function Keypad() {
 
   return (
     <View>
-      <Text style={styles.keypadValue}>
+      <Text
+        style={[
+          styles.keypadValue,
+          {
+            fontSize: isSmallPhone ? 40 : 60,
+            paddingBottom: isSmallPhone ? 10 : 30,
+          },
+        ]}
+      >
         {normalizer(keypadContext.keypadValue)} €
       </Text>
       <FlatList
@@ -142,7 +156,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   keypadNumber: {
-    fontSize: 30,
     fontWeight: 'bold',
     margin: 28,
     textAlign: 'center',
@@ -150,10 +163,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   keypadValue: {
-    fontSize: 60,
     fontWeight: 'bold',
     textAlign: 'center',
-    paddingBottom: 30,
   },
   pressable: ({ pressed }) => ({
     opacity: pressed ? 0.5 : 1,
