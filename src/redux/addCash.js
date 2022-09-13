@@ -1,5 +1,3 @@
-import analytics from '@segment/analytics-react-native';
-
 import { find, map, toLower } from 'lodash';
 /* eslint-disable-next-line import/no-cycle */
 import { dataAddNewTransaction } from './data';
@@ -145,13 +143,6 @@ export const addCashGetOrderStatus = (
           },
           type: ADD_CASH_ORDER_FAILURE,
         });
-
-        analytics.track('Purchase failed', {
-          category: 'add cash',
-          error_category: errorCategory,
-          error_code: errorCode,
-          error_message: errorMessage,
-        });
       }
 
       if (transferId) {
@@ -163,9 +154,7 @@ export const addCashGetOrderStatus = (
         dispatch(
           addCashGetTransferHash(referenceInfo, transferId, sourceAmount)
         );
-        analytics.track('Purchase completed', {
-          category: 'add cash',
-        });
+
         maybeReviewAlert();
       } else if (!isFailed) {
         orderStatusHandle = setTimeout(

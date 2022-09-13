@@ -1,5 +1,5 @@
 import MaskedView from '@react-native-community/masked-view';
-import analytics from '@segment/analytics-react-native';
+
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Animated, Easing, StyleSheet } from 'react-native';
 import { IS_TESTING } from 'react-native-dotenv';
@@ -447,7 +447,6 @@ export default function WelcomeScreen() {
   const backgroundColor = useMemoOne(() => colorAnimation(rValue, false), []);
 
   const onCreateWallet = useCallback(async () => {
-    analytics.track('Tapped "Get a new wallet"');
     const operation = dangerouslyGetState().index === 1 ? navigate : replace;
     operation(Routes.SWIPE_LAYOUT, {
       params: { emptyWallet: true },
@@ -476,7 +475,6 @@ export default function WelcomeScreen() {
   }, [rValue]);
 
   const showRestoreSheet = useCallback(() => {
-    analytics.track('Tapped "I already have one"');
     navigate(Routes.RESTORE_SHEET, {
       userData,
     });

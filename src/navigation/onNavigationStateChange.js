@@ -1,4 +1,3 @@
-import analytics from '@segment/analytics-react-native';
 import { get } from 'lodash';
 import { StatusBar } from 'react-native';
 // eslint-disable-next-line import/default
@@ -138,8 +137,6 @@ export function onNavigationStateChange(currentState) {
       };
     }
 
-    return android
-      ? paramsToTrack && analytics.screen(routeName, paramsToTrack)
-      : analytics.screen(routeName, paramsToTrack);
+    return android;
   }
 }

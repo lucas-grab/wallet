@@ -1,5 +1,5 @@
 import Clipboard from '@react-native-community/clipboard';
-import analytics from '@segment/analytics-react-native';
+
 import React, { useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import Divider from '../Divider';
@@ -130,10 +130,6 @@ export default function ProfileMasthead({
       showWalletErrorAlert();
       return;
     }
-
-    analytics.track('Tapped Add Cash', {
-      category: 'add cash',
-    });
 
     if (ios) {
       navigate(Routes.ADD_CASH_FLOW);

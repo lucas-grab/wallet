@@ -1,5 +1,5 @@
 import { useRoute } from '@react-navigation/native';
-import analytics from '@segment/analytics-react-native';
+
 import React, { Fragment, useCallback, useEffect, useMemo } from 'react';
 import { StatusBar } from 'react-native';
 import { getSoftMenuBarHeight } from 'react-native-extra-dimensions-android';
@@ -93,13 +93,7 @@ const SavingsSheet = () => {
   );
 
   useEffect(() => {
-    return () => {
-      analytics.track('Closed Savings Sheet', {
-        category: 'savings',
-        empty: isEmpty,
-        label: underlying.symbol,
-      });
-    };
+    return () => {};
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -115,11 +109,6 @@ const SavingsSheet = () => {
           screen: Routes.MAIN_EXCHANGE_SCREEN,
         },
         screen: Routes.MAIN_EXCHANGE_NAVIGATOR,
-      });
-
-      analytics.track('Navigated to SavingsWithdrawModal', {
-        category: 'savings',
-        label: underlying.symbol,
       });
     } else {
       watchingAlert();
@@ -142,12 +131,6 @@ const SavingsSheet = () => {
           screen: Routes.MAIN_EXCHANGE_SCREEN,
         },
         screen: Routes.MAIN_EXCHANGE_NAVIGATOR,
-      });
-
-      analytics.track('Navigated to SavingsDepositModal', {
-        category: 'savings',
-        empty: isEmpty,
-        label: underlying.symbol,
       });
     } else {
       watchingAlert();

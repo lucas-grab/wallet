@@ -1,4 +1,3 @@
-import analytics from '@segment/analytics-react-native';
 import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import ChainLogo from '../ChainLogo';
@@ -146,13 +145,6 @@ export default function WalletConnectListItem({
           handlePressChangeWallet();
         } else if ((idx === 1 && networksAvailable.length === 1) || idx === 2) {
           walletConnectDisconnectAllByDappUrl(dappUrl);
-          analytics.track(
-            'Manually disconnected from WalletConnect connection',
-            {
-              dappName,
-              dappUrl,
-            }
-          );
         }
       }
     );
@@ -170,10 +162,6 @@ export default function WalletConnectListItem({
     ({ nativeEvent: { actionKey } }) => {
       if (actionKey === 'disconnect') {
         walletConnectDisconnectAllByDappUrl(dappUrl);
-        analytics.track('Manually disconnected from WalletConnect connection', {
-          dappName,
-          dappUrl,
-        });
       } else if (actionKey === 'switch-account') {
         handlePressChangeWallet();
       } else if (actionKey.indexOf(NETWORK_MENU_ACTION_KEY_FILTER) !== -1) {

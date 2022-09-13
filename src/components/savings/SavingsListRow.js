@@ -1,4 +1,3 @@
-import analytics from '@segment/analytics-react-native';
 import BigNumber from 'bignumber.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { InteractionManager } from 'react-native';
@@ -93,12 +92,6 @@ const SavingsListRow = ({
       underlying,
       underlyingBalanceNativeValue,
     });
-
-    analytics.track('Opened Savings Sheet', {
-      category: 'savings',
-      empty: !supplyBalanceUnderlying,
-      label: underlying.symbol,
-    });
   }, [
     cTokenBalance,
     lifetimeSupplyInterestAccrued,
@@ -134,12 +127,7 @@ const SavingsListRow = ({
 
   useEffect(() => {
     if (underlying && underlying.symbol && supplyBalanceUnderlying)
-      InteractionManager.runAfterInteractions(() => {
-        analytics.track('User has savings', {
-          category: 'savings',
-          label: underlying.symbol,
-        });
-      });
+      InteractionManager.runAfterInteractions(() => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

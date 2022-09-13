@@ -1,5 +1,5 @@
 import { useRoute } from '@react-navigation/native';
-import analytics from '@segment/analytics-react-native';
+
 import React, {
   forwardRef,
   useCallback,
@@ -37,11 +37,6 @@ const CancelText = styled(Text).attrs(({ theme: { colors } }) => ({
 
 const sendQueryAnalytics = query => {
   if (query.length > 1) {
-    analytics.track('Search Query', {
-      category: 'discover',
-      length: query.length,
-      query: query,
-    });
   }
 };
 
@@ -116,9 +111,6 @@ export default forwardRef(function DiscoverSearchContainer(
       searchInputRef.current.focus();
     } else {
       setIsInputFocused(true);
-      analytics.track('Tapped Search', {
-        category: 'discover',
-      });
     }
   }, [isSearchModeEnabled, setIsInputFocused]);
 

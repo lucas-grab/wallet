@@ -1,5 +1,4 @@
 import messaging from '@react-native-firebase/messaging';
-import analytics from '@segment/analytics-react-native';
 
 import { get } from 'lodash';
 import nanoid from 'nanoid/non-secure';
@@ -215,16 +214,7 @@ class App extends Component {
         .then(deviceId => deviceId)
         .catch(() => nanoid());
       await keychain.saveString('analyticsUserIdentifier', identifier);
-      analytics.identify(identifier);
     }
-
-    await analytics.setup(REACT_APP_SEGMENT_API_WRITE_KEY, {
-      ios: {
-        trackDeepLinks: true,
-      },
-      trackAppLifecycleEvents: true,
-      trackAttributionData: true,
-    });
   };
 
   handleAppStateChange = async nextAppState => {
@@ -236,11 +226,6 @@ class App extends Component {
       });
     }
     this.setState({ appState: nextAppState });
-
-    analytics.track('State change', {
-      category: 'app state',
-      label: nextAppState,
-    });
   };
 
   handleNavigatorRef = navigatorRef =>

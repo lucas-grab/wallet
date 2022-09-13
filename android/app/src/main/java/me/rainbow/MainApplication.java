@@ -1,4 +1,4 @@
-package me.rainbow;
+package cdtm.me.rainbow;
 
 import android.app.Application;
 import android.content.Context;

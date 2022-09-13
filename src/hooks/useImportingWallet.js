@@ -1,4 +1,3 @@
-import analytics from '@segment/analytics-react-native';
 import { isValidAddress } from 'ethereumjs-util';
 import { keys } from 'lodash';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -99,7 +98,6 @@ export default function useImportingWallet() {
 
   const handlePressImportButton = useCallback(
     async (forceColor, forceAddress, forceEmoji = null) => {
-      analytics.track('Tapped "Import" button');
       // guard against pressEvent coming in as forceColor if
       // handlePressImportButton is used as onClick handler
       let guardedForceColor =
@@ -120,10 +118,6 @@ export default function useImportingWallet() {
           setResolvedAddress(address);
           name = forceEmoji ? `${forceEmoji} ${input}` : input;
           showWalletProfileModal(name, guardedForceColor, address);
-          analytics.track('Show wallet profile modal for ENS address', {
-            address,
-            input,
-          });
         } catch (e) {
           Alert.alert(
             'Sorry, we cannot add this ENS name at this time. Please try again later!'
@@ -141,10 +135,6 @@ export default function useImportingWallet() {
           setResolvedAddress(address);
           name = forceEmoji ? `${forceEmoji} ${input}` : input;
           showWalletProfileModal(name, guardedForceColor, address);
-          analytics.track('Show wallet profile modal for Unstoppable address', {
-            address,
-            input,
-          });
         } catch (e) {
           Alert.alert(
             'Sorry, we cannot add this Unstoppable name at this time. Please try again later!'
@@ -157,10 +147,6 @@ export default function useImportingWallet() {
           if (ens && ens !== input) {
             name = forceEmoji ? `${forceEmoji} ${ens}` : ens;
           }
-          analytics.track('Show wallet profile modal for read only wallet', {
-            ens,
-            input,
-          });
         } catch (e) {
           logger.log(`Error resolving ENS during wallet import`, e);
         }
@@ -183,10 +169,6 @@ export default function useImportingWallet() {
               guardedForceColor,
               walletResult.address
             );
-            analytics.track('Show wallet profile modal for imported wallet', {
-              address: walletResult.address,
-              type: walletResult.type,
-            });
           }, 100);
         } catch (error) {
           logger.log('Error looking up ENS for imported HD type wallet', error);
@@ -243,9 +225,6 @@ export default function useImportingWallet() {
                       });
                   }
                 }, 1000);
-                analytics.track('Imported seed phrase', {
-                  isWalletEthZero,
-                });
               });
             } else {
               // Wait for error messages then refocus

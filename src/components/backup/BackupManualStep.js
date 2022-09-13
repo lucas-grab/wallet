@@ -1,5 +1,5 @@
 import { useRoute } from '@react-navigation/native';
-import analytics from '@segment/analytics-react-native';
+
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { View } from 'react-native';
 import styled from 'styled-components';
@@ -89,24 +89,13 @@ export default function BackupManualStep() {
   const [secretLoaded, setSecretLoaded] = useState(false);
 
   const onComplete = useCallback(() => {
-    analytics.track(`Tapped "I've saved the secret"`, {
-      type,
-    });
     onManuallyBackupWalletId(walletId);
     ampInstance.logEvent('BACKUP_MANUAL-BACKUP');
-    analytics.track('Backup Complete', {
-      category: 'backup',
-      label: 'manual',
-    });
+
     goBack();
   }, [goBack, onManuallyBackupWalletId, type, walletId]);
 
-  useEffect(() => {
-    analytics.track('Manual Backup Step', {
-      category: 'backup',
-      label: 'manual',
-    });
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <Fragment>

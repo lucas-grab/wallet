@@ -1,4 +1,3 @@
-import analytics from '@segment/analytics-react-native';
 import React, { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useTheme } from '../../context/ThemeContext';
@@ -108,14 +107,13 @@ export default function WalletProfileState({
 
   const handleCancel = useCallback(() => {
     goBack();
-    analytics.track('Tapped "Cancel" on Wallet Profile modal');
+
     if (actionType === 'Create') {
       navigate(Routes.CHANGE_WALLET_SHEET);
     }
   }, [actionType, goBack, navigate]);
 
   const handleSubmit = useCallback(() => {
-    analytics.track('Tapped "Submit" on Wallet Profile modal');
     onCloseModal({
       color:
         typeof color === 'string' ? profileUtils.colorHexToIndex(color) : color,

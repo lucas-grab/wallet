@@ -1,4 +1,3 @@
-import analytics from '@segment/analytics-react-native';
 import React, { useEffect } from 'react';
 import Animated, {
   Easing,
@@ -66,13 +65,6 @@ export default function ExchangeDetailsRow({
 
   useEffect(() => {
     if (isHighPriceImpact && !prevIsHighPriceImpact) {
-      analytics.track('Showing high price impact warning in Swap', {
-        name: outputCurrency.name,
-        priceImpact: priceImpactPercentDisplay,
-        symbol: outputCurrency.symbol,
-        tokenAddress: outputCurrency.address,
-        type,
-      });
     }
   }, [
     isHighPriceImpact,

@@ -1,5 +1,3 @@
-import analytics from '@segment/analytics-react-native';
-
 import { get, isEmpty } from 'lodash';
 import { IS_TESTING } from 'react-native-dotenv';
 import {
@@ -270,7 +268,6 @@ export const gasUpdateGasPriceOption = (
     },
     type: GAS_UPDATE_GAS_PRICE_OPTION,
   });
-  analytics.track('Updated Gas Price', { gasPriceOption: newGasPriceOption });
 };
 
 export const gasUpdateCustomValues = (price, network) => async (

@@ -1,4 +1,3 @@
-import analytics from '@segment/analytics-react-native';
 import React, { useCallback } from 'react';
 
 import SheetActionButton from './SheetActionButton';
@@ -24,11 +23,6 @@ export default function BuyActionButton({ color: givenColor, ...props }) {
     } else {
       navigate(Routes.WYRE_WEBVIEW, params => params);
     }
-
-    analytics.track('Tapped Add Cash', {
-      category: 'add cash',
-      source: 'expanded state',
-    });
   }, [navigate, isDamaged]);
 
   return (

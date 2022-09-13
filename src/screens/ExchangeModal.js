@@ -1,4 +1,3 @@
-import analytics from '@segment/analytics-react-native';
 import { isEmpty } from 'lodash';
 import React, {
   Fragment,
@@ -366,16 +365,6 @@ export default function ExchangeModal({
     } catch (e) {
       logger.log('error getting the swap amount in USD price', e);
     } finally {
-      analytics.track(`Submitted ${type}`, {
-        amountInUSD,
-        defaultInputAsset: defaultInputAsset?.symbol ?? '',
-        isHighPriceImpact,
-        name: outputCurrency?.name ?? '',
-        priceImpact: priceImpactPercentDisplay,
-        symbol: outputCurrency?.symbol || '',
-        tokenAddress: outputCurrency?.address || '',
-        type,
-      });
     }
 
     const outputInUSD = outputPriceValue * outputAmount;
@@ -414,12 +403,7 @@ export default function ExchangeModal({
       };
       await executeRap(wallet, type, swapParameters, callback);
       logger.log('[exchange - handle submit] executed rap!');
-      analytics.track(`Completed ${type}`, {
-        amountInUSD,
-        input: defaultInputAsset?.symbol || '',
-        output: outputCurrency?.symbol || '',
-        type,
-      });
+
       // Tell iOS we finished running a rap (for tracking purposes)
       NotificationManager &&
         NotificationManager.postNotification('rapCompleted');
@@ -493,12 +477,6 @@ export default function ExchangeModal({
           setParams({ focused: true });
         },
         type: 'swap_details',
-      });
-      analytics.track('Opened Swap Details modal', {
-        name: outputCurrency?.name ?? '',
-        symbol: outputCurrency?.symbol ?? '',
-        tokenAddress: outputCurrency?.address ?? '',
-        type,
       });
     };
     ios || !isKeyboardOpen()

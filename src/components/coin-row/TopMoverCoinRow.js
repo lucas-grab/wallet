@@ -1,4 +1,3 @@
-import analytics from '@segment/analytics-react-native';
 import React, { useCallback } from 'react';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import styled from 'styled-components';
@@ -80,12 +79,7 @@ const TopMoverCoinRow = asset => {
   } = asset;
   const handlePress = useCallback(() => {
     const moverOrLoser = change[0] === '+' ? 'Mover' : 'Loser';
-    analytics.track('Pressed Top Mover', {
-      category: 'discover',
-      moverOrLoser,
-      symbol,
-      truncatedName,
-    });
+
     onPress?.(asset);
   }, [asset, change, onPress, symbol, truncatedName]);
   const { colors } = useTheme();

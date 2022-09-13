@@ -1,5 +1,5 @@
 import Clipboard from '@react-native-community/clipboard';
-import analytics from '@segment/analytics-react-native';
+
 import { pick, startCase, toLower } from 'lodash';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { requireNativeComponent } from 'react-native';
@@ -87,9 +87,6 @@ export default function TransactionList({
     }
 
     navigate(Routes.ADD_CASH_FLOW);
-    analytics.track('Tapped Add Cash', {
-      category: 'add cash',
-    });
   }, [navigate, isDamaged]);
 
   const {

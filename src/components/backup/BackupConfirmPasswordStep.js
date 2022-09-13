@@ -1,5 +1,5 @@
 import { useRoute } from '@react-navigation/native';
-import analytics from '@segment/analytics-react-native';
+
 import lang from 'i18n-js';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Keyboard } from 'react-native';
@@ -107,12 +107,7 @@ export default function BackupConfirmPasswordStep() {
     };
   }, []);
 
-  useEffect(() => {
-    analytics.track('Confirm Password Step', {
-      category: 'backup',
-      label: cloudPlatform,
-    });
-  }, []);
+  useEffect(() => {}, []);
 
   useEffect(() => {
     let passwordIsValid = false;
@@ -148,17 +143,14 @@ export default function BackupConfirmPasswordStep() {
     }
     // This means the user didn't have the password saved
     // and at least an other wallet already backed up
-    analytics.track('Backup Complete via Confirm Step', {
-      category: 'backup',
-      label: cloudPlatform,
-    });
+
     goBack();
   }, [goBack, isSettingsRoute, password]);
 
   const onSubmit = useCallback(async () => {
     if (!validPassword) return;
     ampInstance.logEvent('BACKUP_RESTORE-FROM-CLOUD');
-    analytics.track('Tapped "Restore from cloud"');
+
     await walletCloudBackup({
       onError,
       onSuccess,

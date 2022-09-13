@@ -1,5 +1,4 @@
 import { useRoute } from '@react-navigation/native';
-import analytics from '@segment/analytics-react-native';
 
 import lang from 'i18n-js';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -130,10 +129,6 @@ export default function BackupCloudStep() {
       passwordRef.current?.focus();
     }, 1);
     ampInstance.logEvent('BACKUP_CHOOSE-PASSWORD');
-    analytics.track('Choose Password Step', {
-      category: 'backup',
-      label: cloudPlatform,
-    });
   }, []);
 
   const { handleFocus } = useMagicAutofocus(passwordRef);
@@ -251,16 +246,13 @@ export default function BackupCloudStep() {
     // This means the user set a new password
     // and it was the first wallet backed up
     ampInstance.logEvent('BACKUP_COMPLETE');
-    analytics.track('Backup Complete', {
-      category: 'backup',
-      label: cloudPlatform,
-    });
+
     goBack();
   }, [goBack, isSettingsRoute, password]);
 
   const onConfirmBackup = useCallback(async () => {
     ampInstance.logEvent('BACKUP_TAP-CONFIRM');
-    analytics.track('Tapped "Confirm Backup"');
+
     await walletCloudBackup({
       onError,
       onSuccess,

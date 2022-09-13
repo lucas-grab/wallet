@@ -1,5 +1,4 @@
 import { useRoute } from '@react-navigation/native';
-import analytics from '@segment/analytics-react-native';
 
 import { isEmpty, isEqual, isString, toLower } from 'lodash';
 import React, {
@@ -427,7 +426,6 @@ export default function SendSheet(props) {
         isSufficientBalance: _isSufficientBalance,
         nativeAmount: _nativeAmount,
       });
-      analytics.track('Changed native currency input in Send flow');
     },
     [maxInputBalance, selected]
   );
@@ -441,7 +439,6 @@ export default function SendSheet(props) {
     newAssetAmount => {
       if (isString(newAssetAmount)) {
         sendUpdateAssetAmount(newAssetAmount);
-        analytics.track('Changed token input in Send flow');
       }
     },
     [sendUpdateAssetAmount]
@@ -598,11 +595,6 @@ export default function SendSheet(props) {
       return false;
     }
     const submitSuccessful = await onSubmit();
-    analytics.track('Sent transaction', {
-      assetName: selected?.name || '',
-      assetType: selected?.type || '',
-      isRecepientENS: toLower(recipient.slice(-4)) === '.eth',
-    });
 
     if (submitSuccessful) {
       goBack();
@@ -737,7 +729,6 @@ export default function SendSheet(props) {
   ]);
 
   const onResetAssetSelection = useCallback(() => {
-    analytics.track('Reset asset selection in Send flow');
     sendUpdateSelected({});
   }, [sendUpdateSelected]);
 

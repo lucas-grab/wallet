@@ -1,5 +1,5 @@
 import { useRoute } from '@react-navigation/core';
-import analytics from '@segment/analytics-react-native';
+
 import { isEmpty } from 'lodash';
 import React, { Fragment, useCallback, useState } from 'react';
 import { Clock } from 'react-native-reanimated';
@@ -51,11 +51,6 @@ const AddCashForm = ({
     if (paymentSheetVisible) return;
     async function handlePurchase() {
       try {
-        analytics.track('Submitted Purchase', {
-          category: 'add cash',
-          label: currency,
-          value: Number(value),
-        });
         setPaymentSheetVisible(true);
         await onPurchase({ address: currency, value });
         // eslint-disable-next-line no-empty
@@ -156,10 +151,6 @@ const AddCashForm = ({
 
         return nextValue;
       });
-
-      analytics.track('Updated cash amount', {
-        category: 'add cash',
-      });
     },
     [limitWeekly, onClearError, onLimitExceeded, onShake]
   );
@@ -173,16 +164,8 @@ const AddCashForm = ({
             'Before you can purchase DAI you must have some ETH in your wallet!',
           title: `You don't have any ETH!`,
         });
-        analytics.track('Tried to purchase DAI but doesnt own any ETH', {
-          category: 'add cash',
-          label: val,
-        });
       } else {
         setCurrency(val);
-        analytics.track('Switched currency to purchase', {
-          category: 'add cash',
-          label: val,
-        });
       }
     },
     [isWalletEthZero]

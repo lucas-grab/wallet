@@ -1,4 +1,3 @@
-import analytics from '@segment/analytics-react-native';
 import React, { useCallback, useState } from 'react';
 import { Linking } from 'react-native';
 import SheetActionButton from './SheetActionButton';
@@ -20,10 +19,6 @@ function DepositActionButton({
 
   const handlePress = useCallback(() => {
     if (!didTrack) {
-      analytics.track('Tapped placeholder Deposit button', {
-        category: 'liquidity pool',
-        label: symbol,
-      });
       setDidTrack(true);
     }
     Linking.openURL(

@@ -1,5 +1,5 @@
 import { useRoute } from '@react-navigation/native';
-import analytics from '@segment/analytics-react-native';
+
 import React, {
   useCallback,
   useEffect,
@@ -230,7 +230,6 @@ export default function WalletConnectApprovalSheet() {
 
   useEffect(() => {
     InteractionManager.runAfterInteractions(() => {
-      analytics.track('Shown Walletconnect session request');
       type === WalletConnectApprovalSheetType.connect && checkIfScam(dappUrl);
     });
     // Reject if the modal is dismissed
@@ -273,13 +272,7 @@ export default function WalletConnectApprovalSheet() {
   }, [approvalAccount.address, goBack, type]);
 
   useEffect(() => {
-    InteractionManager.runAfterInteractions(() => {
-      analytics.track('Received wc connection', {
-        dappName,
-        dappUrl,
-        waitingTime: (Date.now() - receivedTimestamp) / 1000,
-      });
-    });
+    InteractionManager.runAfterInteractions(() => {});
   }, [dappName, dappUrl, receivedTimestamp]);
 
   useEffect(() => {

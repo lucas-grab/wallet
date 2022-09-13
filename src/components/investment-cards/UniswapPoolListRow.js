@@ -1,4 +1,3 @@
-import analytics from '@segment/analytics-react-native';
 import { toUpper } from 'lodash';
 import React, { useCallback } from 'react';
 import { View } from 'react-native';
@@ -68,12 +67,6 @@ export default function UniswapPoolListRow({ assetType, item, ...props }) {
         nativeCurrency
       )[0];
     }
-
-    analytics.track('Pressed Pools Item', {
-      category: 'discover',
-      symbol: poolAsset.tokenNames,
-      type: item.attribute,
-    });
 
     // on iOS we handle this on native side
     android && removeNextToLastRoute();

@@ -1,4 +1,3 @@
-import analytics from '@segment/analytics-react-native';
 import { isNil, keys } from 'lodash';
 import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
@@ -28,7 +27,6 @@ export default function usePortfolios() {
     logger.log('💰 wallet totals', JSON.stringify(total, null, 2));
     keys(total).forEach(key => {
       const data = { [key]: total[key] };
-      analytics.identify(null, data);
     });
   }, [portfolios]);
 

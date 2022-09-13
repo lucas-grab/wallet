@@ -1,4 +1,3 @@
-import analytics from '@segment/analytics-react-native';
 import { isValidAddress } from 'ethereumjs-util';
 import lang from 'i18n-js';
 import qs from 'qs';
@@ -94,7 +93,7 @@ export default function useScanner(enabled) {
   const handleScanAddress = useCallback(
     address => {
       haptics.notificationSuccess();
-      analytics.track('Scanned address QR code');
+
       ampInstance.logEvent('REQUESFLOW_QR-SCAN');
 
       // First navigate to wallet screen
@@ -115,7 +114,6 @@ export default function useScanner(enabled) {
   const handleScanRainbowProfile = useCallback(
     async url => {
       haptics.notificationSuccess();
-      analytics.track('Scanned Rainbow profile url');
 
       const urlObj = new URL(url);
       const addressOrENS = urlObj.pathname?.split('/')?.[1] || '';
@@ -139,7 +137,7 @@ export default function useScanner(enabled) {
   const handleScanWalletConnect = useCallback(
     async qrCodeData => {
       haptics.notificationSuccess();
-      analytics.track('Scanned WalletConnect QR code');
+
       await checkPushNotificationPermissions();
 
       try {
@@ -157,7 +155,7 @@ export default function useScanner(enabled) {
   const handleScanInvalid = useCallback(
     qrCodeData => {
       haptics.notificationError();
-      analytics.track('Scanned broken or unsupported QR code', { qrCodeData });
+
       return Alert({
         callback: enableScanning,
         message: lang.t('wallet.unrecognized_qrcode'),

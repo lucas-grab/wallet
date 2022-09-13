@@ -1,5 +1,5 @@
 import { useRoute } from '@react-navigation/native';
-import analytics from '@segment/analytics-react-native';
+
 import React, { Fragment, useCallback, useEffect, useMemo } from 'react';
 import { View } from 'react-native';
 import styled from 'styled-components';
@@ -100,11 +100,7 @@ export default function AlreadyBackedUpView() {
   const walletCloudBackup = useWalletCloudBackup();
   const walletId = params?.walletId || selectedWallet.id;
 
-  useEffect(() => {
-    analytics.track('Already Backed Up View', {
-      category: 'settings backup',
-    });
-  }, []);
+  useEffect(() => {}, []);
 
   const walletStatus = useMemo(() => {
     let status = null;
@@ -151,10 +147,6 @@ export default function AlreadyBackedUpView() {
     ) {
       return;
     }
-
-    analytics.track(`Back up to ${cloudPlatform} pressed`, {
-      category: 'settings backup',
-    });
 
     walletCloudBackup({
       handleNoLatestBackup,

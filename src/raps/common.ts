@@ -1,6 +1,6 @@
 import { Logger } from '@ethersproject/logger';
 import { Wallet } from '@ethersproject/wallet';
-import analytics from '@segment/analytics-react-native';
+
 
 import { Trade } from '@uniswap/sdk';
 import { join, map } from 'lodash';
@@ -166,11 +166,7 @@ const executeAction = async (
   } catch (error: any) {
 
 
-    analytics.track('Rap failed', {
-      category: 'raps',
-      failed_action: type,
-      label: rapName,
-    });
+
     // If the first action failed, return an error message
     if (index === 0) {
       const errorMessage = parseError(error);
@@ -191,10 +187,7 @@ export const executeRap = async (
   const { actions } = rap;
   const rapName = getRapFullName(actions);
 
-  analytics.track('Rap started', {
-    category: 'raps',
-    label: rapName,
-  });
+
 
   logger.log('[common - executing rap]: actions', actions);
   if (actions.length) {
@@ -219,10 +212,7 @@ export const executeRap = async (
     }
   }
 
-  analytics.track('Rap completed', {
-    category: 'raps',
-    label: rapName,
-  });
+
   logger.log('[common - executing rap] finished execute rap function');
 };
 

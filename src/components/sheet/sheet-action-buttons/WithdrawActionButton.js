@@ -1,4 +1,3 @@
-import analytics from '@segment/analytics-react-native';
 import React, { useCallback, useState } from 'react';
 import { Linking } from 'react-native';
 import { neverRerender } from '../../../utils';
@@ -20,10 +19,6 @@ function WithdrawActionButton({
 
   const handlePress = useCallback(() => {
     if (!didTrack) {
-      analytics.track('Tapped placeholder Withdraw button', {
-        category: 'liquidity pool',
-        label: symbol,
-      });
       setDidTrack(true);
     }
 

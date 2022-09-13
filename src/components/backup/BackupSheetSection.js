@@ -1,4 +1,3 @@
-import analytics from '@segment/analytics-react-native';
 import React, { Fragment, useEffect } from 'react';
 import styled from 'styled-components';
 import { useTheme } from '../../context/ThemeContext';
@@ -63,10 +62,6 @@ export default function BackupSheetSection({
   const { colors, isDarkMode } = useTheme();
   useEffect(() => {
     ampInstance.logEvent('BACKUP_MODAL-SHOWN');
-    analytics.track('BackupSheet shown', {
-      category: 'backup',
-      label: type,
-    });
   }, [type]);
 
   const maxButtonWidth = deviceUtils.dimensions.width - 30;

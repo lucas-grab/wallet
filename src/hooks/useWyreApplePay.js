@@ -1,4 +1,3 @@
-import analytics from '@segment/analytics-react-native';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Alert } from '../components/alerts';
@@ -65,9 +64,6 @@ export default function useWyreApplePay() {
       );
 
       if (!reservationId) {
-        analytics.track('Wyre order reservation incomplete', {
-          category: 'add cash',
-        });
         Alert({
           buttons: [{ text: 'Okay' }],
           message:
@@ -84,9 +80,6 @@ export default function useWyreApplePay() {
       );
 
       if (!quotation) {
-        analytics.track('Wyre order quote incomplete', {
-          category: 'add cash',
-        });
         Alert({
           buttons: [{ text: 'Okay' }],
           message:
@@ -150,17 +143,8 @@ export default function useWyreApplePay() {
           );
           applePayResponse.complete(PaymentRequestStatusTypes.FAIL);
           handlePaymentCallback();
-          analytics.track('Purchase failed', {
-            category: 'add cash',
-            error_category: errorCategory,
-            error_code: errorCode,
-            error_message: errorMessage,
-          });
         }
       } else {
-        analytics.track('Purchase incomplete', {
-          category: 'add cash',
-        });
       }
     },
     [accountAddress, dispatch, handlePaymentCallback, network]

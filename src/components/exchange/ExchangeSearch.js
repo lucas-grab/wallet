@@ -1,4 +1,3 @@
-import analytics from '@segment/analytics-react-native';
 import { isEmpty } from 'lodash';
 import React, { useCallback, useContext, useEffect, useRef } from 'react';
 import RadialGradient from 'react-native-radial-gradient';
@@ -127,11 +126,6 @@ const ExchangeSearch = (
 ) => {
   const handleClearInput = useCallback(() => {
     if (isDiscover && searchQuery.length > 1) {
-      analytics.track('Search Query', {
-        category: 'discover',
-        length: searchQuery.length,
-        query: searchQuery,
-      });
     }
     ref?.current?.clear();
     onChangeText?.('');

@@ -1,4 +1,4 @@
-import analytics from '@segment/analytics-react-native';
+
 import React, { useCallback, useRef } from 'react';
 import RadialGradient from 'react-native-radial-gradient';
 import styled from 'styled-components';
@@ -69,9 +69,7 @@ export default function SendAssetFormField({
   const { colors } = useTheme();
   const handlePressMax = useCallback(
     event => {
-      analytics.track('Clicked "Max" in Send flow input');
-      onPressButton?.(event);
-    },
+
     [onPressButton]
   );
   const bubbleField = useRef();
