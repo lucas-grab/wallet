@@ -1,6 +1,6 @@
 import { useRoute } from '@react-navigation/native';
 import analytics from '@segment/analytics-react-native';
-import { captureException } from '@sentry/react-native';
+
 import BigNumber from 'bignumber.js';
 import lang from 'i18n-js';
 import { isEmpty, isNil, omit, toLower } from 'lodash';
@@ -685,7 +685,6 @@ export default function TransactionConfirmationScreen() {
       }
     } else {
       try {
-        logger.sentry('Error with WC transaction. See previous logs...');
         const dappInfo = {
           dappName,
           dappScheme,
@@ -693,14 +692,9 @@ export default function TransactionConfirmationScreen() {
           formattedDappUrl,
           isAuthenticated,
         };
-        logger.sentry('Dapp info:', dappInfo);
-        logger.sentry('Request info:', {
-          method,
-          params,
-        });
-        logger.sentry('TX payload:', txPayloadUpdated);
+
         const error = new Error(`WC Tx failure - ${formattedDappUrl}`);
-        captureException(error);
+
         // eslint-disable-next-line no-empty
       } catch (e) {}
 

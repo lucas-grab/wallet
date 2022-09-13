@@ -2,7 +2,6 @@ import { Provider } from '@ethersproject/abstract-provider';
 import { Signer } from '@ethersproject/abstract-signer';
 import { Contract } from '@ethersproject/contracts';
 import { Wallet } from '@ethersproject/wallet';
-import { captureException } from '@sentry/react-native';
 import {
   ChainId,
   CurrencyAmount,
@@ -89,7 +88,7 @@ export const estimateSwapGasLimit = async ({
 }> => {
   let methodName = null;
   if (!tradeDetails) {
-    logger.sentry('No trade details in estimateSwapGasLimit');
+
     return {
       gasLimit: ethUnits.basic_swap,
     };
@@ -121,9 +120,7 @@ export const estimateSwapGasLimit = async ({
         )
           .then((value: string) => value)
           .catch((error: Error) => {
-            logger.sentry(
-              `Error estimating swap method ${methodName} with: ${error}`
-            );
+ 
             return undefined;
           })
       )
@@ -135,9 +132,7 @@ export const estimateSwapGasLimit = async ({
       // if the Fee on Transfer method fails, but the regular method does not, we should not
       // use the regular method. this probably means something is wrong with the fot token.
       if (gasEstimates[i] && !gasEstimates[i + 1]) {
-        logger.sentry(
-          'Issue with Fee on Transfer estimate in estimateSwapGasLimit'
-        );
+
         return { gasLimit: ethUnits.basic_swap, methodName: null };
       }
     }
@@ -148,7 +143,7 @@ export const estimateSwapGasLimit = async ({
 
     // all estimations failed...
     if (indexOfSuccessfulEstimation === -1) {
-      logger.sentry('all swap estimates failed in estimateSwapGasLimit');
+
       return {
         gasLimit: ethUnits.basic_swap,
         methodName: requiresApprove ? methodNames[0] : null,
@@ -160,8 +155,7 @@ export const estimateSwapGasLimit = async ({
       return { gasLimit, methodName };
     }
   } catch (error) {
-    logger.sentry('error executing estimateSwapGasLimit');
-    captureException(error);
+
     return {
       gasLimit: ethUnits.basic_swap,
     };

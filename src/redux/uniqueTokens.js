@@ -1,5 +1,5 @@
 import analytics from '@segment/analytics-react-native';
-import { captureException } from '@sentry/react-native';
+
 import { concat, isEmpty, without } from 'lodash';
 /* eslint-disable-next-line import/no-cycle */
 import { dataUpdateAssets } from './data';
@@ -152,7 +152,6 @@ export const fetchUniqueTokens = showcaseAddress => async (
         showcase: !!showcaseAddress,
         type: UNIQUE_TOKENS_GET_UNIQUE_TOKENS_FAILURE,
       });
-      captureException(error);
     }
   };
 

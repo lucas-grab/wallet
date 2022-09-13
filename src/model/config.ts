@@ -1,5 +1,5 @@
 import remoteConfig from '@react-native-firebase/remote-config';
-import { captureException } from '@sentry/react-native';
+
 import {
   // @ts-ignore
   ARBITRUM_MAINNET_RPC,
@@ -102,9 +102,7 @@ const init = async () => {
       config[key] = entry.asString();
     });
   } catch (e) {
-    Logger.sentry('error getting remote config', e);
-    captureException(e);
-    Logger.sentry('using default config instead...');
+
   } finally {
     Logger.debug('CURRENT CONFIG', JSON.stringify(config, null, 2));
     // SET THE DEFAULT PROVIDER AFTER LOADING THE CONFIG

@@ -1,6 +1,6 @@
 import messaging from '@react-native-firebase/messaging';
 import analytics from '@segment/analytics-react-native';
-import * as Sentry from '@sentry/react-native';
+
 import { get } from 'lodash';
 import nanoid from 'nanoid/non-secure';
 import PropTypes from 'prop-types';
@@ -18,8 +18,6 @@ import branch from 'react-native-branch';
 import {
   IS_TESTING,
   REACT_APP_SEGMENT_API_WRITE_KEY,
-  SENTRY_ENDPOINT,
-  SENTRY_ENVIRONMENT,
 } from 'react-native-dotenv';
 
 // eslint-disable-next-line import/default
@@ -73,12 +71,6 @@ if (__DEV__) {
   (showNetworkRequests || showNetworkResponses) &&
     monitorNetwork(showNetworkRequests, showNetworkResponses);
 } else {
-  let sentryOptions = {
-    dsn: SENTRY_ENDPOINT,
-    enableAutoSessionTracking: true,
-    environment: SENTRY_ENVIRONMENT,
-  };
-  Sentry.init(sentryOptions);
 }
 
 enableScreens();
@@ -95,7 +87,6 @@ class App extends Component {
   async componentDidMount() {
     if (!__DEV__ && RNTestFlight) {
       const { isTestFlight } = RNTestFlight.getConstants();
-      logger.sentry(`Test flight usage - ${isTestFlight}`);
     }
     this.identifyFlow();
     InteractionManager.runAfterInteractions(() => {
@@ -162,7 +153,7 @@ class App extends Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.walletReady && this.props.walletReady) {
       // Everything we need to do after the wallet is ready goes here
-      logger.sentry('✅ Wallet ready!');
+
       runWalletBackupStatusChecks();
     }
   }

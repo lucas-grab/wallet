@@ -1,5 +1,5 @@
 import analytics from '@segment/analytics-react-native';
-import { captureException, captureMessage } from '@sentry/react-native';
+
 import { find, map, toLower } from 'lodash';
 /* eslint-disable-next-line import/no-cycle */
 import { dataAddNewTransaction } from './data';
@@ -145,10 +145,7 @@ export const addCashGetOrderStatus = (
           },
           type: ADD_CASH_ORDER_FAILURE,
         });
-        logger.sentry('Wyre order data failed', data);
-        captureMessage(
-          `Wyre final check - order status failed - ${referenceInfo.referenceId}`
-        );
+
         analytics.track('Purchase failed', {
           category: 'add cash',
           error_category: errorCategory,
@@ -186,7 +183,6 @@ export const addCashGetOrderStatus = (
         );
       }
     } catch (error) {
-      captureException(error);
       if (remainingErrorTries === 0) return;
       orderStatusHandle = setTimeout(
         () =>

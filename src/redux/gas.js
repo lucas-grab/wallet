@@ -1,5 +1,5 @@
 import analytics from '@segment/analytics-react-native';
-import { captureException } from '@sentry/react-native';
+
 import { get, isEmpty } from 'lodash';
 import { IS_TESTING } from 'react-native-dotenv';
 import {
@@ -197,9 +197,6 @@ export const gasPricesStartPolling = (network = networkTypes.mainnet) => async (
             // Add gas estimates
             adjustedGasPrices = await etherscanGetGasEstimates(priceData);
           } catch (e) {
-            captureException(new Error('Etherscan gas estimates failed'));
-            logger.sentry('Etherscan gas estimates error:', e);
-            logger.sentry('falling back to eth gas station');
             source = GAS_PRICE_SOURCES.ETH_GAS_STATION;
             // Fallback to ETHGasStation if Etherscan fails
             const {
@@ -226,8 +223,7 @@ export const gasPricesStartPolling = (network = networkTypes.mainnet) => async (
         fetchResolve(true);
       } catch (error) {
         const { fallbackGasPrices } = dispatch(getDefaultTxFees());
-        captureException(new Error('all gas estimates failed'));
-        logger.sentry('gas estimates error', error);
+
         dispatch({
           payload: fallbackGasPrices,
           type: GAS_PRICES_FAILURE,

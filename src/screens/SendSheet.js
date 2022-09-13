@@ -1,6 +1,6 @@
 import { useRoute } from '@react-navigation/native';
 import analytics from '@segment/analytics-react-native';
-import { captureEvent, captureException } from '@sentry/react-native';
+
 import { isEmpty, isEqual, isString, toLower } from 'lodash';
 import React, {
   useCallback,
@@ -493,10 +493,6 @@ export default function SendSheet(props) {
     const validTransaction =
       isValidAddress && amountDetails.isSufficientBalance && isSufficientGas;
     if (!selectedGasPrice.txFee || !validTransaction) {
-      logger.sentry('preventing tx submit for one of the following reasons:');
-      logger.sentry('selectedGasPrice.txFee ? ', selectedGasPrice?.txFee);
-      logger.sentry('validTransaction ? ', validTransaction);
-      captureEvent('Preventing tx submit');
       return false;
     }
 
@@ -548,11 +544,8 @@ export default function SendSheet(props) {
     try {
       const signableTransaction = await createSignableTransaction(txDetails);
       if (!signableTransaction.to) {
-        logger.sentry('txDetails', txDetails);
-        logger.sentry('signableTransaction', signableTransaction);
-        logger.sentry('"to" field is missing!');
         const e = new Error('Transaction missing TO field');
-        captureException(e);
+
         Alert.alert('Invalid transaction');
         submitSuccess = false;
       } else {
@@ -577,10 +570,6 @@ export default function SendSheet(props) {
         }
       }
     } catch (error) {
-      logger.sentry('TX Details', txDetails);
-      logger.sentry('SendSheet onSubmit error');
-      logger.sentry(error);
-      captureException(error);
       submitSuccess = false;
     }
     return submitSuccess;
@@ -606,8 +595,6 @@ export default function SendSheet(props) {
 
   const submitTransaction = useCallback(async () => {
     if (Number(amountDetails.assetAmount) <= 0) {
-      logger.sentry('amountDetails.assetAmount ? ', amountDetails?.assetAmount);
-      captureEvent('Preventing tx submit due to amount <= 0');
       return false;
     }
     const submitSuccessful = await onSubmit();
@@ -836,7 +823,6 @@ export default function SendSheet(props) {
           }
         })
         .catch(e => {
-          logger.sentry('Error getting optimism l1 fee', e);
           updateTxFee(null, null, currentNetwork);
         });
     }

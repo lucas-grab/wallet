@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import path from 'path';
-import { captureException } from '@sentry/react-native';
+
 import { keyBy } from 'lodash';
 // @ts-ignore
 import { RAINBOW_TOKEN_LIST_URL } from 'react-native-dotenv';
@@ -76,9 +76,9 @@ async function readRNFSJsonData<T>(filename: string): Promise<T | null> {
   } catch (error) {
     // @ts-ignore: Skip missing file errors.
     if (error?.code !== 'ENOENT') {
-      logger.sentry('Error parsing token-list-cache data');
+
       logger.error(error);
-      captureException(error);
+
     }
     return null;
   }
@@ -92,9 +92,9 @@ async function writeRNFSJsonData<T>(filename: string, data: T) {
       'utf8'
     );
   } catch (error) {
-    logger.sentry(`Token List: Error saving ${filename}`);
+    
     logger.error(error);
-    captureException(error);
+    
   }
 }
 
@@ -147,9 +147,9 @@ async function getTokenListUpdate(
     // @ts-ignore
     if (error?.response?.status !== 304) {
       // Log errors that are not 304 no change errors
-      logger.sentry('Error fetching token list');
+
       logger.error(error);
-      captureException(error);
+
     }
     return {
       newTokenList: undefined,
@@ -177,9 +177,9 @@ class RainbowTokenList extends EventEmitter {
         }
       })
       .catch(error => {
-        logger.sentry('Error initializing token-list cache data');
+        
         logger.error(error);
-        captureException(error);
+        
       })
       .finally(() => {
         logger.debug('Token list initialized');
@@ -230,9 +230,9 @@ class RainbowTokenList extends EventEmitter {
         this._tokenListData = newTokenList;
       }
     } catch (error) {
-      logger.sentry(`Token list update error: ${(error as Error).message}`);
+
       logger.error(error);
-      captureException(error);
+
     } finally {
       this.#updateJob = null;
       logger.debug('Token list completed update check.');

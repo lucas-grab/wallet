@@ -1,5 +1,5 @@
 import { PaymentRequest } from '@rainbow-me/react-native-payments';
-import { captureException } from '@sentry/react-native';
+
 import { get, join, split, toLower, values } from 'lodash';
 import {
   RAINBOW_WYRE_MERCHANT_ID,
@@ -30,7 +30,7 @@ const getBaseUrl = network =>
 
 const wyreApi = new RainbowFetchClient({
   headers: {
-    'Accept': 'application/json',
+    Accept: 'application/json',
     'Content-Type': 'application/json',
   },
   timeout: 30000, // 30 secs
@@ -104,18 +104,10 @@ export const showApplePayRequest = async (
     paymentOptions
   );
 
-  logger.sentry(
-    `Apple Pay - Show payment request - ${referenceInfo.referenceId}`
-  );
-
   try {
     const paymentResponse = await paymentRequest.show();
     return paymentResponse;
   } catch (error) {
-    logger.sentry(
-      `Apple Pay - Show payment request catch - ${referenceInfo.referenceId}`
-    );
-    captureException(error);
     return null;
   }
 };
@@ -159,7 +151,6 @@ export const getWalletOrderQuotation = async (
       sourceAmountWithFees: responseData?.sourceAmount,
     };
   } catch (error) {
-    logger.sentry('Apple Pay - error getting wallet order quotation', error);
     return null;
   }
 };
@@ -200,7 +191,6 @@ export const reserveWyreOrder = async (
     );
     return response?.data;
   } catch (error) {
-    logger.sentry('Apple Pay - error reserving order', error);
     return null;
   }
 };
@@ -264,30 +254,16 @@ export const getOrderId = async (
     if (error && error.type === RAINBOW_FETCH_ERROR) {
       const { responseBody } = error;
 
-      logger.sentry('WYRE - getOrderId response - was not 200', responseBody);
       const {
         data: { errorCode, exceptionId, message, type },
       } = responseBody;
 
-      captureException(
-        new WyreException(
-          WyreExceptionTypes.CREATE_ORDER,
-          referenceInfo,
-          exceptionId,
-          errorCode,
-          message
-        )
-      );
       return {
         errorCategory: type,
         errorCode,
         errorMessage: message,
       };
     } else {
-      logger.sentry(
-        `WYRE - getOrderId response catch - ${referenceInfo.referenceId}`
-      );
-      captureException(error);
       return {};
     }
   }

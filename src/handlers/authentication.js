@@ -1,4 +1,3 @@
-import { captureException } from '@sentry/react-native';
 import { RAINBOW_MASTER_KEY } from 'react-native-dotenv';
 import AesEncryptor from '../handlers/aesEncryption';
 import * as keychain from '../model/keychain';
@@ -28,10 +27,7 @@ export async function savePIN(pin) {
     if (encryptedPin) {
       await keychain.saveString(pinKey, encryptedPin);
     }
-  } catch (e) {
-    logger.sentry('Error saving pin');
-    captureException(e);
-  }
+  } catch (e) {}
 }
 
 export async function authenticateWithPIN() {

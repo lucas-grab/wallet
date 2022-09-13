@@ -111,7 +111,6 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
-apply from: "../../node_modules/@sentry/react-native/sentry.gradle"
 
 
 /**
@@ -224,10 +223,12 @@ android {
         def pass = getPassword("rainbow","rainbow-android-key")
 
         release {
-            storeFile file('../keystores/rainbow-key.keystore')
-            storePassword pass
-            keyAlias 'rainbow-alias'
-            keyPassword pass
+            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+                storeFile file(MYAPP_UPLOAD_STORE_FILE)
+                storePassword MYAPP_UPLOAD_STORE_PASSWORD
+                keyAlias MYAPP_UPLOAD_KEY_ALIAS
+                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+            }
         }
     }
 

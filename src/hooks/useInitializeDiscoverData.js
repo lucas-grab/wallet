@@ -1,4 +1,3 @@
-import { captureException } from '@sentry/react-native';
 import { useCallback } from 'react';
 import { InteractionManager } from 'react-native';
 import { useDispatch } from 'react-redux';
@@ -14,10 +13,7 @@ export default function useInitializeDiscoverData() {
         // Other discover related actions should be triggered here
         dispatch(userListsLoadState());
       });
-    } catch (error) {
-      logger.sentry('Error initializing account data');
-      captureException(error);
-    }
+    } catch (error) {}
   }, [dispatch]);
 
   return initializeDiscoverData;

@@ -1,6 +1,6 @@
 import { useRoute } from '@react-navigation/core';
 import analytics from '@segment/analytics-react-native';
-import { captureException } from '@sentry/react-native';
+
 import { get, toLower } from 'lodash';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { InteractionManager } from 'react-native';
@@ -441,10 +441,6 @@ export default function ChangeWalletSheet() {
                       try {
                         await backupUserDataIntoCloud({ wallets: newWallets });
                       } catch (e) {
-                        logger.sentry(
-                          'Updating wallet userdata failed after new account creation'
-                        );
-                        captureException(e);
                         throw e;
                       }
                     }
@@ -456,8 +452,6 @@ export default function ChangeWalletSheet() {
                     await initializeWallet();
                   }
                 } catch (e) {
-                  logger.sentry('Error while trying to add account');
-                  captureException(e);
                   if (isDamaged) {
                     setTimeout(() => {
                       showWalletErrorAlert();

@@ -1,7 +1,7 @@
 import { Logger } from '@ethersproject/logger';
 import { Wallet } from '@ethersproject/wallet';
 import analytics from '@segment/analytics-react-native';
-import { captureException } from '@sentry/react-native';
+
 import { Trade } from '@uniswap/sdk';
 import { join, map } from 'lodash';
 import { depositCompound, swap, unlock, withdrawCompound } from './actions';
@@ -164,8 +164,8 @@ const executeAction = async (
     );
     return { baseNonce: nonce, errorMessage: null };
   } catch (error: any) {
-    logger.sentry('[3 INNER] error running action, code:', error?.code);
-    captureException(error);
+
+
     analytics.track('Rap failed', {
       category: 'raps',
       failed_action: type,

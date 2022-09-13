@@ -1,5 +1,5 @@
 import analytics from '@segment/analytics-react-native';
-import { captureException } from '@sentry/react-native';
+
 import { values } from 'lodash';
 import { useCallback } from 'react';
 import { Alert, Linking } from 'react-native';
@@ -144,10 +144,7 @@ export default function useWalletCloudBackup() {
       } catch (e) {
         const userError = getUserError(e);
         onError && onError(userError);
-        logger.sentry(
-          `error while trying to backup wallet to ${cloudPlatform}`
-        );
-        captureException(e);
+
         analytics.track(`Error during ${cloudPlatform} Backup`, {
           category: 'backup',
           error: userError,
@@ -168,8 +165,6 @@ export default function useWalletCloudBackup() {
         logger.log('backup saved everywhere!');
         onSuccess && onSuccess();
       } catch (e) {
-        logger.sentry('error while trying to save wallet backup state');
-        captureException(e);
         const userError = getUserError(
           new Error(CLOUD_BACKUP_ERRORS.WALLET_BACKUP_STATUS_UPDATE_FAILED)
         );

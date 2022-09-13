@@ -320,7 +320,7 @@ async function fetchSnapshots(account: string): Promise<Position[]> {
     }
     return allResults;
   } catch (e) {
-    logger.sentry('Error fetching positions', e);
+
   }
   return [];
 }
@@ -355,7 +355,7 @@ async function fetchData(account: string): Promise<UniswapPosition[]> {
       );
     }
   } catch (e) {
-    logger.sentry('Error fetching positions', e);
+
   }
   return [];
 }

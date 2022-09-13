@@ -1,4 +1,4 @@
-import { captureException } from '@sentry/react-native';
+
 import React from 'react';
 // @ts-ignore
 import { IS_TESTING } from 'react-native-dotenv';
@@ -13,15 +13,10 @@ class ErrorBoundary extends React.Component {
   state = { hasError: false };
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    // log captured error to Sentry
-    logger.sentry(
-      `Unhandled JS error caught by Error Boundary: ${JSON.stringify(
-        errorInfo
-      )}`
-    );
-    logger.sentry('Error is', error);
+
+
     const customError = new Error('React Crash');
-    captureException(customError);
+
   }
   render() {
     if (this.state.hasError) {

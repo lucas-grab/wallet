@@ -29,7 +29,7 @@ export default function Fallback() {
   const { colors } = useTheme();
   const { width: deviceWidth } = useDimensions();
   const handleRestart = () => {
-    logger.sentry('Restarting app after Error Boundary catch');
+
     RNExitApp.exitApp();
   };
   return (

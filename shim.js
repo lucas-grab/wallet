@@ -71,9 +71,7 @@ global.storage = storage;
 for (let variable of Object.entries(require('./globalVariables').default)) {
   Object.defineProperty(global, variable[0], {
     get: () => variable[1],
-    set: () => {
-      logger.sentry(`Trying to override internal Rainbow var ${variable[0]}`);
-    },
+    set: () => {},
   });
 }
 
@@ -158,7 +156,6 @@ if (!ReactNative.InteractionManager._shimmed) {
     if (finishAutomatically) {
       setTimeout(() => {
         ReactNative.InteractionManager.clearInteractionHandle(handle);
-        logger.sentry(`Interaction finished automatically`);
       }, 3000);
     }
     return handle;

@@ -19,7 +19,6 @@ export default function useLoadAccountData() {
   const dispatch = useDispatch();
   const loadAccountData = useCallback(
     async network => {
-      logger.sentry('Load wallet account data');
       await dispatch(openStateSettingsLoadState());
       await dispatch(coinListLoadState());
       await dispatch(showcaseTokensLoadState());

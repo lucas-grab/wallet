@@ -22,7 +22,6 @@ export default function useLoadGlobalData() {
   const dispatch = useDispatch();
 
   const loadGlobalData = useCallback(async () => {
-    logger.sentry('Load wallet global data');
     const promises = [];
     const p1 = dispatch(settingsLoadState());
     const p2 = dispatch(contactsLoadState());

@@ -1,6 +1,6 @@
 import { Contract } from '@ethersproject/contracts';
 import { Wallet } from '@ethersproject/wallet';
-import { captureException } from '@sentry/react-native';
+
 import { get } from 'lodash';
 import { Rap, RapActionParameters, SwapActionParameters } from '../common';
 import {
@@ -78,18 +78,13 @@ const withdrawCompound = async (
 
   let withdraw = null;
   try {
-    logger.sentry(`[${actionName}] txn params`, transactionParams);
+
     withdraw = isMax
       ? await compound.redeem(rawInputAmount, transactionParams)
       : await compound.redeemUnderlying(rawInputAmount, transactionParams);
-    logger.sentry(`[${actionName}] response`, withdraw);
+
   } catch (e) {
-    logger.sentry(
-      `[${actionName}] error executing ${
-        isMax ? 'compound.redeem' : 'compound.redeemUnderlying'
-      }`
-    );
-    captureException(e);
+
     throw e;
   }
 

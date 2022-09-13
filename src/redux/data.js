@@ -279,9 +279,7 @@ const genericAssetsFallback = () => async (dispatch, getState) => {
       await delay(1000);
       prices = { ...prices, ...pricesForCurrentPage };
     }
-  } catch (e) {
-    logger.sentry('error loading generic asset prices from coingecko', e);
-  }
+  } catch (e) {}
 
   if (!isEmpty(prices)) {
     Object.keys(prices).forEach(key => {

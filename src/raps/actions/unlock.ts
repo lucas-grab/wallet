@@ -1,7 +1,7 @@
 import { MaxUint256 } from '@ethersproject/constants';
 import { Contract } from '@ethersproject/contracts';
 import { Wallet } from '@ethersproject/wallet';
-import { captureException } from '@sentry/react-native';
+
 import { get, isNull, toLower } from 'lodash';
 import { alwaysRequireApprove } from '../../config/debug';
 import { Rap, RapActionParameters, UnlockActionParameters } from '../common';
@@ -24,19 +24,15 @@ export const estimateApprove = async (
   spender: string
 ): Promise<number | string> => {
   try {
-    logger.sentry('exchange estimate approve', {
-      owner,
-      spender,
-      tokenAddress,
-    });
+
     const exchange = new Contract(tokenAddress, erc20ABI, web3Provider!);
     const gasLimit = await exchange.estimateGas.approve(spender, MaxUint256, {
       from: owner,
     });
     return gasLimit ? gasLimit.toString() : ethUnits.basic_approval;
   } catch (error) {
-    logger.sentry('error estimateApproveWithExchange');
-    captureException(error);
+
+
     return ethUnits.basic_approval;
   }
 };
@@ -52,8 +48,8 @@ const getRawAllowance = async (
     const allowance = await tokenContract.allowance(owner, spender);
     return allowance.toString();
   } catch (error) {
-    logger.sentry('error getRawAllowance');
-    captureException(error);
+
+
     return null;
   }
 };
@@ -97,18 +93,15 @@ const unlock = async (
 
   let gasLimit;
   try {
-    logger.sentry(`[${actionName}] estimate gas`, {
-      assetAddress,
-      contractAddress,
-    });
+
     gasLimit = await estimateApprove(
       accountAddress,
       assetAddress,
       contractAddress
     );
   } catch (e) {
-    logger.sentry(`[${actionName}] Error estimating gas`);
-    captureException(e);
+
+
     throw e;
   }
   let approval;
@@ -121,11 +114,7 @@ const unlock = async (
       gasPrice = fastPrice;
     }
 
-    logger.sentry(`[${actionName}] about to approve`, {
-      assetAddress,
-      contractAddress,
-      gasLimit,
-    });
+
     const nonce = baseNonce ? baseNonce + index : null;
     approval = await executeApprove(
       assetAddress,
@@ -136,8 +125,8 @@ const unlock = async (
       nonce
     );
   } catch (e) {
-    logger.sentry(`[${actionName}] Error approving`);
-    captureException(e);
+
+
     throw e;
   }
 

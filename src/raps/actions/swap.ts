@@ -1,5 +1,5 @@
 import { Wallet } from '@ethersproject/wallet';
-import { captureException } from '@sentry/react-native';
+
 import { get } from 'lodash';
 import { Rap, RapActionParameters, SwapActionParameters } from '../common';
 import {
@@ -51,10 +51,7 @@ const swap = async (
   let gasLimit, methodName;
   try {
     const routeDetails = tradeDetails?.route?.path;
-    logger.sentry(`[${actionName}] estimate gas`, {
-      accountAddress,
-      routeDetails,
-    });
+
     const {
       gasLimit: newGasLimit,
       methodName: newMethodName,
@@ -72,8 +69,7 @@ const swap = async (
       : newGasLimit;
     methodName = newMethodName;
   } catch (e) {
-    logger.sentry(`[${actionName}] error estimateSwapGasLimit`);
-    captureException(e);
+
     throw e;
   }
 
@@ -83,11 +79,7 @@ const swap = async (
 
   let swap;
   try {
-    logger.sentry(`[${actionName}] executing rap`, {
-      gasLimit,
-      gasPrice,
-      methodName,
-    });
+
     const nonce = baseNonce ? baseNonce + index : undefined;
     swap = await executeSwap({
       accountAddress,
@@ -103,9 +95,9 @@ const swap = async (
       wallet,
     });
   } catch (e) {
-    logger.sentry('Error', e);
+
     const fakeError = new Error('Failed to execute swap');
-    captureException(fakeError);
+
     throw e;
   }
 

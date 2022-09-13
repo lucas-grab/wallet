@@ -1,4 +1,4 @@
-import { captureException } from '@sentry/react-native';
+
 import { rainbowFetch } from '../rainbow-fetch';
 import { parsePoaps } from '@rainbow-me/parsers';
 
@@ -13,6 +13,6 @@ export const fetchPoaps = async (address: string) => {
     return parsePoaps(data);
   } catch (error) {
     logger.log('Error getting POAPs', error);
-    captureException(error);
+   
   }
 };

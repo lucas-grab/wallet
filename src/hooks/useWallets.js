@@ -48,9 +48,6 @@ export default function useWallets() {
   const isDamaged = useMemo(() => {
     const bool = selectedWallet?.damaged;
     if (bool) {
-      logger.sentry('Wallet is damaged. Check values below:');
-      logger.sentry('selectedWallet: ', selectedWallet);
-      logger.sentry('wallets: ', wallets);
     }
     return bool;
   }, [selectedWallet, wallets]);
