@@ -61,7 +61,7 @@ export default function RainbowContextWrapper({ children }) {
       {showSwitchModeButton && __DEV__ && (
         <DevButton
           color={colors.dark}
-          onPress={() => setTheme(isDarkMode ? 'light' : 'dark')}
+          onPress={() => setTheme(isDarkMode ? 'light' : 'light')}
         >
           <Emoji>{isDarkMode ? '🌞' : '🌚'}</Emoji>
         </DevButton>

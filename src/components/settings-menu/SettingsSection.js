@@ -189,9 +189,9 @@ export default function SettingsSection({
     if (colorScheme === THEMES.SYSTEM) {
       setTheme(THEMES.LIGHT);
     } else if (colorScheme === THEMES.LIGHT) {
-      setTheme(THEMES.DARK);
+      setTheme(THEMES.LIGHT);
     } else {
-      setTheme(THEMES.SYSTEM);
+      setTheme(THEMES.LIGHT);
     }
   }, [setTheme, colorScheme]);
 
@@ -253,7 +253,7 @@ export default function SettingsSection({
               {networkInfo?.[network]?.name}
             </ListItemArrowGroup>
           </ListItem>
-          <ListItem
+          {/* <ListItem
             icon={
               <SettingIcon
                 source={isDarkMode ? DarkModeIconDark : DarkModeIcon}
@@ -272,7 +272,7 @@ export default function SettingsSection({
                 {capitalizeFirstLetter(colorScheme)}
               </Text>
             </Column>
-          </ListItem>
+          </ListItem> */}
           {!isReadOnlyWallet && (
             <ListItem
               icon={

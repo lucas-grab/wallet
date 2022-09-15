@@ -98,7 +98,7 @@ export const MainThemeProvider = props => {
         const schemeSystemAdjusted =
           scheme === THEMES.SYSTEM
             ? isSystemDarkMode
-              ? 'dark'
+              ? 'light'
               : 'light'
             : scheme;
         currentColors.theme = schemeSystemAdjusted;
