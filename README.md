@@ -1,13 +1,3 @@
-![](https://pbs.twimg.com/profile_banners/1103191459409420288/1573207178/1500x500)
-
-### 🌈️ Rainbow
-
-> the Ethereum wallet that lives in your pocket!
-
-📲️ [Available on the iOS App Store.](https://apps.apple.com/us/app/rainbow-ethereum-wallet/id1457119021)
-
-🐦️ [Follow us on Twitter](https://twitter.com/rainbowdotme)
-
 ## Setup
 
 ### General
@@ -53,32 +43,23 @@
    image](https://developer.android.com/studio/run/managing-avds) is available
    for the emulator (unless using a physical device).
 
-## Developing
-
-If you are new to React Native, this is a helpful introduction:
-https://reactnative.dev/docs/getting-started
-
 ### Preflight
 
 1. Run `nvm use 14` to force Node.js v14.
 
 2. Set up your .env file, use our env.example as a guide.
 
-   **_Note that some features are currently not accessible, we are working with our Data Providers in order to provide open source API Keys!_**
+   **_Note that some features are currently not accessible, we are working with the Data Providers in order to provide open source API Keys!_**
 
    Here are some resources to generate your own API keys:
 
    - Etherscan: https://etherscan.io/apis
    - Infura: https://infura.io/
-   - ETH Gas Station: https://docs.ethgasstation.info/
-   - Imgix: https://www.imgix.com/
 
 3. Ensure a `google-services.json` has been added to the relevant project
    directory/directories so the compile will not fail.
 
-   This can either be the live Google Services config (for internal development)
-   or a self-provided config for a personal Firebase project (third-party
-   contributors) registered under the package name `me.rainbow`.
+   This can be a self-provided config for a personal Firebase project registered under the package name `me.rainbow`.
 
 ### MacOS
 
@@ -110,30 +91,3 @@ project._
    ```shell
    yarn android
    ```
-
-## CodePush
-
-In order to use code push you must be logged into the correct Microsoft App Center account.
-
-### Prerequisites
-
-```
-npm install -g code-push
-code-push login
-```
-
-At this point you will be required to log into the account tied to the code push public keys in Info.plist
-
-### Deployment
-
-```
-code-push release-react RainbowWallet-iOS ios -d <DEPLOYMENT>
-```
-
-The deployment can either be `Staging` or `Production` depending on the mode of the application you wish to update was built in through XCode.
-
-### Local Builds
-
-In order to build the application in "release" mode but not use the code push distribution you must build the application using the scheme `LocalRelease`.
-
-Building the application with the `Staging` scheme or `Release` scheme will result in your bundle being replaced by the live code push deployment on resume of the application.
